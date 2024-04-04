@@ -1,18 +1,20 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-import useFetch from "@/libs/use-fetch";
-const inter = Inter({ subsets: ["latin"] });
+import Head from 'next/head';
+import React from 'react';
+import { Inter } from 'next/font/google';
+import styles from '@/styles/Home.module.css';
+import { Button } from 'antd';
+// import useFetch from '@/libs/use-fetch';
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   // ex.发请求
 
-  const { data } = useFetch({
-    url: 'http://127.0.0.1:4523/m1/4275099-0-default/pet/4',
-    method: 'POST',
-    params: { b: '1' }
-  })
+  // const { data } = useFetch({
+  //   url: 'http://127.0.0.1:4523/m1/4275099-0-default/pet/4',
+  //   method: 'POST',
+  //   params: { b: '1' }
+  // });
+
   return (
     <>
       <Head>
@@ -22,7 +24,13 @@ export default function Home() {
         <link rel="icon" href="/complogo.svg" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <h1>Professional team!!!!!!!!!</h1>
+        <div style={{display:'flex', flexDirection:'column'}}>
+          <h1>Professional team!!!!!!!!!</h1>
+          <div style={{display:'flex', justifyContent:'space-around'}}>
+            <Button type='primary' href='/tourist'>Tourist</Button>
+            <Button type='primary' href='/proprietor' danger>Proprietor</Button>
+          </div>
+        </div>
       </main>
     </>
   );
