@@ -4,7 +4,7 @@ import Document, { Head, Html, Main, NextScript } from 'next/document';
 import type { DocumentContext } from 'next/document';
 
 const MyDocument = () => (
-  <Html lang="en">
+  <Html lang='en'>
     <Head />
     <body>
       <Main />
@@ -18,11 +18,11 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
   const originalRenderPage = ctx.renderPage;
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => (
+      enhanceApp: App => props => (
         <StyleProvider cache={cache}>
           <App {...props} />
         </StyleProvider>
-      ),
+      )
     });
 
   const initialProps = await Document.getInitialProps(ctx);
@@ -34,7 +34,7 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
         {initialProps.styles}
         <style dangerouslySetInnerHTML={{ __html: style }} />
       </>
-    ),
+    )
   };
 };
 
