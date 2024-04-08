@@ -229,3 +229,8 @@
     transform: rotate(0deg);
   }
 }
+
+
+.classss{
+  color: var(--color);
+}

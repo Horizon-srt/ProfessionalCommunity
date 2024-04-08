@@ -3,6 +3,7 @@ import React from 'react';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import { Button } from 'antd';
+import { useThemeContext } from '@/components/ThemeProvider/themeContext';
 // import useFetch from '@/libs/use-fetch';
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,6 +16,10 @@ export default function Home() {
   //   params: { b: '1' }
   // });
 
+  // 使用时，使用useThemeContext更改主题
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { theme, toggleTheme } = useThemeContext();
+
   return (
     <>
       <Head>
@@ -25,7 +30,7 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1>Professional team!!!!!!!!!</h1>
+          <h1 className={styles.classss}>Professional team!!!!!!!!!</h1>
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <Button type='primary' href='/tourist'>
               Tourist
@@ -33,6 +38,7 @@ export default function Home() {
             <Button type='primary' href='/proprietor' danger>
               Proprietor
             </Button>
+            <Button onClick={() => toggleTheme && toggleTheme()}>QTQTQT</Button>
           </div>
         </div>
       </main>
