@@ -1,11 +1,12 @@
 import React from 'react';
-import { ConfigProvider } from 'antd';
 import type { AppProps } from 'next/app';
+import { ThemeProvider } from '@/components/ThemeProvider/themeProvider';
+import '@/styles/global.css';
 
 const App = ({ Component, pageProps }: AppProps) => (
-  <ConfigProvider>
+  <ThemeProvider>
     <Component {...pageProps} />
-  </ConfigProvider>
+  </ThemeProvider>
 );
 
 export default App;

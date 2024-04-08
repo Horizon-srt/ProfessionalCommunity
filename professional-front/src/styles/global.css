@@ -1,0 +1,11 @@
+/* 亮色主题颜色定义 */
+:root.light {
+  --color: #fc0000;
+  --background-color: #FFFFFF;
+}
+
+/* 暗色主题颜色定义 */
+:root.dark {
+  --color: #d4ff00;
+  --background-color: #000000;
+}

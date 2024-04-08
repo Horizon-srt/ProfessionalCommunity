@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { ProvideMethod } from '@/utils/data-types';
+import { ProvideMethod } from '@/types/data-types';
 
 const getToken = () => {
   return window.localStorage.getItem('pt-auth') || '';
