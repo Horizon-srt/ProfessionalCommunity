@@ -1,0 +1,10 @@
+.main{
+    width: 1364px;
+    height: 900px;
+    background-color: lightblue;
+    padding: 20px
+  }
+
+.list{
+  height: 850px;
+}
