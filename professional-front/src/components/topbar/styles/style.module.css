@@ -18,17 +18,26 @@
 
 .menuItem {
   border-radius: 3px;
-  /* background-color: var(--button-color); */
-  padding: 0.5rem;
-  width: 10rem;
+  padding: 1.5rem;
+  width: 7rem;
   height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.linkItem {
+  width: 100%;
+}
+
 .rightBox {
-  padding-right: 10px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  font-size: small;
 }
 
 .imageBox {
@@ -36,6 +45,26 @@
   width: auto;
 }
 
-/* .menuItemButton {
-  background-color: ;
-} */
+.menuItem .menuItemButton {
+  width: 100%;
+  background-color: white !important;
+  color: black;
+}
+
+.menuItem .menuItemButton:hover {
+  width: 100%;
+  background-color: #16A609 !important;
+  color: white;
+}
+
+.menuItem .selectedMenuItemButton {
+  width: 100%;
+  background-color: #16A609 !important;
+  color: white;
+}
+
+.menuItem .selectedMenuItemButton:hover {
+  width: 100%;
+  background-color: #16A609 !important;
+  color: white;
+}

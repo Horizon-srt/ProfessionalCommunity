@@ -1,10 +1,13 @@
 'use client';
-// import TopBar from '@/components/Topbar';
 import React from 'react';
 // import Library from '@/components/library';
 
 const Tourist: React.FC = () => {
-  return <></>;
+  return (
+    <div>
+      <h1>Tourist guide page</h1>
+    </div>
+  );
 };
 
 export default Tourist;

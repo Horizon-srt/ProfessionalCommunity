@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, List } from 'antd';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import styles from './styles/style.module.css';
 import { SearchProps } from 'antd/es/input';
 import Search from 'antd/es/input/Search';
