@@ -1,12 +1,9 @@
 'use client';
 import React from 'react';
+import MainParts from '@/components/MainParts';
 
 const Main: React.FC = () => {
-  return (
-    <div>
-      <h1>Tourist page</h1>
-    </div>
-  );
+  return <MainParts isNormal />;
 };
 
 export default Main;

@@ -7,12 +7,19 @@ import Image from 'next/image';
 import { userVisibility } from '@/types/data-types';
 import Link from 'next/link';
 import Avator from '../Avator';
+import { usePathname } from 'next/navigation';
 
 const TopBar: React.FC = () => {
   const [current, setCurrent] = useState('main');
   const [type, setType] = useState('TOURIST');
   const [islogined, setIsLogined] = useState(false);
   const [avatorLink, setAvatorLink] = useState('');
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // console.log(pathname.split('/')[2]);
+    setCurrent(pathname.split('/')[2]);
+  }, [pathname]);
 
   useEffect(() => {
     if (islogined) {

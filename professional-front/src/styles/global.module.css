@@ -1,9 +1,9 @@
 .background {
   height: 100vh;
   width: 100vw;
-  background-color: bisque;
-  /* background: linear-gradient(var(--rotate-deg), var(--bg-gradient-green) 0%, var(--bg-gradient-white) 12%, var(--bg-gradient-white) 88%, var(--bg-gradient-green) 100%);
+  /* background-color: bisque; */
+  background: linear-gradient(var(--rotate-deg), var(--bg-gradient-green) 0%, var(--bg-gradient-white) 12%, var(--bg-gradient-white) 88%, var(--bg-gradient-green) 100%);
   animation: rotate 5s linear infinite;
-  transform: center; */
+  transform: center;
 }
 

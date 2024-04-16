@@ -22,3 +22,10 @@ export const userVisibility: Record<string, string[]> = {
   ],
   TOURIST: ['main', 'guide', 'service', 'ebook', 'notice']
 };
+
+export const defaultImageCarousel = [
+  '/default_image1.jpg',
+  '/default_image2.jpg',
+  '/default_image3.jpg',
+  '/default_image4.jpg'
+];

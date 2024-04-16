@@ -1,7 +1,7 @@
 export const getToken = () => {
-  return window.localStorage.getItem('pt-auth') || '';
+  return localStorage.getItem('pt-auth') || '';
 };
 
 export const getType = () => {
-  return window.localStorage.getItem('user-type') || 'NORMAL';
+  return localStorage.getItem('user-type') || 'NORMAL';
 };

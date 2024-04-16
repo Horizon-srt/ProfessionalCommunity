@@ -1,5 +1,5 @@
 import React from 'react';
-import '@/styles/global.css'
+import '@/styles/global.css';
 import global from '@/styles/global.module.css';
 import useRotateDeg from '@/hooks/useRotateDeg';
 
