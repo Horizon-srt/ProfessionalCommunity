@@ -1,10 +1,18 @@
 import React from 'react';
+import Image from 'next/image';
+import style from '@/components/Avator/styles/style.module.css';
+import { SmileOutlined } from '@ant-design/icons';
 
-const Avator: React.FC = () => {
+interface AvatorProps {
+  link: string;
+  size: string;
+}
+
+const Avator: React.FC<AvatorProps> = ({ link, size }) => {
   return (
-    <main>
-      <h1>Avator componect</h1>
-    </main>
+    <div className={style.avatar} style={{ width: size, height: size }}>
+      {link === '' ? <SmileOutlined /> : <Image src={link} alt='Avatar' />}
+    </div>
   );
 };
 

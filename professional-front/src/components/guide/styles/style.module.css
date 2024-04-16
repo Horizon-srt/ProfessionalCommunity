@@ -1,0 +1,8 @@
+.main{
+    width: 96vw;
+    height: 85vh;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 1vw;
+    margin: 1vw
+  }

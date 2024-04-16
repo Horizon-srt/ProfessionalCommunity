@@ -1,5 +1,4 @@
 'use client';
-// import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import style from '@/components/Topbar/styles/style.module.css';
 import Complogo from '../../../public/complogo.svg';
@@ -7,15 +6,27 @@ import { Button } from 'antd';
 import Image from 'next/image';
 import { userVisibility } from '@/types/data-types';
 import Link from 'next/link';
+import Avator from '../Avator';
 
 const TopBar: React.FC = () => {
-  // const pathName = usePathname();
-  // const type = window.localStorage.getItem('user-type') || 'TOURIST';
   const [current, setCurrent] = useState('main');
   const [type, setType] = useState('TOURIST');
+  const [islogined, setIsLogined] = useState(false);
+  const [avatorLink, setAvatorLink] = useState('');
+
+  useEffect(() => {
+    if (islogined) {
+      setAvatorLink(localStorage.getItem('user-avator') || '');
+    }
+  }, [islogined]);
 
   useEffect(() => {
     setType(localStorage.getItem('user-type') || 'TOURIST');
+    const jwt = localStorage.getItem('pt-auth') || '';
+    console.log(jwt);
+    if (jwt !== '') {
+      setIsLogined(true);
+    }
   }, []);
 
   const MenuItem: React.FC<{ label: string; part: string }> = ({
@@ -59,10 +70,18 @@ const TopBar: React.FC = () => {
             />
           );
         })}
-        {/* <MenuItem label='aaa' part='ddd' /> */}
       </div>
       <div className={style.rightBox}>
-        <Link href={'/login'}>Login ｜ Register</Link>
+        {islogined ? (
+          <Avator link={avatorLink} size={'2rem'} />
+        ) : (
+          <Link
+            href={'/login'}
+            style={{ color: '#16A609', textDecoration: 'none' }}
+          >
+            Login ｜ Register
+          </Link>
+        )}
       </div>
     </div>
   );
