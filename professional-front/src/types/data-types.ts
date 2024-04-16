@@ -9,7 +9,7 @@ export const host = '';
 export const port = '';
 
 export const userVisibility: Record<string, string[]> = {
-  NORMAL: ['main', 'guide', 'service', 'ebook', 'notice'],
+  NORMAL: ['main', 'guide', 'service', 'ebook', 'notice', 'family'],
   ADMIN: ['main', 'guide', 'service', 'ebook', 'notice', 'review'],
   ENTERPRISE: [
     'main',
