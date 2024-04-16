@@ -1,0 +1,41 @@
+.backgroundBox {
+  /* height: 70px; */
+  height: 3rem;
+  width: 100%;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.leftBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.menuItem {
+  border-radius: 3px;
+  /* background-color: var(--button-color); */
+  padding: 0.5rem;
+  width: 10rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightBox {
+  padding-right: 10px;
+}
+
+.imageBox {
+  height: 64px;
+  width: auto;
+}
+
+/* .menuItemButton {
+  background-color: ;
+} */
