@@ -1,24 +1,58 @@
+import Card from '@/components/Card';
 import React from 'react';
+import Image from 'next/image';
+import img from '@/../public/next.svg';
 
 const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
-  const list: any[] = [];
-  for (let i = 1; i < 20; i += 1) {
-    list.push({
-      bid: i,
-      name: 'name' + i,
-      cover: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-      content:
-        'Umi@4 实战教程，专门针对中后台项目零基础的朋友，不管你是前端还是后端，看完这个系列你也有能力合理“抗雷”，“顶坑”',
-      description: 'this is a description' + i,
-      detail: 'this is a detail',
-      label: ['science', 'literature']
-    });
-  }
-  console.log(list[Number(params.detail) - 1]);
+  const lineStyle = `
+    w-1/2 relative inline-block before:block
+    before:absolute before:w-full
+     before:h-[2px] before:bg-green-500
+     before:top-6
+  `;
+  const bulletStyle = `
+  before:h-5
+  before:z-0
+  before:w-5
+  before:top-0
+  before:rounded-full
+  before:block
+  before:absolute before:-inset-1  before:bg-green-200 relative inline-block
 
+  `;
   return (
-    <div>
-      <h1>Tourist page for book{params.detail}</h1>
+    <div className='w-full h-full'>
+      <Card>
+        <div className='flex flex-col w-full h-full'>
+          <div className='h-full w-full p-8 flex flex-row'>
+            <Image alt='' src={img} width={100} height={200} className='h-32' />
+            <div className='ml-8 p-4'>
+              <div className='font-bold mb-3'>《人间失格》</div>
+              <div className='flex flex-col text-gray-400 text-sm'>
+                <div>分类： 外国文学</div>
+                <div>作者： 太宰治</div>
+                <div>简介： bla bla bla</div>
+              </div>
+            </div>
+          </div>
+          <div className='w-full h-full flex flex-row'>
+            <div className='w-1/2 flex flex-col'>
+              <li className={lineStyle + 'flex flex-row mb-2'}>
+                <div className={'mr-3 text-green-500 relative' + bulletStyle}>
+                  <div className='text-sm absolute z-10'>1</div>
+                </div>
+                <div className='ml-4'>天才的诞生</div>
+              </li>
+              <li className={lineStyle + 'flex flex-row'}>
+                <div className={'mr-3 text-green-500 relative' + bulletStyle}>
+                  <div className='text-sm absolute z-10'>2</div>
+                </div>
+                <div className='ml-4'>天才的诞生</div>
+              </li>
+            </div>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 };
