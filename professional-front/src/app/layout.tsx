@@ -5,6 +5,7 @@ import '@/styles/global.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ThemeProvider } from '@/components/ThemeProvider/themeProvider';
 import DynamicBackground from '@/components/DynamicBackground';
+import FloatSwitch from '@/components/FloatButton';
 
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
@@ -25,7 +26,10 @@ export default function RootLayout({
       <body style={{ margin: '0px' }}>
         <ThemeProvider>
           <DynamicBackground>
-            <AntdRegistry>{children}</AntdRegistry>
+            <AntdRegistry>
+              <FloatSwitch />
+              {children}
+            </AntdRegistry>
           </DynamicBackground>
         </ThemeProvider>
       </body>

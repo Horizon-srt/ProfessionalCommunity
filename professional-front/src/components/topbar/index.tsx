@@ -22,7 +22,8 @@ const TopBar: React.FC = () => {
 
   useEffect(() => {
     setType(localStorage.getItem('user-type') || 'TOURIST');
-    const jwt = localStorage.getItem('pt-auth' || '');
+    const jwt = localStorage.getItem('pt-auth') || '';
+    console.log(jwt);
     if (jwt !== '') {
       setIsLogined(true);
     }
@@ -74,7 +75,12 @@ const TopBar: React.FC = () => {
         {islogined ? (
           <Avator link={avatorLink} size={'2rem'} />
         ) : (
-          <Link href={'/login'}>Login ｜ Register</Link>
+          <Link
+            href={'/login'}
+            style={{ color: '#16A609', textDecoration: 'none' }}
+          >
+            Login ｜ Register
+          </Link>
         )}
       </div>
     </div>
