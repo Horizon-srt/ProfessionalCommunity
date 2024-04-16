@@ -1,6 +1,6 @@
 'use client';
 // import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '@/components/Topbar/styles/style.module.css';
 import Complogo from '../../../public/complogo.svg';
 import { Button } from 'antd';
@@ -10,7 +10,13 @@ import Link from 'next/link';
 
 const TopBar: React.FC = () => {
   // const pathName = usePathname();
-  const type = window.localStorage.getItem('user-type') || 'TOURIST';
+  // const type = window.localStorage.getItem('user-type') || 'TOURIST';
+  const [current, setCurrent] = useState('main');
+  const [type, setType] = useState('TOURIST');
+
+  useEffect(() => {
+    setType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
 
   const MenuItem: React.FC<{ label: string; part: string }> = ({
     label,
@@ -18,8 +24,21 @@ const TopBar: React.FC = () => {
   }) => {
     return (
       <div className={style.menuItem}>
-        <Link href={`/${type.toLowerCase()}/${part}`}>
-          <Button type='primary' className={style.menuItemButton}>
+        <Link
+          href={`/${type.toLowerCase()}/${part}`}
+          className={style.linkItem}
+        >
+          <Button
+            type='primary'
+            className={
+              current === part
+                ? style.selectedMenuItemButton
+                : style.menuItemButton
+            }
+            onClick={() => {
+              setCurrent(part);
+            }}
+          >
             {label}
           </Button>
         </Link>
@@ -43,7 +62,7 @@ const TopBar: React.FC = () => {
         {/* <MenuItem label='aaa' part='ddd' /> */}
       </div>
       <div className={style.rightBox}>
-        <div>登陆 ｜ 注册</div>
+        <Link href={'/login'}>Login ｜ Register</Link>
       </div>
     </div>
   );

@@ -35,10 +35,10 @@ export default function Home() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h1 className={styles.classss}>Professional team!!!!!!!!!</h1>
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button type='primary' href='/tourist'>
+            <Button type='primary' href='/tourist/main'>
               Tourist
             </Button>
-            <Button type='primary' href='/proprietor' danger>
+            <Button type='primary' href='/proprietor/main' danger>
               Proprietor
             </Button>
             <Button onClick={() => toggleTheme && toggleTheme()}>QTQTQT</Button>
