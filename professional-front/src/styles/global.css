@@ -2,10 +2,16 @@
 :root.light {
   --color: #fc0000;
   --background-color: #FFFFFF;
+  --button-color: #16A609;
+  --bg-gradient-green: #8FCA6A;
+  --bg-gradient-white: #F1FCEA;
 }
 
 /* 暗色主题颜色定义 */
 :root.dark {
   --color: #d4ff00;
   --background-color: #000000;
+  --button-color: #16A609;
+  --bg-gradient-green: #07827B;
+  --bg-gradient-white: #032202;
 }

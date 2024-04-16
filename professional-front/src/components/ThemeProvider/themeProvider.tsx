@@ -21,7 +21,6 @@ export function ThemeProvider(props: ThemeProviderProps) {
             value === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm
         }}
       >
-        {value}
         {props.children}
       </ConfigProvider>
     </ThemeContext.Provider>
