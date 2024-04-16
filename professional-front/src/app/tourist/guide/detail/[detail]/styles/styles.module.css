@@ -1,15 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
 .main{
-    width: 60vw;
+    width: 98vw;
     height: 85vh;
     border: 1px solid #000;
     border-radius: 10px;
-    padding: 20px
+    padding: 1vw
 }
 
+.content{
+    margin-top: 1vw;
+    display: flex;
+    width: 100vw;
+    height: 52vh;
+    flex-direction: row;
+}
+
+.left{
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 1vw;
+    width: 60%;
+}
 .contentStyle{
-    height: 160px;
     color: #fff;
-    line-height: 160px;
     text-align: center;
-    background: #364d79;
+    background: #79FFD7;
+    width: 35%;
+    margin-left: 1vw;
+}
+
+.top{
+    height: 29vh;
+    width: 98vw;
+    border: 1px solid #000;
+    border-radius: 10px;
+    line-height: 160px;
+}
+
+.title{
+    font-family: 'Poetsen One', cursive;
+    text-align: center; /* 横向居中 */
+    color: green; /* 颜色为绿色 */
+    font-weight: bold; /* 空心效果，可以使用 font-weight: bold 或 font-weight: 900 */
+    text-decoration: none;
+}
+
+.img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

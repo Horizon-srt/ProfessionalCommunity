@@ -8,7 +8,7 @@ const Library: React.FC = () => {
 
   const router = useRouter();
   const list: any[] = [];
-  for (let i = 1; i < 20; i += 1) {
+  for (let i = 1; i < 40; i += 1) {
     list.push({
       bid: i,
       name: 'name' + i,
@@ -64,10 +64,10 @@ const Library: React.FC = () => {
             sm: 2,
             md: 3,
             lg: 3,
-            xl: 5,
-            xxl: 5
+            xl: 8,
+            xxl: 8
           }}
-          pagination={{ position: 'bottom', align: 'center' }}
+          pagination={{ position: 'bottom', align: 'center', pageSize: 16 }}
           dataSource={[{}, ...filterparamList]}
           renderItem={item => {
             if (item && item.bid && item.label.includes('science')) {
