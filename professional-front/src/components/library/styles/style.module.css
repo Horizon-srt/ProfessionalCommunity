@@ -1,10 +1,21 @@
 .main{
-    width: 1364px;
-    height: 900px;
-    background-color: lightblue;
+    width: 60vw;
+    height: 85vh;
+    /* border: 1px solid #000; */
+    border-radius: 10px;
     padding: 20px
   }
 
 .list{
   height: 850px;
+}
+
+.input{
+  margin-bottom: 10px;
+}
+
+.create{
+  width: 240;
+  height: 400;
+  font-size: 56;    
 }

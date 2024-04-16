@@ -1,0 +1,15 @@
+.main{
+    width: 60vw;
+    height: 85vh;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 20px
+}
+
+.contentStyle{
+    height: 160px;
+    color: #fff;
+    line-height: 160px;
+    text-align: center;
+    background: #364d79;
+}
