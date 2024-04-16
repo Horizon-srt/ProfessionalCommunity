@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Input, List } from 'antd';
 import { useRouter } from 'next/navigation';
 import styles from './styles/style.module.css';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 
 const Library: React.FC = () => {
   const [associatedValue, setAssociatedValue] = useState();
@@ -22,7 +24,25 @@ const Library: React.FC = () => {
   }
   const [filterparamList, setFilterParamList] = useState(list);
   // console.log(params.get(list[1]));
-
+  const items: MenuProps['items'] = [
+    {
+      label: 'Science',
+      key: 'science'
+    },
+    {
+      label: 'Literature',
+      key: 'literature'
+    },
+    {
+      label: 'Math',
+      key: 'math'
+    }
+  ];
+  const [current, setCurrent] = useState();
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e.key);
+    setCurrent(e.key);
+  };
   useEffect(() => {
     if (associatedValue) {
       setFilterParamList([]);
@@ -43,6 +63,23 @@ const Library: React.FC = () => {
     }
   }, [associatedValue]);
 
+  useEffect(() => {
+    if (current) {
+      setFilterParamList([]);
+      setFilterParamList(
+        list.filter(item => {
+          if (item?.label.includes(current)) {
+            return true;
+          }
+          return false;
+        })
+      );
+    } else {
+      //为空时将渲染原始表格数据
+      setFilterParamList(list);
+    }
+  }, [current]);
+
   return (
     <main>
       <div className={styles.main}>
@@ -52,9 +89,16 @@ const Library: React.FC = () => {
           onChange={e => {
             setAssociatedValue(e.target.value?.trim());
           }}
-          placeholder='请输入参数名称、参数显示名、参数说明搜索'
+          placeholder='Please enter the book title, author or description to search for books'
           allowClear
         />
+        <Menu
+          onClick={onClick}
+          selectedKeys={[current]}
+          mode='horizontal'
+          items={items}
+        />
+        ;
         <List
           className={styles.list}
           rowKey='id'
@@ -70,7 +114,7 @@ const Library: React.FC = () => {
           pagination={{ position: 'bottom', align: 'center', pageSize: 16 }}
           dataSource={[{}, ...filterparamList]}
           renderItem={item => {
-            if (item && item.bid && item.label.includes('science')) {
+            if (item && item.bid) {
               return (
                 <List.Item key={item.bid}>
                   <Card
