@@ -1,6 +1,7 @@
+/* eslint-disable max-len */
 'use client';
 
-import { Button, Carousel, Image } from 'antd';
+import { Carousel, Image } from 'antd';
 import styles from './styles/styles.module.css';
 import React from 'react';
 import { useRouter } from 'next/navigation';
@@ -25,64 +26,69 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
   };
 
   return (
-    <div>
-      <div className={styles.main}>
-        <div className={styles.top}>
-          <Image
-            style={{ width: '98vw', height: '29vh', objectFit: 'unset' }}
-            preview={false}
-            src={`https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png`}
-          />
+    <div className={styles.main}>
+      <div className={styles.top}>
+        <Image
+          alt=''
+          style={{ objectFit: 'unset' }}
+          width={'100%'}
+          height={'100%'}
+          preview={false}
+          src={
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'
+          }
+        />
+      </div>
+      <div className={styles.content}>
+        <div className={styles.left}>
+          <h1 className={styles.title}>{data[Number(params.detail)].title}</h1>
+          <h2>
+            {data[Number(params.detail)].content.map((paragraph, index) => (
+              <div key={index}>
+                <p>{paragraph}</p>
+              </div>
+            ))}
+          </h2>
         </div>
-        <div className={styles.content}>
-          <div className={styles.left}>
-            <h1 className={styles.title}>
-              {data[Number(params.detail)].title}
-            </h1>
-            <h2>
-              {data[Number(params.detail)].content.map((paragraph, index) => (
-                <div key={index}>
-                  <p>{paragraph}</p>
-                </div>
-              ))}
-            </h2>
-          </div>
-          <div className={styles.contentStyle}>
-            <Carousel autoplay>
-              <div onClick={() => router.push(`${getNextDetail(1)}`)}>
-                <Image
-                  width={550}
-                  height={530}
-                  preview={false}
-                  src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(1)}`}
-                />
-              </div>
-              <div onClick={() => router.push(`${getNextDetail(2)}`)}>
-                <Image
-                  width={550}
-                  height={530}
-                  preview={false}
-                  src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(2)}`}
-                />
-              </div>
-              <div onClick={() => router.push(`${getNextDetail(3)}`)}>
-                <Image
-                  width={550}
-                  height={530}
-                  preview={false}
-                  src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(3)}`}
-                />
-              </div>
-              <div onClick={() => router.push(`${getNextDetail(4)}`)}>
-                <Image
-                  width={550}
-                  height={530}
-                  preview={false}
-                  src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(4)}`}
-                />
-              </div>
-            </Carousel>
-          </div>
+        <div className={styles.contentStyle}>
+          <Carousel autoplay style={{ width: '25vw', height: '20vh' }}>
+            <div onClick={() => router.push(`${getNextDetail(1)}`)}>
+              <Image
+                alt=''
+                width={'25vw'}
+                height={'20vh'}
+                preview={false}
+                src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(1)}`}
+              />
+            </div>
+            <div onClick={() => router.push(`${getNextDetail(2)}`)}>
+              <Image
+                alt=''
+                width={'25vw'}
+                height={'20vh'}
+                preview={false}
+                src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(2)}`}
+              />
+            </div>
+            <div onClick={() => router.push(`${getNextDetail(3)}`)}>
+              <Image
+                alt=''
+                width={'25vw'}
+                height={'20vh'}
+                preview={false}
+                src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(3)}`}
+              />
+            </div>
+            <div onClick={() => router.push(`${getNextDetail(4)}`)}>
+              <Image
+                alt=''
+                width={'25vw'}
+                height={'20vh'}
+                preview={false}
+                src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${getNextDetail(4)}`}
+              />
+            </div>
+          </Carousel>
         </div>
       </div>
     </div>

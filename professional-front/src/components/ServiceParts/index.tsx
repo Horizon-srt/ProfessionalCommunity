@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { List, Spin, Tabs, TabsProps } from 'antd';
 import style from '@/components/ServiceParts/styles/style.module.css';
-// import Image from 'antd';
-import Image from 'next/image';
+import { Image } from 'antd';
 // import useFetch from '@/services/use-fetch';
 import { ServiceType } from '@/types/data-types';
+import Link from 'next/link';
 
 interface ServicePartsProps {
   isAdmin: boolean;
@@ -14,6 +15,11 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   const [fixedCurrent, setFixedCurrent] = useState(1);
   const [onDoorCurrent, setOnDoorCurrent] = useState(1);
   const [itemList, setItemList] = useState([] as any);
+  const [userType, setUserType] = useState('TOURIST');
+
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
 
   // const fixedFetch = useFetch({
   //   url: '/services',
@@ -41,28 +47,32 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         {
           sid: 1,
           name: 'string1',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         },
         {
           sid: 2,
           name: 'string2',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         },
         {
           sid: 3,
           name: 'string3',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         },
         {
           sid: 4,
           name: 'string4',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         }
@@ -78,28 +88,32 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         {
           sid: 11,
           name: 'string11',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         },
         {
           sid: 12,
           name: 'string12',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         },
         {
           sid: 13,
           name: 'string13',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         },
         {
           sid: 14,
           name: 'string14',
-          cover: 'string',
+          cover:
+            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
           available: 'string',
           detail_slice: 'string'
         }
@@ -129,25 +143,20 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         dataSource={dataList}
         renderItem={(item: any) => {
           return (
-            <List.Item
-              key={item.title}
-              extra={
-                <div>
-                  <Image
-                    src={'/default_image1.jpg'}
-                    alt={''}
-                    width={100}
-                    height={100}
-                  />
-                </div>
-              }
-            >
-              <List.Item.Meta
-                title={<div>{item.name}</div>}
-                description={<div>{`Status: ${item.description}`}</div>}
-              />
-              {item.detail_slice}
-            </List.Item>
+            <Link href={`/${userType.toLowerCase()}/service/${item.sid}`}>
+              <List.Item
+                key={item.title}
+                extra={
+                  <Image src={item.cover} alt={''} width={160} height={100} />
+                }
+              >
+                <List.Item.Meta
+                  title={<div>{item.name}</div>}
+                  description={<div>{`Status: ${item.description}`}</div>}
+                />
+                {item.detail_slice}
+              </List.Item>
+            </Link>
           );
         }}
       />
@@ -193,6 +202,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
 
   useEffect(() => {
     setItemList(items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // useEffect(() => {

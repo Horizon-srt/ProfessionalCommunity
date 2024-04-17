@@ -1,6 +1,6 @@
 .backgroundBox {
   /* height: 70px; */
-  height: 3rem;
+  height: 4rem;
   width: 100%;
   background-color: var(--background-color);
   display: flex;
@@ -19,7 +19,7 @@
 .menuItem {
   border-radius: 3px;
   padding: 0.5rem;
-  width: 7rem;
+  width: 9rem;
   height: 2rem;
   display: flex;
   justify-content: center;

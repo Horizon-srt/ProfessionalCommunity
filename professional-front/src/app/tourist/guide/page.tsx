@@ -4,11 +4,7 @@ import React from 'react';
 // import Library from '@/components/library';
 
 const Tourist: React.FC = () => {
-  return (
-    <div>
-      <Guide></Guide>
-    </div>
-  );
+  return <Guide></Guide>;
 };
 
 export default Tourist;
