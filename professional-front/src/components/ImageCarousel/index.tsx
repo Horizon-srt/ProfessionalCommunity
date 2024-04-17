@@ -23,8 +23,8 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
             <Image
               src={value}
               alt={'Community pictures'}
-              width={'100%'}
               height={'100%'}
+              width={'100%'}
             />
           </div>
         );
