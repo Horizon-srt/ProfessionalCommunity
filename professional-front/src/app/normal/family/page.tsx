@@ -16,7 +16,7 @@ const Family: React.FC = () => {
       const chart = new Chart({
         width: 600,
         height: 200,
-        container
+        container: container as HTMLElement
       });
 
       // 声明可视化
@@ -50,7 +50,11 @@ const Family: React.FC = () => {
   const { containerRef: pieRef } = useRenderChart({
     renderChart: container => {
       // 初始化图表实例
-      const chart = new Chart({ width: 300, height: 150, container });
+      const chart = new Chart({
+        width: 300,
+        height: 150,
+        container: container as HTMLElement
+      });
 
       const data = [
         { type: '用水量', value: 500 },
