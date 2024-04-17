@@ -26,7 +26,7 @@ export default function RootLayout({
         <title>Green Life community</title>
         <link rel='icon' href='/complogo.svg' />
       </head>
-      <body style={{ margin: '0px' }}>
+      <body style={{ margin: '0px', padding: '0px' }}>
         <ThemeProvider>
           <DynamicBackground>
             <AntdRegistry>

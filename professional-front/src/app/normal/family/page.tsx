@@ -89,7 +89,7 @@ const Family: React.FC = () => {
     updateChart: () => {}
   });
   return (
-    <main className='p-6'>
+    <main className='p-6 h-full'>
       <Card>
         <div className='w-full h-full'>
           <header className='flex justify-between'>

@@ -1,5 +1,5 @@
 import SideBar from '@/components/SideBar';
-import TopBar from '@/components/topbar';
+import TopBar from '@/components/Topbar';
 import React from 'react';
 
 const NormalLayout: React.FC<{ children: React.ReactNode }> = ({
@@ -9,8 +9,8 @@ const NormalLayout: React.FC<{ children: React.ReactNode }> = ({
     <>
       <TopBar />
       <div className='flex flex-row'>
-        <div className='basis-2/3  h-[calc(100vh-3rem)]'>{children}</div>
-        <div className='basis-1/3 h-[calc(100vh-3rem)] p-2'>
+        <div className='w-2/3  h-[calc(100vh-3rem)]'>{children}</div>
+        <div className='w-1/3 h-[calc(100vh-3rem)]'>
           <SideBar></SideBar>
         </div>
       </div>
