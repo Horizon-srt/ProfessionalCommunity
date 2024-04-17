@@ -1,0 +1,17 @@
+#tabTitle:hover {
+  color: #16A609;
+}
+
+#tabTitle:focus {
+  color: #16A609;
+}
+
+#tabTitle {
+  color: #8FCA6A;
+}
+
+.backgoundCard {
+  border-radius: 20px;
+  padding: 1rem;
+  background-color: var(--background-color);
+}
