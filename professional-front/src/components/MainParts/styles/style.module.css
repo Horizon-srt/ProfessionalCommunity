@@ -2,10 +2,18 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 72vw;
+  width: 100%;
+  height: 100%;
+}
+
+.bigLayout {
+  width: 100%;
+  height: 60%;
 }
 
 .smallLayout {
+  width: 100%;
+  height: 40%;
   margin-top: 0.8rem;
   display: flex;
   flex-direction: row;
