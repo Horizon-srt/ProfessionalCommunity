@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 
 interface IuseRenderChart {
-  renderChart: (container?: HTMLElement) => any;
+  renderChart: (container: HTMLElement | null) => any;
   updateChart: (ref: any) => void;
 }
 export const useRenderChart = ({
   renderChart,
   updateChart
 }: IuseRenderChart) => {
-  const container = useRef<HTMLElement>();
+  const container = useRef(null);
   const chart = useRef(null);
 
   useEffect(() => {
