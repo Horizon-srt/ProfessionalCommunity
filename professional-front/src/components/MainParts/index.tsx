@@ -13,16 +13,16 @@ interface MainPartsProps {
 const MainParts: React.FC<MainPartsProps> = ({ isNormal }) => {
   return (
     <>
-      <Row style={{ width: '100%', height: '55%' }}>
+      <Row style={{ width: '100%', height: '50%' }}>
         <Col span={24} style={{ height: '100%' }}>
           <ImageCarousel width='100%' height='100%' />
         </Col>
       </Row>
-      <Row style={{ width: '100%', height: '40%' }}>
-        <Col span={12}>
+      <Row style={{ width: '100%', height: '30%', paddingTop: '1rem' }}>
+        <Col span={12} style={{ paddingRight: '0.5rem' }}>
           <TopReading width='100%' height='100%' />
         </Col>
-        <Col span={12}>
+        <Col span={12} style={{ paddingLeft: '0.5rem' }}>
           {isNormal ? (
             <ResourceCard width='100%' height='100%' />
           ) : (

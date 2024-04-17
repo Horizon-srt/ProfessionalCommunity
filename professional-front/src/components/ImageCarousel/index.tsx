@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { defaultImageCarousel } from '@/types/data-types';
-import { Carousel } from 'antd';
-import Image from 'next/image';
+import { Carousel, Image } from 'antd';
 import style from './styles/style.module.css';
 interface ImageCarouselProps {
   width: string;
@@ -21,12 +20,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       {showList.map(value => {
         return (
           <div key={value} style={{ width: '100%', height: '100%' }}>
-            <img
+            <Image
               className={style.image}
               src={value}
               alt={'Community pictures'}
-              height={'100%'}
-              width={'100%'}
+              height={'45vh'}
+              width={'65vw'}
             />
           </div>
         );

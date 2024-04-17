@@ -1,3 +1,4 @@
+import SideBar from '@/components/SideBar';
 import TopBar from '@/components/Topbar';
 import React from 'react';
 
@@ -7,7 +8,12 @@ const TouristLayout: React.FC<{ children: React.ReactNode }> = ({
   return (
     <>
       <TopBar />
-      {children}
+      <div className='flex flex-row'>
+        <div className='w-2/3  h-[calc(100vh-3rem)]'>{children}</div>
+        <div className='w-1/3 h-[calc(100vh-3rem)]'>
+          <SideBar></SideBar>
+        </div>
+      </div>
     </>
   );
 };
