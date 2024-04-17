@@ -68,7 +68,7 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
       style={{
         width: width,
         height: height,
-        borderRadius: '0px',
+        borderRadius: '20px',
         overflow: 'auto'
       }}
       styles={{ body: { paddingTop: '0px' } }}

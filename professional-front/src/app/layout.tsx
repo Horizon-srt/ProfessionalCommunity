@@ -4,8 +4,7 @@ import React from 'react';
 import '@/styles/global.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ThemeProvider } from '@/components/ThemeProvider/themeProvider';
-
-import DynamicBackground from '@/components/DynamicBackground';
+// import DynamicBackground from '@/components/DynamicBackground';
 import './globals.css';
 
 import FloatSwitch from '@/components/FloatButton';
