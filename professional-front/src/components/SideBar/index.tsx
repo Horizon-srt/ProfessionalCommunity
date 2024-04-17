@@ -8,7 +8,7 @@ const SideBar: React.FC = () => {
     <div className='flex flex-col h-full'>
       <div className='h-40 p-3 h-1/6'>
         <Card title='Personal'>
-          <div className='flex flex-row w-full bg-white h-8'>
+          <div className='flex flex-row w-full bg-white dark:bg-black h-8'>
             <div className='w-3/12'>
               <Avatar />
             </div>
