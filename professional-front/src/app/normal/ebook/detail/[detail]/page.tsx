@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Card from '@/components/Card';
 import React from 'react';
 import Image from 'next/image';

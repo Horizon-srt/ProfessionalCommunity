@@ -16,7 +16,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ width, height }) => {
   }, []);
 
   const { containerRef: pieRef } = useRenderChart({
-    renderChart: container => {
+    renderChart: (container: any) => {
       // 初始化图表实例
       const chart = new Chart({ width: 300, height: 150, container });
 
@@ -43,7 +43,8 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ width, height }) => {
             style: { fontSize: 12, fontWeight: 'bold', color: 'black' }
           },
           {
-            text: (d, i, data) => (i < data.length - 3 ? d.value : ''),
+            text: (d: any, i: any, data: any) =>
+              i < data.length - 3 ? d.value : '',
             radius: 0.2,
             style: { fontSize: 9, dy: 12 }
           }

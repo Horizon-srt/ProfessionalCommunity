@@ -15,6 +15,7 @@ export const useRenderChart = ({
     if (!chart.current) {
       chart.current = renderChart(container.current);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateChartExpose = () => {
