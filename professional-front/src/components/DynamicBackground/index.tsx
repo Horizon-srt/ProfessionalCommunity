@@ -13,7 +13,7 @@ const DynamicBackground: React.FC<DynamicBackgroundProps> = ({ children }) => {
   return (
     <div
       className={global.background}
-      style={{ '--rotate-deg': `${rotateDeg}deg` }}
+      style={{ ['--rotate-deg' as string]: `${rotateDeg}deg` }}
     >
       {children}
     </div>

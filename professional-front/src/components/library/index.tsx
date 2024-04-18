@@ -7,7 +7,7 @@ import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
 const Library: React.FC = () => {
-  const [associatedValue, setAssociatedValue] = useState();
+  const [associatedValue, setAssociatedValue] = useState('');
 
   const router = useRouter();
   const list: any[] = [];
@@ -39,7 +39,7 @@ const Library: React.FC = () => {
       key: 'math'
     }
   ];
-  const [current, setCurrent] = useState();
+  const [current, setCurrent] = useState('');
   const onClick: MenuProps['onClick'] = (e: any) => {
     console.log('click ', e.key);
     setCurrent(e.key);

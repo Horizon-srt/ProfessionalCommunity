@@ -2,6 +2,7 @@ import React from 'react';
 import Card from '../Card';
 
 interface IEmployItem {
+  title: string;
   desc: string;
   status: number;
   companyName: string;
