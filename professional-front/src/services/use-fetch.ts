@@ -1,5 +1,6 @@
 import useSWR from 'swr';
-import { ProvideMethod } from '@/types/data-types';
+import { ProvideMethod, host, port } from '@/types/data-types';
+import useSWRMutation from 'swr/mutation';
 
 const getToken = () => {
   return window.localStorage.getItem('pt-auth') || '';
@@ -7,11 +8,13 @@ const getToken = () => {
 
 // 适用于get请求与body参数为json类型的请求
 const dataFetcher = async (url: string, method: ProvideMethod, params: any) => {
+  console.log(params);
   const newParams = {
     Authorization: getToken(),
     params
   };
-  const res = await fetch(url, {
+  // console.log(newParams, params);
+  const res = await fetch(`http://${host}:${port}${url}`, {
     method,
     headers: {
       ...(method === 'GET'
@@ -42,9 +45,36 @@ export default function useFetch(params: {
   params: any;
 }) {
   const { url, method, params: fetchParams } = params;
+
   const { data, error, isLoading, mutate } = useSWR(
     [url, method, fetchParams],
     ([url, method, fetchParams]) => dataFetcher(url, method, fetchParams)
   );
   return { data, error, isLoading, mutate };
+}
+
+// 只能手动触发
+export function useFetchMutation(params: {
+  url: string;
+  method: ProvideMethod;
+  params: any;
+}) {
+  const { url, method, params: fetchParams } = params;
+
+  const { data, error, trigger, isMutating } = useSWRMutation(
+    [url, method, fetchParams],
+    (
+      [url, method, fetchParams],
+      { arg }: { arg: { url: string; method: ProvideMethod; params: any } }
+    ) => {
+      if (arg) {
+        const newUrl = arg.url;
+        const newMethod = arg.method;
+        const newFetchParams = arg.params;
+        return dataFetcher(newUrl, newMethod, newFetchParams);
+      }
+      return dataFetcher(url, method, fetchParams);
+    }
+  );
+  return { data, error, isMutating, trigger };
 }

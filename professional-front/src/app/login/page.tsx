@@ -3,28 +3,47 @@ import React, { useEffect, useState } from 'react';
 import style from '@/app/login/styles/style.module.css';
 import { Button, Form, Input } from 'antd';
 import Image from 'next/image';
-import useFetch from '@/services/use-fetch';
+import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import router from 'next/router';
 import { ProvideMethod } from '@/types/data-types';
 
 const Login: React.FC = () => {
   const [pageState, setPageState] = useState('login');
-  const [fetchParam, setFetchParam] = useState({
-    url: '',
-    method: 'GET' as ProvideMethod,
-    params: {}
-  });
-  const { data, error } = useFetch(fetchParam);
+  const defaultLoginParams = {
+    url: '/login',
+    method: 'POST' as ProvideMethod,
+    params: null
+  };
+  const {
+    data,
+    error,
+    trigger: login,
+    isMutate
+  } = useFetchMutation(defaultLoginParams);
+
+  const defaultRegisterParams = {
+    url: '/register/normal',
+    method: 'POST' as ProvideMethod,
+    params: null
+  };
+  const {
+    data: registerData,
+    error: registerError,
+    trigger: register,
+    isMutate: registerIsMutate
+  } = useFetchMutation(defaultRegisterParams);
 
   const onFinish = async (values: any) => {
     if (pageState === 'login') {
-      setFetchParam({ url: '/login', method: 'GET', params: values });
+      login({ ...defaultLoginParams, params: values });
     } else {
-      setFetchParam({
-        url: '/register/normal',
-        method: 'POST',
-        params: values
-      });
+      // 记得改下
+      // setFetchParam({
+      //   url: '/register/normal',
+      //   method: 'POST',
+      //   params: values
+      // });
+      register({ ...defaultRegisterParams, params: values });
     }
   };
 
@@ -128,8 +147,8 @@ const Login: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
-                type: 'number'
+                message: 'Please input your username!'
+                // type: 'number'
               }
             ]}
           >
@@ -141,7 +160,7 @@ const Login: React.FC = () => {
               {
                 required: true,
                 message: 'Please input your username!',
-                type: 'number',
+                // type: 'number',
                 len: 10
               }
             ]}
@@ -154,7 +173,7 @@ const Login: React.FC = () => {
               {
                 required: true,
                 message: 'Please input your username!',
-                type: 'number',
+                // type: 'number',
                 len: 10
               }
             ]}
@@ -167,7 +186,7 @@ const Login: React.FC = () => {
               {
                 required: true,
                 message: 'Please input your username!',
-                type: 'number',
+                // type: 'number',
                 len: 10
               }
             ]}
