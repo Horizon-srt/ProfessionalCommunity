@@ -1,5 +1,5 @@
 pip install flask
-pip3 install flask-sqlalchemy
-pip3 install flask-jwt-extended
-pip3 install pymysql
-
+pip install flask-sqlalchemy
+pip install flask-jwt-extended
+pip install pymysql
+pip install flask-cors

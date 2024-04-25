@@ -1,4 +1,6 @@
 from flask import Flask
+from flask_cors import CORS
+
 from exts import db
 from route.ebook_route import create_ebook_router
 from route.guide_route import create_guide_router
@@ -38,6 +40,8 @@ app.register_blueprint(ebook_bp)
 app.register_blueprint(hire_bp)
 app.register_blueprint(resource_bp)
 
+# 使用CORS扩展处理跨域请求
+CORS(app)
 
 # 运行Flask应用
 if __name__ == '__main__':
