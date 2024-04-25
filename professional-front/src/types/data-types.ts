@@ -4,9 +4,9 @@ export type UserType = 'NORMAL' | 'ADMIN' | 'ENTERPRISE' | 'TOURIST';
 
 export type ServiceType = 'FIXED' | 'ONDOOR';
 
-export const host = '';
+export const host = '127.0.0.1';
 
-export const port = '';
+export const port = '5000';
 
 export const userVisibility: Record<string, string[]> = {
   NORMAL: ['main', 'guide', 'service', 'ebook', 'notice', 'family'],
