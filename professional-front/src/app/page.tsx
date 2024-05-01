@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React from 'react';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/global.module.css';
-import { Button } from 'antd';
+import { Button, Image } from 'antd';
 import { useThemeContext } from '@/components/ThemeProvider/themeContext';
 // import TopBar from '@/components/Topbar';
 // import useFetch from '@/libs/use-fetch';
@@ -32,16 +32,61 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         {/* <TopBar></TopBar> */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1 className={styles.classss}>Professional team!!!!!!!!!</h1>
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button type='primary' href='/tourist/main'>
-              Tourist
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <h1 className={styles.classss}>Different account types for test: </h1>
+          <Image src={'/complogo.svg'} width={'70%'} height={'40vh'} alt='' />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              width: '80%'
+            }}
+          >
+            <Button
+              type='primary'
+              href='/tourist/main'
+              onClick={() => {
+                localStorage.setItem('user-type', 'TOURIST');
+              }}
+            >
+              Anonymous
             </Button>
-            <Button type='primary' href='/proprietor/main' danger>
-              Proprietor
+            <Button
+              type='primary'
+              href='/normal/main'
+              onClick={() => {
+                localStorage.setItem('user-type', 'NORMAL');
+              }}
+            >
+              Normal
             </Button>
-            <Button onClick={() => toggleTheme && toggleTheme()}>QTQTQT</Button>
+            <Button
+              type='primary'
+              href='/admin/main'
+              onClick={() => {
+                localStorage.setItem('user-type', 'ADMIN');
+              }}
+            >
+              Admin
+            </Button>
+            <Button
+              type='primary'
+              href='/enterprise/main'
+              onClick={() => {
+                localStorage.setItem('user-type', 'ENTERPRISE');
+              }}
+            >
+              Enterprise
+            </Button>
+            <Button type='primary' href='/login'>
+              Login
+            </Button>
           </div>
         </div>
       </main>
