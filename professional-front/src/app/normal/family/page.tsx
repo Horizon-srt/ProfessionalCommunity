@@ -1,165 +1,68 @@
 'use client';
 import Card from '@/components/Card';
-import { Col, InputNumber, Radio, Row, Slider } from 'antd';
-import React from 'react';
-import { useRenderChart } from '@/hooks/useRenderChart';
-import { Chart } from '@antv/g2';
+import { Button, Radio } from 'antd';
+import React, { useState } from 'react';
+import { LineChart } from './LineChart';
+import { PieChart } from './PieChart';
+import { Threshold } from './Threshold';
+import { usePagination } from '@/hooks/usePagination';
+import useFetch from '@/services/use-fetch';
+import { ProvideMethod, ResourceType } from '@/types/data-types';
+
 const Family: React.FC = () => {
   const options = [
-    { label: '用水量', value: 'Apple' },
-    { label: '用电量', value: 'Pear' },
-    { label: '燃气用量', value: 'Orange' }
+    { label: 'Water Consumption', value: ResourceType.WATER },
+    { label: 'Eletricity Consumption', value: ResourceType.ELETRIC },
+    { label: 'Gas Consumption', value: ResourceType.GAS }
   ];
 
-  const { containerRef: lineRef } = useRenderChart({
-    renderChart: container => {
-      const chart = new Chart({
-        width: 600,
-        height: 200,
-        container: container as HTMLElement
-      });
-
-      // 声明可视化
-      chart.options({
-        type: 'view', // 视图节点
-        data: [
-          { month: '2023-10', value: 3.5 },
-          { month: '2023-11', value: 5 },
-          { month: '2023-12', value: 4.9 },
-          { month: '2024-1', value: 6 },
-          { month: '2024-2', value: 7 },
-          { month: '2024-3', value: 9 },
-          { month: '2024-4', value: 6 }
-        ],
-        encode: {
-          x: 'month',
-          y: 'value'
-        },
-        children: [
-          { type: 'line' }, // Line 标记
-          { type: 'point' } // Point 标记
-        ]
-      });
-      // 渲染可视化
-      chart.render();
-
-      return chart;
-    },
-    updateChart: () => {}
+  const [currentOption, setCurrentOption] = useState(0);
+  const { offset, pageNum, nextPage, prevPage } = usePagination({
+    offset: 20,
+    pageNum: 1
   });
-  const { containerRef: pieRef } = useRenderChart({
-    renderChart: container => {
-      // 初始化图表实例
-      const chart = new Chart({
-        width: 300,
-        height: 150,
-        container: container as HTMLElement
-      });
 
-      const data = [
-        { type: '用水量', value: 500 },
-        { type: '用电量', value: 500 },
-        { type: '燃气用量', value: 500 }
-      ];
-      chart.options({
-        type: 'interval',
-        data: data,
-        transform: [{ type: 'stackY' }],
-        coordinate: { type: 'theta' },
-        scale: {
-          color: { palette: 'spectral', offset: t => t * 0.3 + 0.1 }
-        },
-        legend: false,
-        encode: { y: 'value', color: 'type' },
-        style: { stroke: 'white' },
-        labels: [
-          {
-            text: 'type',
-            radius: 0.4,
-            style: { fontSize: 12, fontWeight: 'bold', color: 'black' }
-          },
-          {
-            text: (d: any, i: any, data: any) =>
-              i < data.length - 3 ? d.value : '',
-            radius: 0.2,
-            style: { fontSize: 9, dy: 12 }
-          }
-        ]
-      });
-      // 渲染可视化
-      chart.render();
-
-      return chart;
-    },
-    updateChart: () => {}
+  // 先写死，不确定是context传递还是props传递
+  const aid = '1234';
+  const { data } = useFetch({
+    url: '/addresses/resources/' + aid,
+    method: 'GET' as ProvideMethod,
+    params: {
+      pageNum,
+      offset
+    }
   });
+
   return (
-    <main className='p-6 h-full'>
+    <main className='p-3 h-full'>
       <Card>
         <div className='w-full h-full'>
           <header className='flex justify-between'>
-            <span>资源使用数据</span>
-            <Radio.Group options={options} optionType='button' />
+            <span className='font-bold mt-1'>Resource data</span>
+            <Button onClick={prevPage}>Last Page</Button>
+            <Button onClick={nextPage}>Next Page</Button>
+            <Radio.Group
+              options={options}
+              defaultValue={0}
+              optionType='button'
+              onChange={e => setCurrentOption(e.target.value)}
+            />
           </header>
           <main>
             <div>
-              <div className='w-full' ref={lineRef || null}></div>
+              <LineChart
+                data={data}
+                currentOption={currentOption}
+                pageNum={pageNum}
+              />
             </div>
             <div className='flex flex-row justify-between'>
               <div className='w-[49%]'>
-                <Card title='阈值设置'>
-                  <div className='w-full h-full flex flex-col'>
-                    <Row className='w-full'>
-                      <Col span={5} className='mt-1'>
-                        用水量
-                      </Col>
-                      <Col span={12}>
-                        <Slider min={1} max={20} />
-                      </Col>
-                      <Col span={4}>
-                        <InputNumber
-                          min={1}
-                          max={20}
-                          style={{ margin: '0 16px' }}
-                        />
-                      </Col>
-                    </Row>
-                    <Row className='w-full'>
-                      <Col span={5} className='mt-1'>
-                        用电量
-                      </Col>
-                      <Col span={12}>
-                        <Slider min={1} max={20} />
-                      </Col>
-                      <Col span={4}>
-                        <InputNumber
-                          min={1}
-                          max={20}
-                          style={{ margin: '0 16px' }}
-                        />
-                      </Col>
-                    </Row>
-                    <Row className='w-full'>
-                      <Col span={5} className='mt-1'>
-                        燃气用量
-                      </Col>
-                      <Col span={12}>
-                        <Slider min={1} max={20} />
-                      </Col>
-                      <Col span={4}>
-                        <InputNumber
-                          min={1}
-                          max={20}
-                          style={{ margin: '0 16px' }}
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                </Card>
+                <Threshold />
               </div>
               <div className='w-[49%]'>
-                <Card title='类别比例'>
-                  <div ref={pieRef}></div>
+                <Card title='Category proportion'>
+                  <PieChart pageNum={pageNum} data={data} />
                 </Card>
               </div>
             </div>

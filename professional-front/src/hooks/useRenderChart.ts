@@ -19,7 +19,9 @@ export const useRenderChart = ({
   }, []);
 
   const updateChartExpose = () => {
-    updateChart(chart.current);
+    if (chart.current) {
+      updateChart(chart.current);
+    }
   };
 
   return {
