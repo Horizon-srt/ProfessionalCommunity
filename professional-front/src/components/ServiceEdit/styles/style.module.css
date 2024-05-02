@@ -1,0 +1,99 @@
+.backgroundCard {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.titleStyle {
+  height: 10%;
+  font-size: large;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagePosition {
+  width: 80%;
+  height: 60%;
+}
+
+.contentArea {
+  width: 80%;
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+}
+
+.leftArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: row;
+}
+
+/* .rectangleContent .inputArea .inputStyle {
+  background-color: transparent;
+  background-color: transparent;
+  color: white;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid;
+  border-color: white;
+  border-radius: 0px;
+  width: 100%;
+}
+
+.rectangleContent .inputArea .inputStyle:hover {
+  background-color: transparent;
+  background-color: transparent;
+  color: white;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 3px solid;
+  border-color: white;
+  border-radius: 0px;
+}
+
+.rectangleContent .inputArea .inputStyle:focus {
+  background-color: transparent;
+  background-color: transparent;
+  color: white;
+  box-shadow: 0 0 0 0;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 3px solid;
+  border-color: white;
+  border-radius: 0px;
+}
+
+.rectangleContent .inputArea .inputStyle:focus-within {
+  background-color: transparent;
+  background-color: transparent;
+  color: white;
+  box-shadow: 0 0 0 0;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 3px solid;
+  border-color: white;
+  border-radius: 0px;
+} */
+
+.buttonArea {
+  display: flex;
+  flex-direction: row;
+}
