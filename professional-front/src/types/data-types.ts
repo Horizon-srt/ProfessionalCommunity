@@ -29,3 +29,9 @@ export const defaultImageCarousel = [
   '/default_image3.jpg',
   '/default_image4.jpg'
 ];
+
+export enum ResourceType {
+  WATER,
+  ELETRIC,
+  GAS
+}
