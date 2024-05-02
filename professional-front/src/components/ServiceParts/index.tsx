@@ -1,3 +1,4 @@
+'use client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
@@ -7,6 +8,8 @@ import { Image } from 'antd';
 // import useFetch from '@/services/use-fetch';
 import { ServiceType } from '@/types/data-types';
 import Link from 'next/link';
+import useFetch from '@/services/use-fetch';
+import { useRouter } from 'next/navigation';
 
 interface ServicePartsProps {
   isAdmin: boolean;
@@ -15,12 +18,9 @@ interface ServicePartsProps {
 const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   const [fixedCurrent, setFixedCurrent] = useState(1);
   const [onDoorCurrent, setOnDoorCurrent] = useState(1);
+  const [allCurrent, setAllCurrent] = useState(1);
   const [itemList, setItemList] = useState([] as any);
-  const [userType, setUserType] = useState('TOURIST');
-
-  useEffect(() => {
-    setUserType(localStorage.getItem('user-type') || 'TOURIST');
-  }, []);
+  const router = useRouter();
 
   // const fixedFetch = useFetch({
   //   url: '/services',
@@ -128,6 +128,12 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     dataList,
     type
   }) => {
+    const [userType, setUserType] = useState('TOURIST');
+
+    useEffect(() => {
+      setUserType(localStorage.getItem('user-type') || 'TOURIST');
+    }, []);
+
     return (
       <List
         itemLayout='vertical'
@@ -144,7 +150,13 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         dataSource={dataList}
         renderItem={(item: any) => {
           return (
-            <Link href={`/${userType.toLowerCase()}/service/${item.sid}`}>
+            <Link
+              href={
+                userType === 'ADMIN'
+                  ? `/${userType.toLowerCase()}/service/edit/${item.sid}`
+                  : `/${userType.toLowerCase()}/service/${item.sid}`
+              }
+            >
               <List.Item
                 key={item.title}
                 extra={
@@ -219,7 +231,13 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
 
   return (
     <div className={style.backgoundCard}>
-      <Tabs defaultActiveKey='FIXED' items={itemList} />
+      <Tabs
+        defaultActiveKey='FIXED'
+        items={itemList}
+        onChange={activeKey => {
+          if (activeKey === 'ADDITION') router.push('/admin/service/create');
+        }}
+      />
     </div>
   );
 };
