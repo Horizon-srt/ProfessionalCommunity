@@ -1,16 +1,23 @@
 import ImageCarousel from '@/components/ImageCarousel';
 import TopReading from '@/components/TopReading';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import style from '@/components/MainParts/styles/style.module.css';
 import DailyGuide from '@/components/DailyGuide';
 import { Col, Row } from 'antd';
 import ResourceCard from '@/components/ResourceCard';
+import NoticeCard from '../NoticeCard';
 
 interface MainPartsProps {
   isNormal: boolean;
 }
 
 const MainParts: React.FC<MainPartsProps> = ({ isNormal }) => {
+  const [status, setStatus] = useState('pending');
+
+  useEffect(() => {
+    setStatus(localStorage.getItem('user-status') || 'pending');
+  }, []);
+
   return (
     <>
       <Row style={{ width: '100%', height: '50%' }}>
@@ -24,7 +31,13 @@ const MainParts: React.FC<MainPartsProps> = ({ isNormal }) => {
         </Col>
         <Col span={12} style={{ paddingLeft: '0.5rem' }}>
           {isNormal ? (
-            <ResourceCard width='100%' height='100%' />
+            <>
+              {status === 'approved' ? (
+                <ResourceCard width='100%' height='100%' />
+              ) : (
+                <NoticeCard width='100%' height='100%' />
+              )}
+            </>
           ) : (
             <DailyGuide width='100%' height='100%' />
           )}
