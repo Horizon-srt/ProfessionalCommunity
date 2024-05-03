@@ -1,0 +1,27 @@
+.roundNumber {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: #E7FFE8;
+  color: #16A609;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upRect {
+  background-color: #6DC570;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding: 2px;
+}
+
+.downRect {
+  background-color: #E7FFE8;
+  display: flex;
+  justify-content: center;
+  font-size: small;
+  color: #686868;
+  padding: 2px;
+}
