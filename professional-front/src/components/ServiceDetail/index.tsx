@@ -27,19 +27,48 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
     type: 'FIXED',
     location: 'Teaching Building 4',
     map: '/mock_map.jpg',
-    video: ''
+    video: '/default_video.mp4',
+    line: '13832581023'
+  };
+
+  const Label: React.FC<{ type: string }> = ({ type }) => {
+    return (
+      <div
+        style={{
+          borderRadius: '2px',
+          backgroundColor: '#16A609',
+          fontSize: '0.6rem',
+          padding: '2px',
+          margin: '2px'
+        }}
+      >
+        {type}
+      </div>
+    );
   };
 
   return (
     <div className={style.backgroundCard}>
-      <div className={style.titleStyle}>Location in the community</div>
+      <div className={style.titleStyle}>
+        Location in the community
+        <Label type={data.type} />
+      </div>
       <div className={style.imagePosition}>
-        <Image
-          src={data.map}
-          alt='Service map'
-          width={'100%'}
-          height={'100%'}
-        />
+        {data.type === 'FIXED' ? (
+          <Image
+            src={data.map}
+            alt='Service map'
+            width={'100%'}
+            height={'100%'}
+          />
+        ) : (
+          <Image
+            src={data.cover}
+            alt='Service map'
+            width={'100%'}
+            height={'100%'}
+          />
+        )}
       </div>
       <div className={style.contentArea}>
         <div className={style.leftArea}>
@@ -51,14 +80,25 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
               style={{ color: '#9E9D9D' }}
             >{`(Open Time: ${data.available})`}</div>
           </div>
-          <div
-            style={{ paddingTop: '1rem' }}
-          >{`Location: ${data.location}`}</div>
+          <div style={{ paddingTop: '1rem' }}>
+            {data.type === 'FIXED'
+              ? `Location: ${data.location}`
+              : `Line: ${data.line}`}
+          </div>
           <div style={{ paddingTop: '1rem' }}>{data.detail}</div>
         </div>
-        <div className={style.rightArea}>
-          <Image src={data.cover} alt='' width={'16rem'} height={'9rem'} />
-        </div>
+        {data.type === 'FIXED' ? (
+          <div className={style.rightArea}>
+            {/* 放视频 */}
+            {/* <Image src={data.cover} alt='' width={'16rem'} height={'9rem'} /> */}
+            <video width='320' height='240' controls preload='none'>
+              <source src={data.video} type='video/mp4' />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
