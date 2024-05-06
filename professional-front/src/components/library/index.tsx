@@ -41,7 +41,6 @@ const Library: React.FC = () => {
   ];
   const [current, setCurrent] = useState('');
   const onClick: MenuProps['onClick'] = (e: any) => {
-    console.log('click ', e.key);
     setCurrent(e.key);
   };
   useEffect(() => {
