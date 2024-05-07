@@ -15,6 +15,8 @@ import style from '@/components/UserInfoCard/styles/style.module.css';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
+import { useStore } from '@/hooks/useStore';
+// import Card from '@/components/Card';
 
 interface UserInfoCardProps {
   // width: string;
@@ -25,6 +27,13 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [uid, setUid] = useState('');
   const [form] = Form.useForm();
+
+  const isExpand = useStore(state => state.userInfoIsExpand);
+
+  const switchExpand = useStore(state => state.switchExpand);
+  const userInfoExpandStlye = `transition-all
+  ${isExpand ? 'h-80' : 'h-[9.5rem]'}
+   overflow-scroll`;
 
   const defaultChangeParams = {
     url: `/users/${uid}`,
@@ -101,8 +110,12 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
     //   </Card>
     // </div>
     <div className='h-40 p-3'>
-      <Card title='Personal'>
+      <Card
+        title='Personal'
+        className={`overflow-scroll ${userInfoExpandStlye}`}
+      >
         <div className='flex flex-row w-full bg-white dark:bg-black h-8'>
+          <Button onClick={() => switchExpand()}>点</Button>
           <div className='w-3/12'>
             <Avatar />
           </div>
@@ -115,7 +128,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
           </div>
         </div>
         <Divider />
-        <div>
+        <div className={!isExpand ? 'hidden' : ''}>
           <div className={style.formStyle}>
             <Spin spinning={isLoading || error}>
               <Form
