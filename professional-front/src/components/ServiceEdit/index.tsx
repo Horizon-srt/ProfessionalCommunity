@@ -10,12 +10,13 @@ import {
   Row,
   Spin,
   Upload,
-  message
+  message,
+  Card
 } from 'antd';
 import Link from 'next/link';
 import style from '@/components/ServiceEdit/styles/style.module.css';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
-import Card from '@/components/Card';
+// import Card from '@/components/Card';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProvideMethod } from '@/types/data-types';
 import { useRouter } from 'next/navigation';
@@ -72,6 +73,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
+      return;
     }
     return isJpgOrPng;
   };
@@ -80,10 +82,12 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
     const isMp4 = file.type === 'video/mp4';
     if (!isMp4) {
       message.error('You can only upload MP4 file!');
+      return;
     }
     const isLt50M = file.size / 1024 / 1024 < 50;
     if (!isLt50M) {
       message.error('Image must smaller than 50MB!');
+      return;
     }
     return isMp4;
   };
@@ -123,6 +127,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
   const onCreateFinish = async (values: any) => {
     const finalValue = {
       ...values,
+      // TODO: 视频还没转成base64
       cover: values.cover?.thumbUrl ? values.cover.thumbUrl : '',
       map: values.map?.thumbUrl ? values.map.thumbUrl : '',
       video: values.video?.thumbUrl ? values.video.thumbUrl : ''
@@ -493,7 +498,11 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
   };
 
   const ReturnButton: React.FC = () => {
-    return <Button>Return</Button>;
+    return (
+      <Button style={{ width: '7.5rem' }} onClick={() => router.back()}>
+        Return
+      </Button>
+    );
   };
 
   const DeleteButton: React.FC = () => {
@@ -505,6 +514,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
           deleteService({ ...defaultDeleteParams, params: {} });
           router.push('/admin/service');
         }}
+        style={{ width: '7.5rem' }}
       >
         Delete
       </Button>
@@ -513,14 +523,19 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
 
   const SubmitButton: React.FC = () => {
     return (
-      <Button htmlType='submit' type='primary'>
+      <Button style={{ width: '7.5rem' }} htmlType='submit' type='primary'>
         Submit
       </Button>
     );
   };
 
   return (
-    <Card title={title}>{sid === '-1' ? <CreateForm /> : <EditForm />}</Card>
+    <Card
+      style={{ padding: '2rem', height: '100%', overflow: 'auto' }}
+      title={title}
+    >
+      {sid === '-1' ? <CreateForm /> : <EditForm />}
+    </Card>
   );
 };
 

@@ -51,6 +51,7 @@ const Login: React.FC = () => {
     if (data && data.jwt) {
       window.localStorage.setItem('pt-auth', data.jwt);
       window.localStorage.setItem('user-type', data.userType);
+      window.localStorage.setItem('user-id', data.uid);
       router.push(`/${data.userType.toLowerCase()}`);
     } else {
       console.log(error);
