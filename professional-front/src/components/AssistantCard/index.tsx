@@ -1,6 +1,9 @@
+'use client';
 import React from 'react';
-import { Avatar, Card } from 'antd';
+import { Avatar } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import Card from '@/components/Card';
+import { useStore } from '@/hooks/useStore';
 
 interface AssistantCardProps {
   // width: string;
@@ -8,11 +11,16 @@ interface AssistantCardProps {
 }
 
 const AssistantCard: React.FC<AssistantCardProps> = () => {
+  const isExpand = useStore(state => state.userInfoIsExpand);
+
+  const assistantCardIsExpandStyle = `${isExpand ? 'h-[12rem]' : 'h-[80rem]'}`;
   return (
-    <div className='grow p-3'>
+    <div
+      className={`p-3 justify-end transition-all ${assistantCardIsExpandStyle}`}
+    >
       <Card title='AI'>
-        <div className='flex flex-col justify-between w-full'>
-          <div className='h-48 p-2 overflow-auto'>
+        <div className='h-50 flex flex-col justify-between w-full'>
+          <div className={`p-2 overflow-auto ${isExpand ? 'h-[3rem]' : ''}`}>
             <div className='flex flex-row'>
               <div>
                 <Avatar />
@@ -27,7 +35,7 @@ const AssistantCard: React.FC<AssistantCardProps> = () => {
               </div>
             </div>
           </div>
-          <div className='grow'>
+          <div className='h-[2.5rem]'>
             <TextArea />
           </div>
         </div>

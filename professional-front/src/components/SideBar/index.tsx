@@ -1,10 +1,13 @@
 import React from 'react';
 import AssistantCard from '@/components/AssistantCard';
 import UserInfoCard from '@/components/UserInfoCard';
+import Card from '../Card';
+import { Avatar } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 
 const SideBar: React.FC = () => {
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col h-full justify-between'>
       {/* <div className='h-40 p-3 h-1/6'>
         <Card title='Personal'>
           <div className='flex flex-row w-full bg-white dark:bg-black h-8'>
@@ -22,31 +25,7 @@ const SideBar: React.FC = () => {
         </Card>
       </div> */}
       <UserInfoCard />
-      {/* <AssistantCard /> */}
-      {/* <div className='grow p-3'>
-        <Card title='AI'>
-          <div className='flex flex-col justify-between w-full'>
-            <div className='h-48 p-2 overflow-auto'>
-              <div className='flex flex-row'>
-                <div>
-                  <Avatar />
-                </div>
-                <div>
-                  <div className='ml-3 text-sm text-gray-400'>Balzac</div>
-                  <div className='ml-3'>
-                    efewiofhweoifewiofjewiofefeiwewefewiofewfioe
-                    efewiofhweoifewiofjewiofefeiwewefewiofewfioee
-                    fewiofhweoifewiofjewiofefeiwewefewiofewfioe
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='grow'>
-              <TextArea />
-            </div>
-          </div>
-        </Card>
-      </div> */}
+      <AssistantCard />
     </div>
   );
 };
