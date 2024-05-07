@@ -1,12 +1,11 @@
-import { Avatar, Divider } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
 import React from 'react';
-import Card from '../Card';
+import AssistantCard from '@/components/AssistantCard';
+import UserInfoCard from '@/components/UserInfoCard';
 
 const SideBar: React.FC = () => {
   return (
     <div className='flex flex-col h-full'>
-      <div className='h-40 p-3 h-1/6'>
+      {/* <div className='h-40 p-3 h-1/6'>
         <Card title='Personal'>
           <div className='flex flex-row w-full bg-white dark:bg-black h-8'>
             <div className='w-3/12'>
@@ -21,8 +20,10 @@ const SideBar: React.FC = () => {
             </div>
           </div>
         </Card>
-      </div>
-      <div className='grow p-3'>
+      </div> */}
+      <UserInfoCard />
+      {/* <AssistantCard /> */}
+      {/* <div className='grow p-3'>
         <Card title='AI'>
           <div className='flex flex-col justify-between w-full'>
             <div className='h-48 p-2 overflow-auto'>
@@ -45,7 +46,7 @@ const SideBar: React.FC = () => {
             </div>
           </div>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 };
