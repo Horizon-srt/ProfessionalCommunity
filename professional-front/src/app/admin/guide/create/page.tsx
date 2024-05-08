@@ -1,8 +1,17 @@
 'use client';
-import { Button, Card, Form, GetProp, Input, Select, SelectProps, Upload, UploadProps, message } from 'antd';
+import {
+  Button,
+  Card,
+  Form,
+  GetProp,
+  Input,
+  Upload,
+  UploadProps,
+  message
+} from 'antd';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { InboxOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './styles/style.module.css';
 import { ProvideMethod } from '@/types/data-types';
 import { useFetchMutation } from '@/services/use-fetch';
@@ -11,25 +20,9 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
   const { TextArea } = Input;
   const router = useRouter();
   const defaultCreateParams = {
-    url: '/ebook',
+    url: '/services',
     method: 'POST' as ProvideMethod,
     params: null
-  };
-
-  const beforeUploadCover = (file: FileType) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-    }
-    return isJpgOrPng;
-  };
-
-  const beforeUploadEpub = (file: FileType) => {
-    const isEpub = file.type === '/epub';
-    if (!isEpub) {
-      message.error('You can only upload EPUB file!');
-    }
-    return isEpub;
   };
 
   const {
@@ -37,39 +30,6 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     error: createReturnError,
     trigger: createService
   } = useFetchMutation(defaultCreateParams);
-
-  const options: SelectProps['options'] = [
-    {
-      label: 'science',
-      value: 'science'
-    },
-    {
-      label: 'computer',
-      value: 'computer'
-    }
-  ];
-  for (let i = 10; i < 16; i++) {
-    options.push({
-      label: i.toString(16) + i,
-      value: i.toString(16) + i
-    });
-  }
-  const { Dragger } = Upload;
-  const handleFileChange: UploadProps['onChange'] = info => {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
-
-  const handleSelect = (value: string[]) => {
-    console.log(`selected ${value}`);
-  };
 
   const onCreateFinish = async (values: any) => {
     const finalValue = {
@@ -98,7 +58,13 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     reader.addEventListener('load', () => callback(reader.result as string));
     reader.readAsDataURL(img);
   };
-
+  const beforeUpload = (file: FileType) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    return isJpgOrPng;
+  };
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 
@@ -128,7 +94,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     return (
       <Button
         style={{ width: '7.5rem' }}
-        onClick={() => router.push('/admin/ebook')}
+        onClick={() => router.push('/admin/guide')}
         htmlType='submit'
         type='primary'
       >
@@ -141,7 +107,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     return (
       <Button
         style={{ width: '7.5rem' }}
-        onClick={() => router.push('/admin/ebook')}
+        onClick={() => router.push('/admin/guide')}
       >
         Return
       </Button>
@@ -155,7 +121,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
           <div className='flex flex-row justify-between'>
             <div className='relative'>
               <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]'></div>
-              <div style={{ fontSize: '2.5rem' }}>Add New Book</div>
+              <div style={{ fontSize: '2.5rem' }}>Guide Create</div>
             </div>
           </div>
           <Form
@@ -164,47 +130,11 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
             layout='vertical'
           >
             <Form.Item
-              name={'name'}
-              label={'Book name'}
+              name={'title'}
+              label={'Title'}
               rules={[{ required: true, message: 'Please input guide name!' }]}
             >
-              <Input placeholder='Book name' style={{ width: '50%' }} />
-            </Form.Item>
-            <Form.Item
-              name={'description'}
-              label={'Description'}
-              rules={[
-                { required: true, message: 'Please input guide description!' }
-              ]}
-            >
-              <Input placeholder='Description' style={{ width: '50%' }} />
-            </Form.Item>
-            <Form.Item
-              name={'detail'}
-              label={'Detail'}
-              rules={[
-                { required: true, message: 'Please input guide detail!' }
-              ]}
-            >
-              <TextArea
-                rows={4}
-                placeholder='Please input Detail'
-                style={{ width: '50%' }}
-              ></TextArea>
-            </Form.Item>
-            <Form.Item
-              name={'label'}
-              label={'Label'}
-              rules={[{ required: true, message: 'Please input guide label!' }]}
-            >
-              <Select
-                mode='multiple'
-                allowClear
-                style={{ width: '50%' }}
-                placeholder='Please select'
-                onChange={handleSelect}
-                options={options}
-              />
+              <Input placeholder='Title' style={{ width: '50%' }} />
             </Form.Item>
             <Form.Item
               label={'Cover'}
@@ -218,7 +148,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                 className='avatar-uploader'
                 showUploadList={false}
                 action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
-                beforeUpload={beforeUploadCover}
+                beforeUpload={beforeUpload}
                 onChange={handleChange}
               >
                 {imageUrl ? (
@@ -235,30 +165,15 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
               </Upload>
             </Form.Item>
             <Form.Item
-              label={'Cover'}
-              // valuePropName='fileList'
-              name={'cover'}
-              getValueFromEvent={normFile}
+              name={'content'}
+              label={'Content'}
+              rules={[{ required: true, message: 'Please input guide name!' }]}
             >
-              <Dragger
-                name='file'
-                multiple={true}
+              <TextArea
+                rows={4}
+                placeholder='Please input content'
                 style={{ width: '50%' }}
-                action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
-                beforeUpload={beforeUploadEpub}
-                onChange={handleFileChange}
-              >
-                <p className='ant-upload-drag-icon'>
-                  <InboxOutlined />
-                </p>
-                <p className='ant-upload-text'>
-                  Click or drag file to this area to upload
-                </p>
-                <p className='ant-upload-hint'>
-                  Support for a single or bulk upload. Strictly prohibited from
-                  uploading company data or other banned files.
-                </p>
-              </Dragger>
+              ></TextArea>
             </Form.Item>
           </Form>
           <div className={styles.buttonArea}>

@@ -1,14 +1,15 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Image, Input, List } from 'antd';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from './styles/style.module.css';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
 
 const Library: React.FC = () => {
   const [associatedValue, setAssociatedValue] = useState('');
-
+  const pathname = usePathname();
+  console.log(pathname);
   const router = useRouter();
   const list: any[] = [];
   for (let i = 1; i < 40; i += 1) {
@@ -112,7 +113,11 @@ const Library: React.FC = () => {
           xxl: 8
         }}
         pagination={{ position: 'bottom', align: 'center', pageSize: 16 }}
-        dataSource={[{}, ...filterparamList]}
+        dataSource={
+          pathname === '/admin/ebook'
+            ? [{}, ...filterparamList]
+            : [...filterparamList]
+        }
         renderItem={item => {
           if (item && item.bid) {
             return (
@@ -132,16 +137,19 @@ const Library: React.FC = () => {
             );
           }
           return (
-            <List.Item>
-              <Button
-                className={styles.create}
-                type='dashed'
-                style={{ width: '100%', height: '80%', fontSize: 56 }}
-                onClick={() => router.push('ebook/create')}
-              >
-                +
-              </Button>
-            </List.Item>
+            <>
+              <div className={styles.buttonFather}>
+                <Button
+                  className={styles.create}
+                  type='dashed'
+                  style={{ height: '100%', fontSize: 56 }}
+                  onClick={() => router.push('ebook/create')}
+                >
+                  +
+                </Button>
+              </div>
+              <List.Item></List.Item>
+            </>
           );
         }}
       />

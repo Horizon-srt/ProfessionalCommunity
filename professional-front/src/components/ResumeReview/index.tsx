@@ -1,11 +1,9 @@
-'use client';
 import React, { useEffect, useState } from 'react';
 import styles from './styles/style.module.css';
 import { Avatar, Button, List, Menu, MenuProps } from 'antd';
 import { useRouter } from 'next/navigation';
 
-const Tourist: React.FC = () => {
-  const router = useRouter();
+const ResumeReview: React.FC = () => {
   const list: any[] = [];
   for (let i = 1; i < 40; i += 1) {
     list.push({
@@ -19,21 +17,22 @@ const Tourist: React.FC = () => {
     });
   }
   const [filterparamList, setFilterParamList] = useState(list);
+  const frontDownload = () => {
+    const a = document.createElement('a');
+    a.href = '/01a-Trees-2.pdf';
+    a.download = '01a-Trees-2.pdf';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div className={styles.main}>
       <div className='flex flex-row justify-between'>
         <div className='relative'>
           <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]'></div>
-          <div style={{ fontSize: '2.5rem' }}>Guide</div>
-        </div>
-        <div className='relative'>
-          <Button
-            onClick={() => {
-              router.push('guide/create');
-            }}
-          >
-            +
-          </Button>
+          <div style={{ fontSize: '2.5rem' }}>Receive Recruitment</div>
         </div>
       </div>
       <List
@@ -51,13 +50,16 @@ const Tourist: React.FC = () => {
                   key='list-loadmore-edit'
                   type='link'
                   onClick={() => {
-                    router.push(`guide/detail/${item.bid}`);
+                    frontDownload();
                   }}
                 >
-                  Detail
+                  Download
+                </Button>,
+                <Button key='' type='primary'>
+                  Accept
                 </Button>,
                 <Button key='' type='primary' danger>
-                  Delete
+                  Reject
                 </Button>
               ]}
             >
@@ -74,4 +76,4 @@ const Tourist: React.FC = () => {
   );
 };
 
-export default Tourist;
+export default ResumeReview;
