@@ -191,6 +191,31 @@ def create_hire_router():
         except Exception as e:
             return jsonify(code=404, message=f"An error occurred while retrieving hires: {str(e)}"), 500
 
+    @hire_bp.route('/hires/all/<int:hid>', methods=['GET'])
+    @jwt_required()
+    def get_hires_by_hid(hid):
+        try:
+            # 查询特定hid招聘信息
+            hire = Hire.query.get(hid=hid)
+
+            if not hire:
+              return jsonify(code=404, message="Guide not found"), 404
+            
+            hire_data = {
+              'hid': hire.hid,
+              'title': hire.title,
+              'ename': EnterpriseUser.query.get(hire.uid).ename,
+              'start_time': hire.start_time,
+              'end_time': hire.end_time,
+              'content': hire.content.decode(),
+              'status': hire.status
+            }
+
+            return jsonify(code=200, data=hire_data, message="Successfully retrieved hires by company"), 200
+        except Exception as e:
+            return jsonify(code=404, message=f"An error occurred while retrieving hires by company: {str(e)}"), 500
+
+
     @hire_bp.route('/hires/all/<int:uid>', methods=['GET'])
     @jwt_required()
     def get_hires_by_company(uid):

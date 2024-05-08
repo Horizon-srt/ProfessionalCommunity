@@ -9,7 +9,15 @@ export const host = '127.0.0.1';
 export const port = '5000';
 
 export const userVisibility: Record<string, string[]> = {
-  NORMAL: ['main', 'guide', 'service', 'ebook', 'notice', 'family'],
+  NORMAL: [
+    'main',
+    'guide',
+    'service',
+    'ebook',
+    'notice',
+    'family',
+    'employment'
+  ],
   ADMIN: ['main', 'guide', 'service', 'ebook', 'notice', 'review'],
   ENTERPRISE: [
     'main',
