@@ -1,15 +1,20 @@
+from openai import OpenAI
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
 from model.address import Address
 
 from exts import db
-from model.user import User, NormalUser, EnterpriseUser, Admin
+from model.user import User, NormalUser, EnterpriseUser, Admin, Chat
 from route.utils import check_user_role
 
 
 def create_user_router():
     user_bp = Blueprint('user_bp', __name__)
+    client = OpenAI(
+        api_key="sk-proj-reSPfOWF6sKPjR3ZuQ43T3BlbkFJcCSJvfv3RRCfjVnO2v9C",
+        timeout=60
+    )
 
     @user_bp.route('/register/normal', methods=['POST'])
     def register_normal():
@@ -292,6 +297,10 @@ def create_user_router():
                 enterprise_user = EnterpriseUser.query.get(uid)
                 if enterprise_user:
                     enterprise_user.ename = params['ename']
+            normal_user = NormalUser.query.get_uid
+            if 'proof' in params:
+                if normal_user:
+                    normal_user.proof = params['proof'].encode()
 
             db.session.commit()
 
@@ -302,6 +311,7 @@ def create_user_router():
                 "email": user.email,
                 "phone": user.phone,
                 "avator": user.avator.decode(),
+                "proof": normal_user.proof.decode() if normal_user else None,
                 "status": getattr(normal_user, 'status', None) if user_role == "Admin" else None,
                 "ename": getattr(enterprise_user, 'ename', None) if user_role == "EnterpriseUser" else None
             }
@@ -380,5 +390,58 @@ def create_user_router():
             db.session.commit()
 
         return jsonify(code=200, data={"uid": uid}), 200
+
+    @user_bp.route('/chat', methods=['POST'])
+    @jwt_required()
+    def chat_with_ai():
+        uid = get_jwt_identity()
+        user_message = request.json.get('message')
+        if not user_message:
+            return jsonify({'error': 'No message provided'}), 400
+
+        try:
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {"role": "user", "content": user_message}
+                ],
+                model="gpt-3.5-turbo",
+            )
+            ai_response = chat_completion['choices'][0]['message']['content']
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+        # Store the user's message
+        user_chat = Chat(uid=uid, from_user=0, content=user_message)
+        db.session.add(user_chat)
+
+        # Store the AI's response
+        ai_chat = Chat(uid=uid, from_user=1, content=ai_response)
+        db.session.add(ai_chat)
+        db.session.commit()
+
+        # Return the AI's response
+        return jsonify({'content': ai_response}), 200
+
+    @user_bp.route('/chat', methods=['GET'])
+    @jwt_required()
+    def get_chat():
+        uid = request.args.get('uid', type=int)
+        if not uid:
+            return jsonify({"code": 404, "message": "缺少用户ID参数"}), 404
+
+        # 根据uid查找聊天信息
+        chat_messages = Chat.query.filter_by(uid=uid).order_by(Chat.id).all()
+        if not chat_messages:
+            return jsonify({"code": 404, "message": "没有找到聊天记录"}), 404
+
+        # 构造返回数据
+        results = []
+        for message in chat_messages:
+            results.append({
+                "from": message.from_user,
+                "content": message.content
+            })
+
+        return jsonify({"code": 200, "chatMessages": results}), 200
 
     return user_bp

@@ -11,7 +11,7 @@
  Target Server Version : 80028
  File Encoding         : 65001
 
- Date: 03/04/2024 20:16:09
+ Date: 08/05/2024 17:06:50
 */
 
 SET NAMES utf8mb4;
@@ -30,6 +30,16 @@ CREATE TABLE `address` (
   PRIMARY KEY (`aid`),
   KEY `address_user` (`uid`),
   CONSTRAINT `address_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for admin
+-- ----------------------------
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `uid` int NOT NULL,
+  PRIMARY KEY (`uid`),
+  CONSTRAINT `admin_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -44,6 +54,20 @@ CREATE TABLE `alert` (
   PRIMARY KEY (`alert_id`),
   KEY `alert_address` (`aid`),
   CONSTRAINT `alert_address` FOREIGN KEY (`aid`) REFERENCES `address` (`aid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for chat
+-- ----------------------------
+DROP TABLE IF EXISTS `chat`;
+CREATE TABLE `chat` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `uid` int DEFAULT NULL,
+  `from` int DEFAULT NULL COMMENT '消息谁发的 0是user 1是chat',
+  `content` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `chat_user` (`uid`),
+  CONSTRAINT `chat_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -104,7 +128,7 @@ CREATE TABLE `guide` (
   PRIMARY KEY (`gid`),
   KEY `guide_user` (`uid`),
   CONSTRAINT `guide_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for hire
@@ -121,7 +145,7 @@ CREATE TABLE `hire` (
   PRIMARY KEY (`hid`),
   KEY `hire_user` (`uid`),
   CONSTRAINT `hire_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for label_ebook
@@ -159,7 +183,7 @@ CREATE TABLE `notify` (
   PRIMARY KEY (`nid`),
   KEY `notify_user` (`uid`),
   CONSTRAINT `notify_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for ondoor_service
@@ -220,7 +244,7 @@ CREATE TABLE `resume` (
   KEY `resume_hire` (`hid`),
   CONSTRAINT `resume_hire` FOREIGN KEY (`hid`) REFERENCES `hire` (`hid`),
   CONSTRAINT `resume_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for service
@@ -233,7 +257,7 @@ CREATE TABLE `service` (
   `available` varchar(255) DEFAULT NULL,
   `detail` blob,
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for service_record
@@ -250,7 +274,7 @@ CREATE TABLE `service_record` (
   KEY `service_record_address` (`aid`),
   CONSTRAINT `service_record` FOREIGN KEY (`sid`) REFERENCES `service` (`sid`),
   CONSTRAINT `service_record_address` FOREIGN KEY (`aid`) REFERENCES `address` (`aid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Table structure for user
@@ -264,6 +288,6 @@ CREATE TABLE `user` (
   `phone` varchar(255) DEFAULT NULL,
   `avator` longblob,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;

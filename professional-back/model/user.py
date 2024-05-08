@@ -61,3 +61,15 @@ class Resume(db.Model):
     position = db.Column(db.String(255), nullable=True)
     hid = db.Column(db.Integer, db.ForeignKey('hire.hid'))
     uid = db.Column(db.Integer, db.ForeignKey('user.uid'))
+
+
+class Chat(db.Model):
+    __tablename__ = 'chat'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uid = db.Column(db.Integer, db.ForeignKey('user.uid'), nullable=True)
+    from_user = db.Column(db.Integer, nullable=True, comment='消息谁发的 0是user 1是chat')
+    content = db.Column(db.String(255), nullable=True)
+
+    # Relationship to User model
+    user = db.relationship('User', backref=db.backref('chats', lazy=True))

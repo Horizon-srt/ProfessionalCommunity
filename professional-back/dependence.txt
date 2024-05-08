@@ -3,3 +3,4 @@ pip install flask-sqlalchemy
 pip install flask-jwt-extended
 pip install pymysql
 pip install flask-cors
+pip install openai
