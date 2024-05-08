@@ -3,7 +3,7 @@ import React from 'react';
 
 interface ICard {
   children: React.ReactNode;
-  title?: string;
+  title?: string | React.ReactNode;
 }
 const Card: React.FC<ICard> = ({ children, title }) => {
   const darkModeStyle = ' dark:bg-black';

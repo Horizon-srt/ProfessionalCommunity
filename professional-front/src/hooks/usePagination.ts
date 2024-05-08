@@ -14,5 +14,5 @@ export const usePagination = ({
   const prevPage = () => {
     setCurrentPage(c => c - 1);
   };
-  return { offset, pageNum: currentPage, nextPage, prevPage };
+  return { offset, pageNum: currentPage, nextPage, prevPage, setCurrentPage };
 };
