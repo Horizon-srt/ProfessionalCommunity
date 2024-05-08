@@ -444,4 +444,61 @@ def create_user_router():
 
         return jsonify({"code": 200, "chatMessages": results}), 200
 
+    @user_bp.route('/users/diff_type', methods=['GET'])
+    @jwt_required()
+    def get_all_users_by_type():
+        data = request.json
+        # 验证 JWT，获取当前用户 ID
+        current_user_id = get_jwt_identity()
+        
+        user_role = check_user_role(current_user_id)
+        if user_role != "ADMIN":
+            return jsonify(code=404, message="非合法用户"), 404
+
+        # 获取请求参数
+        type = data['type']
+        offset = int(data['offset'])
+        pageNum = int(data['pageNum'])
+        
+        user_query = None
+        if type == 'ADMIN':
+            users_query = Admin.query
+        elif type == 'ENTERPRISE':
+            users_query = EnterpriseUser.query
+
+        # 查询用户列表并分页
+        users_count = users_query.count()
+        users = users_query.limit(offset).offset((pageNum - 1) * offset).all()
+
+        # 构造返回数据
+        all_users = []
+        for user in users:
+            user_data = {}
+            if type == 'ENTERPRISE':
+                user_data = {
+                  "uid": user.uid,
+                  "name": user.name,
+                  "avator": user.avator,
+                  "ename": user.ename
+                }
+            else :
+              user_data = {
+                  "uid": user.uid,
+                  "name": user.name,
+                  "avator": user.avator,
+                  "ename": None
+              }
+            
+            all_users.append(user_data)
+
+        allPages = (users_count + offset - 1) // offset
+
+        response_data = {
+            "users": all_users,
+            "allPages": allPages
+        }
+
+        return jsonify(code=200, data=response_data), 200
+
+
     return user_bp

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import { List, Spin, Tabs, TabsProps } from 'antd';
+import { Button, List, Spin, Tabs, TabsProps } from 'antd';
 import style from '@/components/ServiceParts/styles/style.module.css';
 import { Image } from 'antd';
 // import useFetch from '@/services/use-fetch';
@@ -10,6 +10,14 @@ import { ServiceType } from '@/types/data-types';
 import Link from 'next/link';
 import useFetch from '@/services/use-fetch';
 import { useRouter } from 'next/navigation';
+import {
+  PlusOutlined,
+  ProfileOutlined,
+  SettingOutlined,
+  ShopOutlined,
+  ToolOutlined,
+  UserOutlined
+} from '@ant-design/icons';
 
 interface ServicePartsProps {
   isAdmin: boolean;
@@ -18,9 +26,15 @@ interface ServicePartsProps {
 const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   const [fixedCurrent, setFixedCurrent] = useState(1);
   const [onDoorCurrent, setOnDoorCurrent] = useState(1);
+  const [subscribeCurrent, setSubscribeCurrent] = useState(1);
   const [allCurrent, setAllCurrent] = useState(1);
   const [itemList, setItemList] = useState([] as any);
   const router = useRouter();
+  const [userType, setUserType] = useState('TOURIST');
+
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
 
   // const fixedFetch = useFetch({
   //   url: '/services',
@@ -39,6 +53,15 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   //     type: 'ONDOOR',
   //     offset: 4,
   //     pageNum: onDoorCurrent
+  //   }
+  // });
+
+  // const subscribeFetch = useFetch({
+  //   url: '/services/subscribe',
+  //   method: 'GET',
+  //   params: {
+  //     offset: 8,
+  //     pageNum: subscribeCurrent
   //   }
   // });
 
@@ -124,16 +147,117 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     isLoading: false
   };
 
-  const ContentList: React.FC<{ dataList: any; type: ServiceType }> = ({
-    dataList,
-    type
-  }) => {
-    const [userType, setUserType] = useState('TOURIST');
+  const subscribeFetch = {
+    data: {
+      services: [
+        {
+          srid: '1',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'Zhang San',
+          service_name: 'Fix air conditioner',
+          phone: '13832581023;',
+          line: '13832581023;',
+          detail:
+            'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;',
+          time: 'today;'
+        },
+        {
+          srid: '2',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        },
+        {
+          srid: '3',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        },
+        {
+          srid: '4',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        },
+        {
+          srid: '5',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        },
+        {
+          srid: '6',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        },
+        {
+          srid: '7',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        },
+        {
+          srid: '8',
+          building: 'string;',
+          unit: 'string;',
+          room: 'string;',
+          name: 'string;',
+          service_name: 'string;',
+          phone: 'string;',
+          line: 'string;',
+          detail: 'string;',
+          time: 'string;'
+        }
+      ],
+      allPages: 10
+    },
+    isLoading: false
+  };
 
-    useEffect(() => {
-      setUserType(localStorage.getItem('user-type') || 'TOURIST');
-    }, []);
-
+  const ContentList: React.FC<{
+    dataList: any;
+    type: ServiceType;
+    userType: string;
+  }> = ({ userType, dataList, type }) => {
     return (
       <List
         itemLayout='vertical'
@@ -176,29 +300,97 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     );
   };
 
+  const SubscribeList: React.FC<{ userType: string }> = ({ userType }) => {
+    return (
+      <List
+        itemLayout='horizontal'
+        pagination={{
+          onChange: page => {
+            setSubscribeCurrent(page);
+          },
+          pageSize: 4,
+          total: subscribeFetch.data.allPages
+        }}
+        dataSource={subscribeFetch.data.services}
+        renderItem={(item: any) => {
+          return (
+            // <Link href={`/admin/service/edit/${item.srid}`}>
+            <List.Item
+              key={item.srid + item.title}
+              actions={[
+                <Link
+                  href={`/admin/service/subscribe/${item.srid}`}
+                  key={item.srid + item.title}
+                >
+                  <Button style={{ color: '#6DC570' }}>View</Button>
+                </Link>
+              ]}
+            >
+              <List.Item.Meta
+                avatar={
+                  <UserOutlined
+                    style={{ fontSize: '3rem', color: '#6DC570' }}
+                  />
+                }
+                title={<div>{`${item.name}  -  ${item.service_name}`}</div>}
+                description={
+                  <div>
+                    {item.detail.length > 50
+                      ? item.detail
+                      : item.detail.slice(0, 50)}
+                  </div>
+                }
+              />
+              {item.detail_slice}
+            </List.Item>
+            // </Link>
+          );
+        }}
+      />
+    );
+  };
+
   const items: TabsProps['items'] = [
     {
       key: 'FIXED',
-      label: <div id={style.tabTitle}>Fixed Service</div>,
+      label: (
+        <div id={style.tabTitle}>
+          <ShopOutlined style={{ marginRight: '0.5rem' }} />
+          Fixed Service
+        </div>
+      ),
       children: (
         <Spin spinning={fixedFetch.isLoading} size='large'>
           {fixedFetch.isLoading ? (
             <div></div>
           ) : (
-            <ContentList dataList={fixedFetch.data.services} type='FIXED' />
+            <ContentList
+              dataList={fixedFetch.data.services}
+              type='FIXED'
+              userType={userType}
+            />
           )}
         </Spin>
       )
     },
     {
       key: 'ONDOOR',
-      label: <div id={style.tabTitle}>Ondoor Service</div>,
+      label: (
+        <div id={style.tabTitle}>
+          <ToolOutlined style={{ marginRight: '0.5rem' }} />
+          Ondoor Service
+        </div>
+      ),
       children: (
         <Spin spinning={fixedFetch.isLoading} size='large'>
           {fixedFetch.isLoading ? (
             <div></div>
           ) : (
-            <ContentList dataList={onDoorFetch.data.services} type='ONDOOR' />
+            <ContentList
+              dataList={onDoorFetch.data.services}
+              type='ONDOOR'
+              userType={userType}
+            />
           )}
         </Spin>
       )
@@ -207,9 +399,27 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
 
   if (isAdmin) {
     items.push({
+      key: 'SUBSCRIBE',
+      label: (
+        <div id={style.tabTitle}>
+          <ProfileOutlined style={{ marginRight: '0.5rem' }} />
+          Subscribtion
+        </div>
+      ),
+      children: (
+        <Spin spinning={subscribeFetch.isLoading} size='large'>
+          <SubscribeList userType={userType} />
+        </Spin>
+      )
+    });
+    items.push({
       key: 'ADDITION',
-      label: <div id={style.tabTitle}>Service Addition</div>,
-      children: 'Content of Tab Pane 3'
+      label: (
+        <div id={style.tabTitle}>
+          <PlusOutlined style={{ marginRight: '0.5rem' }} />
+          Service Addition
+        </div>
+      )
     });
   }
 
@@ -217,17 +427,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     setItemList(items);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   console.log(isAdmin);
-  //   if (isAdmin) {
-  //     items.push({
-  //       key: 'ADDITION',
-  //       label: <div id={style.tabTitle}>Service Addition</div>,
-  //       children: 'Content of Tab Pane 3'
-  //     });
-  //   }
-  // }, []);
 
   return (
     <div className={style.backgoundCard}>
