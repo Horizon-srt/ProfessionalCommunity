@@ -1,12 +1,17 @@
+'use client';
+
 import React from 'react';
 import AssistantCard from '@/components/AssistantCard';
 import UserInfoCard from '@/components/UserInfoCard';
-import Card from '../Card';
-import { Avatar } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
+import { UserManagement } from '../UserManagement';
+import { useStore } from '@/hooks/useStore';
 
 const SideBar: React.FC = () => {
-  return (
+  const userType = useStore(state => state.userType);
+  return true ? (
+    // return userType === 'ENTERPRISE' ? (
+    <UserManagement />
+  ) : (
     <div className='flex flex-col h-full justify-between'>
       {/* <div className='h-40 p-3 h-1/6'>
         <Card title='Personal'>

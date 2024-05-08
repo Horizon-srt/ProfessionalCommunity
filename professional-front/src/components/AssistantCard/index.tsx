@@ -13,13 +13,13 @@ interface AssistantCardProps {
 const AssistantCard: React.FC<AssistantCardProps> = () => {
   const isExpand = useStore(state => state.userInfoIsExpand);
 
-  const assistantCardIsExpandStyle = `${isExpand ? 'h-[12rem]' : 'h-[80rem]'}`;
+  const assistantCardIsExpandStyle = `${isExpand ? 'h-[40%]' : 'h-[80%]'}`;
   return (
     <div
       className={`p-3 justify-end transition-all ${assistantCardIsExpandStyle}`}
     >
       <Card title='AI'>
-        <div className='h-50 flex flex-col justify-between w-full'>
+        <div className='h-50 flex flex-col w-full justify-between'>
           <div className={`p-2 overflow-auto ${isExpand ? 'h-[3rem]' : ''}`}>
             <div className='flex flex-row'>
               <div>
@@ -35,7 +35,7 @@ const AssistantCard: React.FC<AssistantCardProps> = () => {
               </div>
             </div>
           </div>
-          <div className='h-[2.5rem]'>
+          <div className='h-[2.5rem] mb-3'>
             <TextArea />
           </div>
         </div>
