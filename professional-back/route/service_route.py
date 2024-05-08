@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from exts import db
+from model.user import User
 from model.address import Address, ServiceRecord
 from model.service import Service, FixedService, OndoorService
 
@@ -192,8 +193,11 @@ def create_service_router():
                     "detail_slice": service.detail.decode()[:50] if service.detail else None
                 }
                 services_data.append(service_data)
+                
+            total_services = services_query.count()
+            total_pages = (total_services + offset - 1) // offset
 
-            return jsonify(code=200, data={"services": services_data}, message="Services retrieved successfully"), 200
+            return jsonify(code=200, data={"services": services_data, "total_services": total_pages}, message="Services retrieved successfully"), 200
         except Exception as e:
             return jsonify(code=500, message=f"An error occurred while retrieving services: {str(e)}"), 500
 
@@ -329,8 +333,13 @@ def create_service_router():
     @jwt_required()
     def get_all_subscriptions():
         try:
+            # 解析请求参数
+            data = request.json
+            offset = int(data.get('offset', 0))
+            pageNum = int(data.get('pageNum', 1))
+          
             # 查询所有的服务记录
-            service_records = ServiceRecord.query.all()
+            service_records = ServiceRecord.query.limit(offset).offset((pageNum - 1) * offset).all()
 
             # 构造返回数据
             subscriptions = []
@@ -348,6 +357,7 @@ def create_service_router():
                 service_name = ""
                 detail = ""
                 time = record.time
+                srid = record.srid
                 if record.sid:
                     service = Service.query.get(record.sid)
                     if service:
@@ -361,6 +371,7 @@ def create_service_router():
                             detail = ondoor_service.line
 
                 subscription_data = {
+                    "srid": srid,
                     "building": building,
                     "unit": unit,
                     "room": room,
@@ -372,10 +383,75 @@ def create_service_router():
                     "time": time
                 }
                 subscriptions.append(subscription_data)
+                
+            total_subscribes = ServiceRecord.query.count()
+            total_pages = (total_subscribes + offset - 1) // offset
 
-            return jsonify(code=200, data={"subscriptions": subscriptions},
+            return jsonify(code=200, data={"subscriptions": subscriptions, "total_pages": total_pages},
                            message="All subscriptions retrieved successfully"), 200
         except Exception as e:
             return jsonify(code=500, message=f"An error occurred while retrieving all subscriptions: {str(e)}"), 500
+
+    @service_bp.route('/services/subscribe/<int:srid>', methods=['GET'])
+    @jwt_required()
+    def get_subscribe(srid):
+        try:
+            # 查询记录
+            record = ServiceRecord.query.get(srid)
+            if not record:
+                return jsonify(code=404, message="未找到服务记录"), 404
+
+            # 获取用户地址信息
+            user_address = Address.query.get(record.aid)
+            if not user_address:
+                return jsonify(code=404, message="未找到服务记录"), 404
+
+            # 获取地址详情
+            building = user_address.building
+            unit = user_address.unit
+            room = user_address.room
+            
+            # 查询用户
+            user = User.query.get(user_address.uid)
+            
+            # 获取用户头像
+            avator = user.avator
+
+            service_name = ""
+            detail = ""
+            cover = ""
+            time = record.time
+            srid = record.srid
+            if record.sid:
+                service = Service.query.get(record.sid)
+                if service:
+                    service_name = service.name
+                    cover = service.cover
+                    detail = service.detail.decode() if service.detail else ""
+                    fixed_service = FixedService.query.filter_by(sid=record.sid).first()
+                    if fixed_service:
+                        detail = fixed_service.location
+                    ondoor_service = OndoorService.query.filter_by(sid=record.sid).first()
+                    if ondoor_service:
+                        detail = ondoor_service.line
+
+            response_data = {
+                "srid": srid,
+                "avator": avator,
+                "cover": cover,
+                "building": building,
+                "unit": unit,
+                "room": room,
+                "name": user_address.user.name if user_address.user else "",
+                "service_name": service_name,
+                "phone": user_address.user.phone if user_address.user else "",
+                "line": ondoor_service.line if ondoor_service else "",
+                "detail": detail,
+                "time": time
+            }
+
+            return jsonify(code=200, data=response_data, message="服务获取成功"), 200
+        except Exception as e:
+            return jsonify(code=500, message=f"获取服务时出现错误: {str(e)}"), 500
 
     return service_bp
