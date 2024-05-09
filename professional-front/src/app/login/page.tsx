@@ -6,6 +6,7 @@ import Image from 'next/image';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import router from 'next/router';
 import { ProvideMethod } from '@/types/data-types';
+import { useStore } from '@/hooks/useStore';
 
 const Login: React.FC = () => {
   const [pageState, setPageState] = useState('login');
@@ -47,10 +48,13 @@ const Login: React.FC = () => {
     }
   };
 
+  const setUserType = useStore(state => state.setUserType);
+
   useEffect(() => {
     if (data && data.jwt) {
       window.localStorage.setItem('pt-auth', data.jwt);
       window.localStorage.setItem('user-type', data.userType);
+      setUserType(data.userType);
       window.localStorage.setItem('user-id', data.uid);
       router.push(`/${data.userType.toLowerCase()}`);
     } else {
@@ -61,6 +65,8 @@ const Login: React.FC = () => {
   const onFinishFailed = (e: any) => {
     console.log(e);
   };
+
+  // const userType = useStore(state => state.userType);
 
   const LoginForm: React.FC = () => {
     return (
