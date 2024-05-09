@@ -1,10 +1,13 @@
 'use client';
 import Head from 'next/head';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/global.module.css';
 import { Button, Image } from 'antd';
 import { useThemeContext } from '@/components/ThemeProvider/themeContext';
+import { UserType } from '@/types/data-types';
+import { useStore } from '@/hooks/useStore';
+
 // import TopBar from '@/components/Topbar';
 // import useFetch from '@/libs/use-fetch';
 const inter = Inter({ subsets: ['latin'] });
@@ -22,6 +25,12 @@ export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { theme, toggleTheme } = useThemeContext();
 
+  const setStoreUserType = useStore(state => state.setUserType);
+  useEffect(() => {
+    setStoreUserType(
+      (localStorage.getItem('user-type') as UserType) || 'TOURIST'
+    );
+  }, []);
   return (
     <>
       <Head>

@@ -28,9 +28,10 @@ export const UserManagement = () => {
   const [isEnte, setIsEnte] = useState(false);
 
   const { data } = useFetch({
-    url: '/users/all',
+    url: '/users/diff_type',
     method: 'GET' as ProvideMethod,
     params: {
+      type: isEnte ? 'ENTERPRISE' : 'ADMIN',
       pageNum,
       offset
     }
@@ -125,7 +126,7 @@ export const UserManagement = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        forceRender
+        // forceRender
         okText={'Add'}
         cancelText={'Cancel'}
       >
@@ -190,7 +191,16 @@ export const UserManagement = () => {
         title={
           <div className='relative flex flex-row justify-between'>
             <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-            <div className='text-lg'>User Management</div>
+            <div className='text-md'>User Management</div>
+            <div>
+              <span className='mr-2 text-sm'>Enterprise/Admin:</span>
+              <Switch
+                className='ml-6'
+                value={isEnte}
+                onChange={value => setIsEnte(value)}
+              />
+            </div>
+
             <div
               className='text-green-500 text-lg cursor-pointer'
               onClick={showModal}
