@@ -500,7 +500,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
   const ReturnButton: React.FC = () => {
     return (
       <Button style={{ width: '7.5rem' }} onClick={() => router.back()}>
-        Return
+        Back
       </Button>
     );
   };

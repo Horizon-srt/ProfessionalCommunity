@@ -1,11 +1,44 @@
 'use client';
 import { AnounceItem } from '@/components/AnounceItem/AnounceItem';
 import Card from '@/components/Card';
-import React from 'react';
+import { usePagination } from '@/hooks/usePagination';
+import useFetch from '@/services/use-fetch';
+import { ProvideMethod } from '@/types/data-types';
+import { PlusSquareOutlined } from '@ant-design/icons';
+import { Pagination } from 'antd';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 const Tourist: React.FC = () => {
+  const [userType, setUserType] = useState('TOURIST');
+  const router = useRouter();
+
+  const { offset, pageNum, setCurrentPage } = usePagination({
+    offset: 10,
+    pageNum: 1
+  });
+  const { data } = useFetch({
+    url: '/notifies/all',
+    method: 'GET' as ProvideMethod,
+    params: {
+      pageNum,
+      offset
+    }
+  });
+  const mockData = [
+    {
+      nid: '11111',
+      title: 'aaa',
+      time: '2024-4-16',
+      content_slice: 'heoihilwjdlwkanlk'
+    }
+  ];
+
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
+
   return (
-    // <main>
     <div className='p-4 h-full'>
       <Card>
         <div className='w-full h-full flex flex-col'>
@@ -13,6 +46,11 @@ const Tourist: React.FC = () => {
             <div className='relative'>
               <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
               <div>News Anouncement</div>
+              <div onClick={() => router.push('/admin/notice/create')}>
+                <PlusSquareOutlined
+                  style={{ fontSize: '1rem', color: '#6DC570' }}
+                />
+              </div>
             </div>
             {/* <div className='text-green-500 text-sm mt-1'>
               <span className='text-green-500 mr-2 underline'>All News</span>
@@ -20,12 +58,22 @@ const Tourist: React.FC = () => {
             </div> */}
           </div>
           <div className='w-full h-full flex flex-col p-8'>
-            <AnounceItem />
-            <AnounceItem />
-            <AnounceItem />
-            <AnounceItem />
-            <AnounceItem />
+            {mockData.map(data => (
+              <AnounceItem
+                link={`/${userType.toLowerCase()}/notice/${data.nid}`}
+                data={data}
+                key={data.content_slice}
+              />
+            ))}
           </div>
+          <Pagination
+            defaultCurrent={1}
+            total={72}
+            current={pageNum}
+            onChange={page => {
+              setCurrentPage(page);
+            }}
+          />
         </div>
       </Card>
     </div>

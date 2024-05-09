@@ -5,9 +5,10 @@ import { usePagination } from '@/hooks/usePagination';
 import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { Pagination } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Tourist: React.FC = () => {
+  const [userType, setUserType] = useState('TOURIST');
   const { offset, pageNum, setCurrentPage } = usePagination({
     offset: 10,
     pageNum: 1
@@ -20,7 +21,6 @@ const Tourist: React.FC = () => {
       offset
     }
   });
-
   const mockData = [
     {
       nid: '11111',
@@ -29,6 +29,11 @@ const Tourist: React.FC = () => {
       content_slice: 'heoihilwjdlwkanlk'
     }
   ];
+
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
+
   return (
     <div className='p-4 h-full'>
       <Card>
@@ -45,7 +50,11 @@ const Tourist: React.FC = () => {
           </div>
           <div className='w-full h-full flex flex-col p-8'>
             {mockData.map(data => (
-              <AnounceItem data={data} />
+              <AnounceItem
+                link={`/${userType.toLowerCase()}/notice/${data.nid}`}
+                data={data}
+                key={data.content_slice}
+              />
             ))}
           </div>
           <Pagination
