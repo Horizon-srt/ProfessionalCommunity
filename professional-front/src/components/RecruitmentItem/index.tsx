@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { RecruitStatus } from './RecruitmentStatus';
 import { ProvideMethod, RecruitmentStatus } from '@/types/data-types';
+import { FilePdfOutlined } from '@ant-design/icons';
 
 interface IRecruitmentInfo {
   hid: string;
@@ -20,8 +21,11 @@ export const RecruitItem = ({
   deleteHire: (info: any) => void;
 }) => {
   return (
-    <div className={`p-3 px-6 flex flex-row justify-between relative`}>
-      <div className={`flex flex-row`}>
+    <div className={'p-3 px-6 flex flex-row justify-between relative'}>
+      <div className={'flex flex-row'}>
+        <div className='mr-3'>
+          <FilePdfOutlined />
+        </div>
         <div className='mr-6'>{rInfo.ename}</div>
         <div>{rInfo.title}</div>
       </div>

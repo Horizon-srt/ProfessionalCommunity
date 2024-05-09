@@ -1,11 +1,35 @@
 'use client';
 import { AnounceItem } from '@/components/AnounceItem/AnounceItem';
 import Card from '@/components/Card';
+import { usePagination } from '@/hooks/usePagination';
+import useFetch from '@/services/use-fetch';
+import { ProvideMethod } from '@/types/data-types';
+import { Pagination } from 'antd';
 import React from 'react';
 
 const Tourist: React.FC = () => {
+  const { offset, pageNum, setCurrentPage } = usePagination({
+    offset: 10,
+    pageNum: 1
+  });
+  const { data } = useFetch({
+    url: '/notifies/all',
+    method: 'GET' as ProvideMethod,
+    params: {
+      pageNum,
+      offset
+    }
+  });
+
+  const mockData = [
+    {
+      nid: '11111',
+      title: 'aaa',
+      time: '2024-4-16',
+      content_slice: 'heoihilwjdlwkanlk'
+    }
+  ];
   return (
-    // <main>
     <div className='p-4 h-full'>
       <Card>
         <div className='w-full h-full flex flex-col'>
@@ -20,12 +44,18 @@ const Tourist: React.FC = () => {
             </div> */}
           </div>
           <div className='w-full h-full flex flex-col p-8'>
-            <AnounceItem />
-            <AnounceItem />
-            <AnounceItem />
-            <AnounceItem />
-            <AnounceItem />
+            {mockData.map(data => (
+              <AnounceItem data={data} />
+            ))}
           </div>
+          <Pagination
+            defaultCurrent={1}
+            total={72}
+            current={pageNum}
+            onChange={page => {
+              setCurrentPage(page);
+            }}
+          />
         </div>
       </Card>
     </div>
