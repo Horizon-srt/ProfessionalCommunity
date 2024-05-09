@@ -1,0 +1,13 @@
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 72vw;
+}
+
+.smallLayout {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

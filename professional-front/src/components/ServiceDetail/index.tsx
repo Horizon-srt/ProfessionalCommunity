@@ -53,7 +53,7 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
       'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
     available: '6:00 - 22:00',
     detail: 'qwertyuiopasdfghjklzxcvbnm',
-    type: 'ONDOOR',
+    type: 'FIXED',
     location: 'Teaching Building 4',
     map: '/mock_map.jpg',
     video: '/default_video.mp4',

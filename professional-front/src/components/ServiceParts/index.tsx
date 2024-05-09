@@ -34,6 +34,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
 
   useEffect(() => {
     setUserType(localStorage.getItem('user-type') || 'TOURIST');
+    console.log('dadadadad');
   }, []);
 
   // const fixedFetch = useFetch({
@@ -403,7 +404,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
       label: (
         <div id={style.tabTitle}>
           <ProfileOutlined style={{ marginRight: '0.5rem' }} />
-          Subscribtion
+          Subscription
         </div>
       ),
       children: (
