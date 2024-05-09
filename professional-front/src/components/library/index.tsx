@@ -9,7 +9,6 @@ import { Menu } from 'antd';
 const Library: React.FC = () => {
   const [associatedValue, setAssociatedValue] = useState('');
   const pathname = usePathname();
-  console.log(pathname);
   const router = useRouter();
   const list: any[] = [];
   for (let i = 1; i < 40; i += 1) {
@@ -25,7 +24,6 @@ const Library: React.FC = () => {
     });
   }
   const [filterparamList, setFilterParamList] = useState(list);
-  // console.log(params.get(list[1]));
   const items: MenuProps['items'] = [
     {
       label: 'Science',
@@ -104,15 +102,15 @@ const Library: React.FC = () => {
         className={styles.list}
         rowKey='id'
         grid={{
-          gutter: 16,
+          gutter: 10,
           xs: 1,
           sm: 2,
           md: 3,
           lg: 3,
-          xl: 8,
-          xxl: 8
+          xl: 5,
+          xxl: 5
         }}
-        pagination={{ position: 'bottom', align: 'center', pageSize: 16 }}
+        pagination={{ position: 'bottom', align: 'center', pageSize: 10 }}
         dataSource={
           pathname === '/admin/ebook'
             ? [{}, ...filterparamList]
