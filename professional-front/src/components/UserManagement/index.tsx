@@ -19,6 +19,7 @@ import { RecruitItem } from '../RecruitmentItem';
 import { UserItem } from './UserItem';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
+import { md5 } from 'js-md5';
 
 export const UserManagement = () => {
   const { offset, pageNum, setCurrentPage } = usePagination({
@@ -73,7 +74,11 @@ export const UserManagement = () => {
   };
 
   const handleOk = () => {
-    const newParams = { ...form.getFieldsValue(), ...{ avator: imageUrl } };
+    const newParams = {
+      ...form.getFieldsValue(),
+      ...{ avator: imageUrl },
+      password: md5(form.getFieldValue('password'))
+    };
     register({ ...defaultRegParams, ...{ params: newParams } });
     setIsModalOpen(false);
   };

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { useRouter } from 'next/navigation';
+import { md5 } from 'js-md5';
 // import { useStore } from '@/hooks/useStore';
 
 const Login: React.FC = () => {
@@ -37,7 +38,10 @@ const Login: React.FC = () => {
 
   const onFinish = async (values: any) => {
     if (pageState === 'login') {
-      login({ ...defaultLoginParams, params: values });
+      login({
+        ...defaultLoginParams,
+        params: { ...values, password: md5(values.password) }
+      });
     } else {
       // 记得改下
       // setFetchParam({
@@ -48,7 +52,12 @@ const Login: React.FC = () => {
       console.log('register');
       register({
         ...defaultRegisterParams,
-        params: { ...values, avator: '', proof: '' }
+        params: {
+          ...values,
+          password: md5(values.password),
+          avator: '',
+          proof: ''
+        }
       });
     }
   };
@@ -71,8 +80,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     console.log(registerData, registerError, registerIsMutating);
     if (!registerIsMutating && registerError) {
-      console.log('Error: ' + registerError);
-      // message.error(registerError);
+      message.error(registerError);
     } else if (!registerIsMutating && registerData && registerData.jwt) {
       console.log(registerData);
       window.localStorage.setItem('pt-auth', registerData.jwt);
