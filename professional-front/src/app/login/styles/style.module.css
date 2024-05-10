@@ -49,7 +49,7 @@
 .rectangleContent .inputArea .inputStyle {
   background-color: transparent;
   background-color: transparent;
-  color: white;
+  color: black;
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
@@ -62,7 +62,7 @@
 .rectangleContent .inputArea .inputStyle:hover {
   background-color: transparent;
   background-color: transparent;
-  color: white;
+  color: black;
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
@@ -74,7 +74,7 @@
 .rectangleContent .inputArea .inputStyle:focus {
   background-color: transparent;
   background-color: transparent;
-  color: white;
+  color: black;
   box-shadow: 0 0 0 0;
   border-top: 0px;
   border-left: 0px;
@@ -87,7 +87,7 @@
 .rectangleContent .inputArea .inputStyle:focus-within {
   background-color: transparent;
   background-color: transparent;
-  color: white;
+  color: black;
   box-shadow: 0 0 0 0;
   border-top: 0px;
   border-left: 0px;
