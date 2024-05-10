@@ -149,7 +149,7 @@ def create_user_router():
             # 返回错误信息
             return jsonify(code=500, message="An error occurred while registering enterprise user: " + str(e)), 500
 
-    @user_bp.route('/login', methods=['GET'])
+    @user_bp.route('/login', methods=['POST'])
     def login():
         data = request.json
         user = User.query.filter_by(email=data['account']).first()
@@ -170,7 +170,7 @@ def create_user_router():
         # 检查用户角色
         user_role = check_user_role(user.uid)
 
-        return jsonify(code=200, data={'jwt': access_token, 'uid': user.uid, 'role': user_role}, message="登录成功")
+        return jsonify(code=200, data={'jwt': access_token, 'uid': user.uid, 'type': user_role}, message="登录成功")
 
     @user_bp.route('/users/<int:uid>', methods=['GET'])
     @jwt_required()

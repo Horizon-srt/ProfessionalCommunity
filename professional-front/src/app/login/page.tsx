@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
 import style from '@/app/login/styles/style.module.css';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import Image from 'next/image';
-import useFetch, { useFetchMutation } from '@/services/use-fetch';
-import router from 'next/router';
+import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
-import { useStore } from '@/hooks/useStore';
+import { useRouter } from 'next/navigation';
+// import { useStore } from '@/hooks/useStore';
 
 const Login: React.FC = () => {
   const [pageState, setPageState] = useState('login');
@@ -19,7 +20,7 @@ const Login: React.FC = () => {
     data,
     error,
     trigger: login,
-    isMutate
+    isMutating: loginIsMutating
   } = useFetchMutation(defaultLoginParams);
 
   const defaultRegisterParams = {
@@ -31,7 +32,7 @@ const Login: React.FC = () => {
     data: registerData,
     error: registerError,
     trigger: register,
-    isMutate: registerIsMutate
+    isMutating: registerIsMutating
   } = useFetchMutation(defaultRegisterParams);
 
   const onFinish = async (values: any) => {
@@ -44,23 +45,43 @@ const Login: React.FC = () => {
       //   method: 'POST',
       //   params: values
       // });
-      register({ ...defaultRegisterParams, params: values });
+      console.log('register');
+      register({
+        ...defaultRegisterParams,
+        params: { ...values, avator: '', proof: '' }
+      });
     }
   };
 
-  const setUserType = useStore(state => state.setUserType);
+  // const setUserType = useStore(state => state.setUserType);
+  const router = useRouter();
 
   useEffect(() => {
-    if (data && data.jwt) {
+    if (!loginIsMutating && error) {
+      message.error(error);
+    } else if (!loginIsMutating && data && data.jwt) {
       window.localStorage.setItem('pt-auth', data.jwt);
-      window.localStorage.setItem('user-type', data.userType);
-      setUserType(data.userType);
+      window.localStorage.setItem('user-type', data.type);
+      // setUserType(data.userType);
       window.localStorage.setItem('user-id', data.uid);
-      router.push(`/${data.userType.toLowerCase()}`);
-    } else {
-      console.log(error);
+      router.push(`/${data.type.toLowerCase()}/main`);
     }
-  }, [data, error]);
+  }, [data, error, loginIsMutating]);
+
+  useEffect(() => {
+    console.log(registerData, registerError, registerIsMutating);
+    if (!registerIsMutating && registerError) {
+      console.log('Error: ' + registerError);
+      // message.error(registerError);
+    } else if (!registerIsMutating && registerData && registerData.jwt) {
+      console.log(registerData);
+      window.localStorage.setItem('pt-auth', registerData.jwt);
+      window.localStorage.setItem('user-type', registerData.type);
+      // setUserType(data.userType);
+      window.localStorage.setItem('user-id', registerData.uid);
+      router.push(`/${registerData.type.toLowerCase()}/main`);
+    }
+  }, [registerData, registerError, registerIsMutating]);
 
   const onFinishFailed = (e: any) => {
     console.log(e);
@@ -79,12 +100,9 @@ const Login: React.FC = () => {
         <div className={style.inputArea}>
           <Form.Item
             name='account'
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            rules={[{ required: true, message: 'Please input your account!' }]}
           >
-            <Input
-              className={style.inputStyle}
-              placeholder={'Username/e-mail/phone'}
-            />
+            <Input className={style.inputStyle} placeholder={'e-mail/phone'} />
           </Form.Item>
           <Form.Item
             name='password'
@@ -129,7 +147,11 @@ const Login: React.FC = () => {
           <Form.Item
             name='password'
             rules={[
-              { required: true, message: 'Please input your username!', len: 6 }
+              {
+                required: true,
+                message: 'Please input your password, no less than 6!',
+                min: 6
+              }
             ]}
           >
             <Input.Password
@@ -142,7 +164,7 @@ const Login: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: 'Please input your email!',
                 type: 'email'
               }
             ]}
@@ -154,7 +176,7 @@ const Login: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!'
+                message: 'Please input your phone!'
                 // type: 'number'
               }
             ]}
@@ -166,9 +188,8 @@ const Login: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: 'Please input your building!'
                 // type: 'number',
-                len: 10
               }
             ]}
           >
@@ -179,9 +200,9 @@ const Login: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: 'Please input your unit!'
                 // type: 'number',
-                len: 10
+                // len: 10
               }
             ]}
           >
@@ -192,9 +213,9 @@ const Login: React.FC = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!',
+                message: 'Please input your room!'
                 // type: 'number',
-                len: 10
+                // len: 10
               }
             ]}
           >
