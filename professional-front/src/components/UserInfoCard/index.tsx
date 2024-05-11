@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
+  App,
   Avatar,
   Button,
   Divider,
@@ -16,6 +17,7 @@ import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { useStore } from '@/hooks/useStore';
 import Card from '../Card';
+import { FileType, getAntdFormErrorMessage, getBase64 } from '@/utils/utils';
 // import Card from '@/components/Card';
 
 interface UserInfoCardProps {
@@ -30,7 +32,6 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
 
   const isExpand = useStore(state => state.userInfoIsExpand);
 
-  const switchExpand = useStore(state => state.switchExpand);
   const userInfoExpandStlye = `
   ${isExpand ? 'h-[65%]' : 'h-[40%]'}`;
 
@@ -40,22 +41,26 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
     params: {}
   };
 
-  const { error: updateError, trigger: change } =
+  // 更改资料
+  const { error: updateError, trigger: updatePersonal } =
     useFetchMutation(defaultChangeParams);
 
-  const { data, isLoading, error } = useFetch({
-    url: `/users/${uid}`,
-    method: 'GET',
-    params: {}
-  });
+  // personal data
+  const { data, isLoading, error } = useFetch(
+    uid
+      ? {
+          url: `/users/${uid}`,
+          method: 'GET',
+          params: {}
+        }
+      : null
+  );
 
   const onFinish = async (values: any) => {
-    console.log(values);
-    change({
+    updatePersonal({
       ...defaultChangeParams,
       params: {
         ...values,
-        // TODO: 转换文件到base64并发送
         proof: values.status,
         status: ''
       }
@@ -63,17 +68,24 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   };
 
   const onFinishFailed = (e: any) => {
-    // console.log('!!!' + e);
-    message.error(e);
+    // message.error(e)
+    message.error(getAntdFormErrorMessage(e));
   };
 
   const beforeUploadPdf = (file: any) => {
-    const isPdf = file.type === 'application/pdf';
-    if (!isPdf) {
-      message.error('You can only upload PDF file!');
-      return;
-    }
-    return isPdf;
+    setFileParsing(true);
+
+    getBase64(file as FileType, url => {
+      setFileParsing(false);
+      form.setFieldValue('status', url);
+    });
+    return false;
+    // const isPdf = file.type === 'application/pdf';
+    // if (!isPdf) {
+    //   message.error('You can only upload PDF file!');
+    //   return;
+    // }
+    // return isPdf;
   };
 
   useEffect(() => {
@@ -88,26 +100,13 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   }, [data, isLoading, error]);
 
   useEffect(() => {
-    message.error('Updata failed');
+    message.error('Update failed');
   }, [updateError]);
 
+  // 文件没解析完
+  const [fileParsing, setFileParsing] = useState(false);
+
   return (
-    // <div className='h-40 p-3 h-1/6'>
-    //   <Card title='Personal'>
-    //     <div className='flex flex-row w-full bg-white dark:bg-black h-8'>
-    //       <div className='w-3/12'>
-    //         <Avatar />
-    //       </div>
-    //       <div className='w-9/12 flex flex-col'>
-    //         <div className='text-base text-right font-bold'>San Zhang</div>
-    //         <div className='text-sm text-right text-gray-400'>
-    //           Owner of Room 323, Unit 1, No. 14
-    //         </div>
-    //         <Divider />
-    //       </div>
-    //     </div>
-    //   </Card>
-    // </div>
     <div className={`p-3 transition-all ${userInfoExpandStlye}`}>
       <Card title='Personal' className='h-[80%]'>
         <div className='h-full flex flex-col w-full'>
@@ -116,7 +115,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
               <Avatar />
             </div>
             <div className='w-9/12 flex flex-col'>
-              <div className='text-base text-right font-bold'>San Zhang</div>
+              <div className='text-base text-right font-bold'>{data?.name}</div>
               <div className='text-sm text-right text-gray-400'>
                 Owner of Room 323, Unit 1, No. 14
               </div>
@@ -126,7 +125,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
           <div className='overflow-scroll h-[60%]'>
             <div className={!isExpand ? 'hidden' : 'bg-transparent'}>
               <div className={style.formStyle}>
-                <Spin spinning={isLoading || error}>
+                <Spin spinning={isLoading}>
                   <Form
                     form={form}
                     onFinish={onFinish}
@@ -227,9 +226,13 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
                           <Upload
                             multiple={false}
                             maxCount={1}
+                            accept='application/pdf'
                             beforeUpload={beforeUploadPdf}
                           >
-                            <Button icon={<UploadOutlined />}>
+                            <Button
+                              icon={<UploadOutlined />}
+                              disabled={isLoading}
+                            >
                               Click to Upload
                             </Button>
                           </Upload>
@@ -252,11 +255,12 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
                           }}
                           onClick={() => setIsEditing(false)}
                         >
-                          Cancle
+                          Cancel
                         </Button>
                       </Form.Item>
                       <Form.Item style={{ marginBottom: '0px' }}>
                         <Button
+                          loading={fileParsing}
                           style={{
                             backgroundColor: '#6DC570',
                             color: '#16A609',

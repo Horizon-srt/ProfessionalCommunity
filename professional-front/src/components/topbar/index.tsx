@@ -30,7 +30,7 @@ const TopBar: React.FC = () => {
   useEffect(() => {
     setType(localStorage.getItem('user-type') || 'TOURIST');
     const jwt = localStorage.getItem('pt-auth') || '';
-    console.log(jwt);
+    // console.log(jwt);
     if (jwt !== '') {
       setIsLogined(true);
     }

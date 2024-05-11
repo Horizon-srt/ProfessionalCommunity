@@ -69,7 +69,7 @@ const Login: React.FC = () => {
     if (!loginIsMutating && error) {
       message.error(error);
     } else if (!loginIsMutating && data && data.jwt) {
-      window.localStorage.setItem('pt-auth', data.jwt);
+      window.localStorage.setItem('pt-auth', `Bearer ${data.jwt}`);
       window.localStorage.setItem('user-type', data.type);
       // setUserType(data.userType);
       window.localStorage.setItem('user-id', data.uid);

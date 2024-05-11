@@ -3,6 +3,7 @@ import { Card, List, Spin } from 'antd';
 import Link from 'next/link';
 // import useFetch from '@/services/use-fetch';
 import style from '@/components/TopReading/styles/style.module.css';
+import useFetch from '@/services/use-fetch';
 
 interface ImageCarouselProps {
   width: string;
@@ -15,63 +16,63 @@ const TopReading: React.FC<ImageCarouselProps> = ({ width, height }) => {
     setTypes(localStorage.getItem('user-type') || 'TOURIST');
   }, []);
 
-  // const { data, isLoading } = useFetch({
-  //   url: '/education/ebook/search/recommand',
-  //   method: 'GET',
-  //   params: {
-  //     offset: 6,
-  //     pageNumber: 1
-  //   }
-  // });
+  const { data, isLoading } = useFetch({
+    url: '/education/ebook/search/recommand',
+    method: 'GET',
+    params: {
+      offset: 6,
+      pageNumber: 1
+    }
+  });
 
-  const data = {
-    ebooks: [
-      {
-        bid: '1',
-        name: 'string',
-        description: 'string',
-        cover: 'string',
-        label: 'LabelType'
-      },
-      {
-        bid: '1',
-        name: 'string',
-        description: 'string',
-        cover: 'string',
-        label: 'LabelType'
-      },
-      {
-        bid: '1',
-        name: 'string',
-        description: 'string',
-        cover: 'string',
-        label: 'LabelType'
-      },
-      {
-        bid: '1',
-        name: 'string',
-        description: 'string',
-        cover: 'string',
-        label: 'LabelType'
-      },
-      {
-        bid: '1',
-        name: 'string',
-        description: 'string',
-        cover: 'string',
-        label: 'LabelType'
-      },
-      {
-        bid: '1',
-        name: 'string',
-        description: 'string',
-        cover: 'string',
-        label: 'LabelType'
-      }
-    ]
-  };
+  // const data = {
+  //   ebooks: [
+  //     {
+  //       bid: '1',
+  //       name: 'string',
+  //       description: 'string',
+  //       cover: 'string',
+  //       label: 'LabelType'
+  //     },
+  //     {
+  //       bid: '1',
+  //       name: 'string',
+  //       description: 'string',
+  //       cover: 'string',
+  //       label: 'LabelType'
+  //     },
+  //     {
+  //       bid: '1',
+  //       name: 'string',
+  //       description: 'string',
+  //       cover: 'string',
+  //       label: 'LabelType'
+  //     },
+  //     {
+  //       bid: '1',
+  //       name: 'string',
+  //       description: 'string',
+  //       cover: 'string',
+  //       label: 'LabelType'
+  //     },
+  //     {
+  //       bid: '1',
+  //       name: 'string',
+  //       description: 'string',
+  //       cover: 'string',
+  //       label: 'LabelType'
+  //     },
+  //     {
+  //       bid: '1',
+  //       name: 'string',
+  //       description: 'string',
+  //       cover: 'string',
+  //       label: 'LabelType'
+  //     }
+  //   ]
+  // };
 
-  const isLoading = false;
+  // const isLoading = false;
 
   return (
     <Card
@@ -97,7 +98,7 @@ const TopReading: React.FC<ImageCarouselProps> = ({ width, height }) => {
           <div></div>
         ) : (
           <List
-            dataSource={data.ebooks}
+            dataSource={data?.ebooks || []}
             renderItem={(item: any, index) => {
               return (
                 <List.Item

@@ -20,6 +20,7 @@ import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { PlusOutlined } from '@ant-design/icons';
 import { ProvideMethod } from '@/types/data-types';
 import { useRouter } from 'next/navigation';
+import { FileType, getAntdFormErrorMessage, getBase64 } from '@/utils/utils';
 
 interface ServiceEditProps {
   title: string;
@@ -30,6 +31,8 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
   const [cover, setCover] = useState<string | ArrayBuffer>('');
   const [map, setMap] = useState<string | ArrayBuffer>('');
   const [video, setVideo] = useState<string | ArrayBuffer>('');
+
+  const [form] = Form.useForm();
 
   const router = useRouter();
 
@@ -69,27 +72,19 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
     trigger: deleteService
   } = useFetchMutation(defaultDeleteParams);
 
-  const beforeUploadImg = (file: any) => {
+  const beforeUploadImg = (file: any, formFieldKey: string) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
-      return;
-    }
-    return isJpgOrPng;
+    getBase64(file as FileType, url => {
+      form.setFieldValue(formFieldKey, url);
+    });
+    return false;
   };
 
   const beforeUploadVideo = (file: any) => {
-    const isMp4 = file.type === 'video/mp4';
-    if (!isMp4) {
-      message.error('You can only upload MP4 file!');
-      return;
-    }
-    const isLt50M = file.size / 1024 / 1024 < 50;
-    if (!isLt50M) {
-      message.error('Image must smaller than 50MB!');
-      return;
-    }
-    return isMp4;
+    getBase64(file as FileType, url => {
+      form.setFieldValue('video', url);
+    });
+    return false;
   };
 
   // const handleCover = async (info: any) => {
@@ -128,22 +123,25 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
     const finalValue = {
       ...values,
       // TODO: 视频还没转成base64
-      cover: values.cover?.thumbUrl ? values.cover.thumbUrl : '',
-      map: values.map?.thumbUrl ? values.map.thumbUrl : '',
-      video: values.video?.thumbUrl ? values.video.thumbUrl : ''
+      // cover: values.cover?.thumbUrl ? values.cover.thumbUrl : '',
+      // map: values.map?.thumbUrl ? values.map.thumbUrl : '',
+      // video: values.video?.thumbUrl ? values.video.thumbUrl : ''
+      cover: form.getFieldValue('cover'),
+      map: form.getFieldValue('map'),
+      video: form.getFieldValue('video')
     };
 
     console.log(finalValue);
 
-    // if (sid !== '-1') {
-    //   changeService({ ...defaultChangeParams, params: finalValue });
-    // } else {
-    //   createService({ ...defaultCreateParams, params: finalValue });
-    // }
+    if (sid !== '-1') {
+      changeService({ ...defaultChangeParams, params: finalValue });
+    } else {
+      createService({ ...defaultCreateParams, params: finalValue });
+    }
   };
 
   const onFinishFailed = async (e: any) => {
-    message.error(e);
+    message.error(getAntdFormErrorMessage(e));
   };
 
   const CreateForm: React.FC = () => {
@@ -154,6 +152,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
         onFinish={onCreateFinish}
         onFinishFailed={onFinishFailed}
         layout='vertical'
+        form={form}
       >
         <Form.Item
           name={'name'}
@@ -186,11 +185,12 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
           getValueFromEvent={normFile}
         >
           <Upload
+            accept='image/png, image/jpeg'
             // action='/upload.do'
             listType='picture-card'
             multiple={false}
             maxCount={1}
-            beforeUpload={beforeUploadImg}
+            beforeUpload={f => beforeUploadImg(f, 'cover')}
             // onChange={handleCover}
           >
             <button style={{ border: 0, background: 'none' }} type='button'>
@@ -236,7 +236,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
                 listType='picture-card'
                 multiple={false}
                 maxCount={1}
-                beforeUpload={beforeUploadImg}
+                beforeUpload={f => beforeUploadImg(f, 'map')}
                 // onChange={handleMap}
               >
                 <button style={{ border: 0, background: 'none' }} type='button'>
@@ -253,6 +253,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
             >
               <Upload
                 // action='/upload.do'
+                accept='video/mp4'
                 listType='picture-card'
                 multiple={false}
                 maxCount={1}
