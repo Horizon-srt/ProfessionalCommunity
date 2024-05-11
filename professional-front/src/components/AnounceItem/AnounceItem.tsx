@@ -24,7 +24,12 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
     params: {}
   };
 
-  const { trigger, isMutating, error } = useFetchMutation(defaultParams);
+  const {
+    trigger,
+    isMutating,
+    error,
+    data: deleteRes
+  } = useFetchMutation(defaultParams);
 
   const handleClick = () => {
     trigger(defaultParams);
@@ -33,10 +38,10 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
   useEffect(() => {
     if (!isMutating && error) {
       message.error(error);
-    } else if (!isMutating) {
+    } else if (!isMutating && deleteRes) {
       message.info('Delete successful!');
     }
-  }, [isMutating, error]);
+  }, [isMutating, error, deleteRes]);
 
   return (
     <Link href={link}>
@@ -48,14 +53,14 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
             {`${year}-${month}`}
           </div>
         </div>
-        <div className='mt-3 dark:text-white'>{data.content_slice}</div>
-        {link.split('/')[1] === 'admin' ? (
-          <div onClick={handleClick}>
-            <RestOutlined style={{ fontSize: '1rem' }} />
-          </div>
-        ) : (
-          <></>
-        )}
+        <div className='mt-3 dark:text-white'>
+          {data.content_slice}
+          {link.split('/')[1] === 'admin' ? (
+            <RestOutlined onClick={handleClick} style={{ fontSize: '1rem' }} />
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </Link>
   );

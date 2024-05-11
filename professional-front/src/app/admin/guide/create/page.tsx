@@ -49,7 +49,8 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     // }
   };
   const onFinishFailed = async (e: any) => {
-    message.error(e);
+    console.log(e);
+    // message.error(e);
   };
   type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 

@@ -16,7 +16,8 @@ const FloatSwitch: React.FC = () => {
   const switchExpand = useStore(state => state.switchExpand);
   const isExpand = useStore(state => state.userInfoIsExpand);
 
-  const userType = useStore(state => state.userType);
+  // const userType = useStore(state => state.userType);
+  const userType = localStorage.getItem('user-type');
   return (
     <FloatButton.Group trigger='hover' type='primary' icon={<PlusOutlined />}>
       <FloatButton

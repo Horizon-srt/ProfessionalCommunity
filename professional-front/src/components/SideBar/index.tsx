@@ -8,7 +8,7 @@ import { useStore } from '@/hooks/useStore';
 
 const SideBar: React.FC = () => {
   const userType = useStore(state => state.userType);
-  return userType === 'ENTERPRISE' ? (
+  return userType === 'ENTERPRISE' || userType === 'ADMIN' ? (
     <UserManagement />
   ) : (
     <div className='flex flex-col h-full justify-between'>
