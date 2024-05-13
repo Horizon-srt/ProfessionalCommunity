@@ -20,7 +20,7 @@ jwt = JWTManager(app)
 
 # 设置数据库连接
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:liunb0905@localhost:3306/professional'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/professional?charset=utf8mb4'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Sunrt20021023@localhost:3306/professional?charset=utf8mb4'
 db.init_app(app)
 
 # 创建蓝图
