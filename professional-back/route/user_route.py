@@ -186,6 +186,17 @@ def create_user_router():
         user = User.query.get(uid)
         if not user:
             return jsonify({"msg": "User not found"}), 404
+          
+        user_address = {
+            "building": "",
+            "room": "",
+            "unit": ""
+        }
+          
+        # 查询用户住址信息
+        address = Address.query.filter(Address.uid == uid).first();
+        if address:
+            user_address = address
 
         # 构建基础用户信息字典
         user_info = {
@@ -193,7 +204,10 @@ def create_user_router():
             "name": user.name,
             "email": user.email,
             "phone": user.phone,
-            "avator": user.avator.decode()
+            "avator": user.avator.decode(),
+            "building": user_address.building,
+            "room": user_address.room,
+            "unit": user_address.unit
         }
 
         # 查询普通用户信息
@@ -266,6 +280,9 @@ def create_user_router():
             user = User.query.get(uid)
             if not user:
                 return jsonify(code=404, message="User not found"), 404
+              
+            # 获取用户地址
+            address = Address.query.filter(Address.uid == uid).first()
 
             # 解析请求参数
             params = request.json
@@ -282,6 +299,12 @@ def create_user_router():
                 user.phone = params['phone']
             if 'avator' in params:
                 user.avator = params['avator'].encode()
+            if ('building' in params) and address:
+                address.building = params['building']
+            if ('unit' in params) and address:
+                address.unit = params['unit']
+            if ('room' in params) and address:
+                address.room = params['room']
             if 'password_pre' in params and 'password_cur' in params:
                 if user.password == params['password_pre']:
                     user.password = params['password_cur']
@@ -313,7 +336,10 @@ def create_user_router():
                 "avator": user.avator.decode(),
                 "proof": normal_user.proof.decode() if normal_user else None,
                 "status": getattr(normal_user, 'status', None) if user_role == "Admin" else None,
-                "ename": getattr(enterprise_user, 'ename', None) if user_role == "EnterpriseUser" else None
+                "ename": getattr(enterprise_user, 'ename', None) if user_role == "EnterpriseUser" else None,
+                "building": address.building,
+                "unit": address.unit,
+                "room": address.room
             }
 
         except Exception as e:

@@ -15,7 +15,6 @@ const FloatSwitch: React.FC = () => {
   const { theme, toggleTheme } = useThemeContext();
   const switchExpand = useStore(state => state.switchExpand);
   const isExpand = useStore(state => state.userInfoIsExpand);
-
   const [userType, setUserType] = useState('TOURIST');
 
   useEffect(() => {
