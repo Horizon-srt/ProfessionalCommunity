@@ -105,12 +105,12 @@ def create_ebook_router():
                 ebook.cover = data['cover'].encode() if data['cover'] else None
 
             # 更新标签
-            if 'label' in data:
+            if 'labels' in data:
                 # 删除现有标签
                 LabelEbook.query.filter_by(bid=bid).delete()
                 db.session.commit()
 
-                labels = data['label']
+                labels = data['labels']
                 if labels:
                     for label in labels:
                         label_entry = LabelEbook(bid=bid, label=label)
@@ -126,7 +126,7 @@ def create_ebook_router():
                 'detail': ebook.detail,
                 'content': ebook.content.decode() if ebook.content else None,
                 'cover': ebook.cover.decode() if ebook.cover else None,
-                'label': [label.label for label in LabelEbook.query.filter_by(bid=bid)]
+                'labels': [label.label for label in LabelEbook.query.filter_by(bid=bid)]
             }
 
             return jsonify(code=200, data=response_data, message="Ebook information updated successfully"), 200
@@ -146,7 +146,7 @@ def create_ebook_router():
             query = db.session.query(Ebook).join(LabelEbook, Ebook.bid == LabelEbook.bid)
 
             if labels:
-                query = query.filter(LabelEbook.label.in_(labels))
+                query = query.filter(LabelEbook.label ==labels)
 
             total_count = query.count()
             allPages = (total_count + offset - 1) // offset if offset else 0
@@ -158,7 +158,7 @@ def create_ebook_router():
                     'name': ebook.name,
                     'description': ebook.description.decode(),
                     'cover': ebook.cover.decode() if ebook.cover else None,
-                    'label': [label.label for label in LabelEbook.query.filter_by(bid=ebook.bid)]
+                    'labels': [label.label for label in LabelEbook.query.filter_by(bid=ebook.bid)]
                 } for ebook in ebooks],
                 'allPages': allPages
             }
@@ -194,7 +194,7 @@ def create_ebook_router():
                     'name': ebook.name,
                     'description': ebook.description.decode() if ebook.description else None,
                     'cover': ebook.cover.decode() if ebook.cover else None,
-                    'label': label_list
+                    'labels': label_list
                 }
                 ebook_list.append(ebook_info)
 
@@ -231,7 +231,7 @@ def create_ebook_router():
                     'name': ebook.name,
                     'description': ebook.description.decode(),
                     'cover': ebook.cover.decode(),
-                    'label': [label.label for label in ebook.labels]
+                    'labels': [label.label for label in ebook.labels]
                 }
                 ebooks_data.append(ebook_data)
 
@@ -266,7 +266,7 @@ def create_ebook_router():
                 'detail': ebook.detail,
                 'content': ebook.content.decode(),
                 'cover': ebook.cover.decode(),
-                'label': labels
+                'labels': labels
             }
 
             return jsonify(code=200, data=response_data, message="Ebook retrieved successfully"), 200
