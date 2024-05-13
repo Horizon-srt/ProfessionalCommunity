@@ -1,14 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AssistantCard from '@/components/AssistantCard';
 import UserInfoCard from '@/components/UserInfoCard';
 import { UserManagement } from '../UserManagement';
-import { useStore } from '@/hooks/useStore';
 
 const SideBar: React.FC = () => {
-  const userType = useStore(state => state.userType);
-  return userType === 'ENTERPRISE' || userType === 'ADMIN' ? (
+  const [userType, setUserType] = useState('TOURIST');
+  useEffect(() => {
+    console.log(localStorage.getItem('user-type') || 'TOURIST');
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
+
+  return userType === 'ADMIN' ? (
     <UserManagement />
   ) : (
     <div className='flex flex-col h-full justify-between'>
