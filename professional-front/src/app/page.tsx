@@ -1,6 +1,6 @@
 'use client';
 import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/global.module.css';
 import { Button, Image } from 'antd';
@@ -30,6 +30,7 @@ export default function Home() {
     setStoreUserType(
       (localStorage.getItem('user-type') as UserType) || 'TOURIST'
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

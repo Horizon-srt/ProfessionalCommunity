@@ -2,10 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import { Button, List, Spin, Tabs, TabsProps } from 'antd';
+import { Button, List, Spin, Tabs, TabsProps, message } from 'antd';
 import style from '@/components/ServiceParts/styles/style.module.css';
 import { Image } from 'antd';
-// import useFetch from '@/services/use-fetch';
 import { ServiceType } from '@/types/data-types';
 import Link from 'next/link';
 import useFetch from '@/services/use-fetch';
@@ -13,7 +12,6 @@ import { useRouter } from 'next/navigation';
 import {
   PlusOutlined,
   ProfileOutlined,
-  SettingOutlined,
   ShopOutlined,
   ToolOutlined,
   UserOutlined
@@ -34,225 +32,255 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
 
   useEffect(() => {
     setUserType(localStorage.getItem('user-type') || 'TOURIST');
-    console.log('dadadadad');
   }, []);
 
-  // const fixedFetch = useFetch({
-  //   url: '/services',
-  //   method: 'GET',
-  //   params: {
-  //     type: 'FIXED',
-  //     offset: 4,
-  //     pageNum: fixedCurrent
-  //   }
-  // });
+  const {
+    data: fixedData,
+    isLoading: fixedIsLoading,
+    error: fixedError
+  } = useFetch({
+    url: '/services',
+    method: 'GET',
+    params: {
+      type: 'FIXED',
+      offset: 4,
+      pageNum: fixedCurrent
+    }
+  });
 
-  // const onDoorFetch = useFetch({
-  //   url: '/services',
-  //   method: 'GET',
-  //   params: {
-  //     type: 'ONDOOR',
-  //     offset: 4,
-  //     pageNum: onDoorCurrent
-  //   }
-  // });
+  const {
+    data: onDoorData,
+    isLoading: onDoorIsLoading,
+    error: onDoorError
+  } = useFetch({
+    url: '/services',
+    method: 'GET',
+    params: {
+      type: 'ONDOOR',
+      offset: 4,
+      pageNum: onDoorCurrent
+    }
+  });
 
-  // const subscribeFetch = useFetch({
-  //   url: '/services/subscribe',
-  //   method: 'GET',
-  //   params: {
-  //     offset: 8,
-  //     pageNum: subscribeCurrent
-  //   }
-  // });
+  const {
+    data: subscribeData,
+    isLoading: subscribeIsLoading,
+    error: subscribeError
+  } = useFetch({
+    url: '/services/subscribe',
+    method: 'GET',
+    params: {
+      offset: 8,
+      pageNum: subscribeCurrent
+    }
+  });
 
-  const fixedFetch = {
-    data: {
-      services: [
-        {
-          sid: 1,
-          name: 'string1',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        },
-        {
-          sid: 2,
-          name: 'string2',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        },
-        {
-          sid: 3,
-          name: 'string3',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        },
-        {
-          sid: 4,
-          name: 'string4',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        }
-      ],
-      allPages: 10
-    },
-    isLoading: false
-  };
+  useEffect(() => {
+    if (!fixedIsLoading && fixedError) {
+      message.error(fixedError);
+    }
+    if (!onDoorIsLoading && onDoorError) {
+      message.error(onDoorError);
+    }
+    if (!subscribeIsLoading && subscribeError) {
+      message.error(subscribeError);
+    }
+  }, [
+    fixedIsLoading,
+    fixedError,
+    onDoorIsLoading,
+    onDoorError,
+    subscribeIsLoading,
+    subscribeError
+  ]);
 
-  const onDoorFetch = {
-    data: {
-      services: [
-        {
-          sid: 11,
-          name: 'string11',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        },
-        {
-          sid: 12,
-          name: 'string12',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        },
-        {
-          sid: 13,
-          name: 'string13',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        },
-        {
-          sid: 14,
-          name: 'string14',
-          cover:
-            'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-          available: 'string',
-          detail_slice: 'string'
-        }
-      ],
-      allPages: 10
-    },
-    isLoading: false
-  };
+  // const fixedFetch = {
+  //   data: {
+  //     services: [
+  //       {
+  //         sid: 1,
+  //         name: 'string1',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       },
+  //       {
+  //         sid: 2,
+  //         name: 'string2',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       },
+  //       {
+  //         sid: 3,
+  //         name: 'string3',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       },
+  //       {
+  //         sid: 4,
+  //         name: 'string4',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       }
+  //     ],
+  //     allPages: 10
+  //   },
+  //   isLoading: false
+  // };
 
-  const subscribeFetch = {
-    data: {
-      services: [
-        {
-          srid: '1',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'Zhang San',
-          service_name: 'Fix air conditioner',
-          phone: '13832581023;',
-          line: '13832581023;',
-          detail:
-            'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;',
-          time: 'today;'
-        },
-        {
-          srid: '2',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        },
-        {
-          srid: '3',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        },
-        {
-          srid: '4',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        },
-        {
-          srid: '5',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        },
-        {
-          srid: '6',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        },
-        {
-          srid: '7',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        },
-        {
-          srid: '8',
-          building: 'string;',
-          unit: 'string;',
-          room: 'string;',
-          name: 'string;',
-          service_name: 'string;',
-          phone: 'string;',
-          line: 'string;',
-          detail: 'string;',
-          time: 'string;'
-        }
-      ],
-      allPages: 10
-    },
-    isLoading: false
-  };
+  // const onDoorFetch = {
+  //   data: {
+  //     services: [
+  //       {
+  //         sid: 11,
+  //         name: 'string11',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       },
+  //       {
+  //         sid: 12,
+  //         name: 'string12',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       },
+  //       {
+  //         sid: 13,
+  //         name: 'string13',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       },
+  //       {
+  //         sid: 14,
+  //         name: 'string14',
+  //         cover:
+  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //         available: 'string',
+  //         detail_slice: 'string'
+  //       }
+  //     ],
+  //     allPages: 10
+  //   },
+  //   isLoading: false
+  // };
+
+  // const subscribeFetch = {
+  //   data: {
+  //     services: [
+  //       {
+  //         srid: '1',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'Zhang San',
+  //         service_name: 'Fix air conditioner',
+  //         phone: '13832581023;',
+  //         line: '13832581023;',
+  //         detail:
+  //           'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;',
+  //         time: 'today;'
+  //       },
+  //       {
+  //         srid: '2',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       },
+  //       {
+  //         srid: '3',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       },
+  //       {
+  //         srid: '4',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       },
+  //       {
+  //         srid: '5',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       },
+  //       {
+  //         srid: '6',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       },
+  //       {
+  //         srid: '7',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       },
+  //       {
+  //         srid: '8',
+  //         building: 'string;',
+  //         unit: 'string;',
+  //         room: 'string;',
+  //         name: 'string;',
+  //         service_name: 'string;',
+  //         phone: 'string;',
+  //         line: 'string;',
+  //         detail: 'string;',
+  //         time: 'string;'
+  //       }
+  //     ],
+  //     allPages: 10
+  //   },
+  //   isLoading: false
+  // };
 
   const ContentList: React.FC<{
     dataList: any;
@@ -269,8 +297,8 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
           pageSize: 4,
           total:
             type === 'FIXED'
-              ? fixedFetch.data.allPages * 4
-              : onDoorFetch.data.allPages * 4
+              ? (fixedData?.total_services || 0) * 4
+              : (onDoorData?.total_services || 0) * 4
         }}
         dataSource={dataList}
         renderItem={(item: any) => {
@@ -310,9 +338,9 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
             setSubscribeCurrent(page);
           },
           pageSize: 4,
-          total: subscribeFetch.data.allPages
+          total: subscribeData.allPages ? subscribeData.allPages * 4 : 0
         }}
-        dataSource={subscribeFetch.data.services}
+        dataSource={subscribeData?.services || []}
         renderItem={(item: any) => {
           return (
             // <Link href={`/admin/service/edit/${item.srid}`}>
@@ -361,17 +389,11 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         </div>
       ),
       children: (
-        <Spin spinning={fixedFetch.isLoading} size='large'>
-          {fixedFetch.isLoading ? (
-            <div></div>
-          ) : (
-            <ContentList
-              dataList={fixedFetch.data.services}
-              type='FIXED'
-              userType={userType}
-            />
-          )}
-        </Spin>
+        <ContentList
+          dataList={fixedData?.services || []}
+          type='FIXED'
+          userType={userType}
+        />
       )
     },
     {
@@ -383,17 +405,11 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         </div>
       ),
       children: (
-        <Spin spinning={fixedFetch.isLoading} size='large'>
-          {fixedFetch.isLoading ? (
-            <div></div>
-          ) : (
-            <ContentList
-              dataList={onDoorFetch.data.services}
-              type='ONDOOR'
-              userType={userType}
-            />
-          )}
-        </Spin>
+        <ContentList
+          dataList={onDoorData?.services || []}
+          type='ONDOOR'
+          userType={userType}
+        />
       )
     }
   ];
@@ -407,11 +423,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
           Subscription
         </div>
       ),
-      children: (
-        <Spin spinning={subscribeFetch.isLoading} size='large'>
-          <SubscribeList userType={userType} />
-        </Spin>
-      )
+      children: <SubscribeList userType={userType} />
     });
     items.push({
       key: 'ADDITION',
