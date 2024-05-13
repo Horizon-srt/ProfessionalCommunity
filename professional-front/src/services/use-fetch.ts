@@ -28,7 +28,7 @@ const dataFetcher = async (url: string, method: ProvideMethod, params: any) => {
     const res = await fetch(`http://${host}:${port}${url}${query}`, {
       method,
       headers: {
-        Authorization: newParams.Authorization,
+        Authorization: `Bearer ${newParams.Authorization}`,
         'Content-Type': 'application/json'
       },
       ...(method !== 'GET'
