@@ -24,6 +24,7 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
     params: {}
   };
 
+  // 删除操作
   const {
     trigger,
     isMutating,
