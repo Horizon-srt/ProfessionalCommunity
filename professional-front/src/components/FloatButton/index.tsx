@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FloatButton } from 'antd';
 import {
   ColumnHeightOutlined,
@@ -16,8 +16,11 @@ const FloatSwitch: React.FC = () => {
   const switchExpand = useStore(state => state.switchExpand);
   const isExpand = useStore(state => state.userInfoIsExpand);
 
-  // const userType = useStore(state => state.userType);
-  const userType = localStorage.getItem('user-type');
+  const [userType, setUserType] = useState('TOURIST');
+
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
   return (
     <FloatButton.Group trigger='hover' type='primary' icon={<PlusOutlined />}>
       <FloatButton

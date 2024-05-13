@@ -18,22 +18,18 @@ const dataFetcher = async (url: string, method: ProvideMethod, params: any) => {
   try {
     // 适用于非复杂query参数
     let query = '';
-    if (Object.keys(params).length > 0) {
+    if (Object.keys(params).length > 0 && method === 'GET') {
       query += '?';
       Object.keys(params).forEach(key => {
         query += `${key}=${params[key]}&`;
       });
       query = query.slice(0, query.length - 1);
     }
-    const res = await fetch(`http://${host}:${port}${url}/${query}`, {
+    const res = await fetch(`http://${host}:${port}${url}${query}`, {
       method,
       headers: {
         Authorization: newParams.Authorization,
-        ...(method !== 'GET'
-          ? {
-              'Content-Type': 'application/json'
-            }
-          : {})
+        'Content-Type': 'application/json'
       },
       ...(method !== 'GET'
         ? {
