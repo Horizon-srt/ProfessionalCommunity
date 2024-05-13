@@ -11,25 +11,36 @@ import { usePagination } from '@/hooks/usePagination';
 
 const Library: React.FC = () => {
   const [associatedValue, setAssociatedValue] = useState('');
+  const [current, setCurrent] = useState('science');
+  const [currentPage, setCurrentPage] = useState(1);
   const pathname = usePathname();
   const router = useRouter();
-  const list: any[] = [];
   const { offset } = usePagination({
     offset: 10,
     pageNum: 1
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const paramLabel = 'math';
+
   const { data } = useFetch({
     url: '/education/ebook/search/label',
     method: 'GET' as ProvideMethod,
     params: {
-      paramLabel,
+      current,
       offset,
       currentPage
     }
   });
 
+  const { data: data2 } = useFetch({
+    url: '/education/ebook/search/name',
+    method: 'GET' as ProvideMethod,
+    params: {
+      associatedValue,
+      offset,
+      currentPage
+    }
+  });
+
+  const list: any[] = [];
   for (let i = 1; i < 40; i += 1) {
     list.push({
       bid: i,
@@ -42,7 +53,7 @@ const Library: React.FC = () => {
       label: ['science', 'literature']
     });
   }
-  const [filterparamList, setFilterParamList] = useState(list);
+
   const items: MenuProps['items'] = [
     {
       label: 'Science',
@@ -57,10 +68,13 @@ const Library: React.FC = () => {
       key: 'math'
     }
   ];
-  const [current, setCurrent] = useState('');
+
   const onClick: MenuProps['onClick'] = (e: any) => {
+    setAssociatedValue('');
     setCurrent(e.key);
   };
+
+  // 模糊搜索
   useEffect(() => {
     if (associatedValue) {
       setFilterParamList([]);
@@ -81,24 +95,22 @@ const Library: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [associatedValue]);
+  // 初始数据为data1
+  const [filterparamList, setFilterParamList] = useState(list);
+
+  // 标签搜索
 
   useEffect(() => {
-    if (current) {
-      setFilterParamList([]);
-      setFilterParamList(
-        list.filter(item => {
-          if (item?.label.includes(current)) {
-            return true;
-          }
-          return false;
-        })
-      );
+    if (associatedValue != '') {
+      setFilterParamList(data2?.ebooks || []);
     } else {
-      //为空时将渲染原始表格数据
-      setFilterParamList(list);
+      setFilterParamList(data?.ebooks || []);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current]);
+  }, [data, data2]);
+
+  // useEffect(() => {
+  //   setFilterParamList(data1);
+  // }, [data1]);
 
   return (
     <div className={styles.main}>

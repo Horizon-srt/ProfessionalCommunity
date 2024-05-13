@@ -93,9 +93,8 @@ const Tourist: React.FC = () => {
                 >
                   <List.Item.Meta
                     avatar={<Avatar src={item.cover} />}
-                    title={item.name}
+                    title={<div style={{ fontSize: '20px' }}>{item.name}</div>}
                   />
-                  <div>{item.title}</div>
                 </List.Item>
               );
             }}

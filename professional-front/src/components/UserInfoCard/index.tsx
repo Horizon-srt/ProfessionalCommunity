@@ -33,7 +33,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   const isExpand = useStore(state => state.userInfoIsExpand);
 
   const userInfoExpandStlye = `
-  ${isExpand ? 'h-[65%]' : 'h-[20%]'}`;
+  ${isExpand ? 'h-[75%]' : 'h-[20%]'}`;
 
   const defaultChangeParams = {
     url: `/users/${uid}`,
@@ -108,13 +108,13 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
 
   return (
     <div className={`p-3 transition-all ${userInfoExpandStlye}`}>
-      <Card title='Personal' className='h-[80%]'>
+      <Card title='Personal'>
         <div className='h-full flex flex-col w-full'>
           <div className='flex flex-row w-full bg-transparent dark:bg-black'>
             <div className='w-3/12'>
               <Avatar />
             </div>
-            <div className='w-9/12 flex flex-col'>
+            <div className='w-10/12 flex flex-col'>
               <div className='text-base text-right font-bold'>{data?.name}</div>
               <div className='text-sm text-right text-gray-400'>
                 Owner of Room 323, Unit 1, No. 14
@@ -125,7 +125,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
           <div className='overflow-scroll h-[60%]'>
             <div className={!isExpand ? 'hidden' : 'bg-transparent'}>
               <div className={style.formStyle}>
-                <Spin spinning={isLoading}>
+                <Spin spinning={isLoading} style={{ width: '100%' }}>
                   <Form
                     form={form}
                     onFinish={onFinish}
