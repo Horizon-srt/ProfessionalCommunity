@@ -19,7 +19,7 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
     proof: ''
   };
   return (
-    <div className='p-20 h-full'>
+    <div className='px-[20%] h-full'>
       <Card>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>

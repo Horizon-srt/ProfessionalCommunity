@@ -5,8 +5,15 @@ import React from 'react';
 import Image from 'next/image';
 import img from '@/../public/next.svg';
 import { Button } from 'antd';
+import useFetch from '@/services/use-fetch';
 
 const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
+  const { data, isLoading, error } = useFetch({
+    url: `/education/ebook/${params.detail}`,
+    method: 'GET',
+    params: {}
+  });
+
   const lineStyle = `
     w-1/2 relative inline-block before:block
     before:absolute before:w-full

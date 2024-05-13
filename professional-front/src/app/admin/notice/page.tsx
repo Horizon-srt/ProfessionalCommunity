@@ -42,20 +42,19 @@ const Tourist: React.FC = () => {
     <div className='p-4 h-full'>
       <Card>
         <div className='w-full h-full flex flex-col'>
-          <div className='flex flex-row justify-between'>
-            <div className='relative'>
+          <div className='flex flex-row justify-between w-full'>
+            <div className='relative flex items-center'>
               <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
               <div>News Anouncement</div>
-              <div onClick={() => router.push('/admin/notice/create')}>
-                <PlusSquareOutlined
-                  style={{ fontSize: '1rem', color: '#6DC570' }}
-                />
-              </div>
             </div>
-            {/* <div className='text-green-500 text-sm mt-1'>
-              <span className='text-green-500 mr-2 underline'>All News</span>
-              {'>'}
-            </div> */}
+            <div
+              className='flex items-center cursor-pointer'
+              onClick={() => router.push('/admin/notice/create')}
+            >
+              <PlusSquareOutlined
+                style={{ fontSize: '1rem', color: '#6DC570' }}
+              />
+            </div>
           </div>
           <div className='w-full h-full flex flex-col p-8'>
             {mockData.map(data => (

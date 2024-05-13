@@ -1,12 +1,21 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import styles from './styles/style.module.css';
-import { Avatar, Button, List, Menu, MenuProps } from 'antd';
+import { Avatar, Button, List, Menu, MenuProps, Spin } from 'antd';
 import { useRouter } from 'next/navigation';
+import useFetch from '@/services/use-fetch';
 
 const Tourist: React.FC = () => {
   const router = useRouter();
   const list: any[] = [];
+  const { data, isLoading } = useFetch({
+    url: '/guides',
+    method: 'GET',
+    params: {
+      offset: 7,
+      pageNumber: 1
+    }
+  });
   for (let i = 1; i < 40; i += 1) {
     list.push({
       bid: i,
@@ -36,40 +45,46 @@ const Tourist: React.FC = () => {
           </Button>
         </div>
       </div>
-      <List
-        className={styles.list}
-        rowKey='id'
-        pagination={{ position: 'bottom', align: 'center', pageSize: 7 }}
-        dataSource={[...filterparamList]}
-        renderItem={item => {
-          return (
-            <List.Item
-              className={styles.listItem}
-              key={item.bid}
-              actions={[
-                <Button
-                  key='list-loadmore-edit'
-                  type='link'
-                  onClick={() => {
-                    router.push(`guide/detail/${item.bid}`);
-                  }}
+      <Spin spinning={isLoading} size='large'>
+        {isLoading ? (
+          <div></div>
+        ) : (
+          <List
+            className={styles.list}
+            rowKey='id'
+            pagination={{ position: 'bottom', align: 'center', pageSize: 7 }}
+            dataSource={[...filterparamList]}
+            renderItem={item => {
+              return (
+                <List.Item
+                  className={styles.listItem}
+                  key={item.bid}
+                  actions={[
+                    <Button
+                      key='list-loadmore-edit'
+                      type='link'
+                      onClick={() => {
+                        router.push(`guide/detail/${item.bid}`);
+                      }}
+                    >
+                      Detail
+                    </Button>,
+                    <Button key='' type='primary' danger>
+                      Delete
+                    </Button>
+                  ]}
                 >
-                  Detail
-                </Button>,
-                <Button key='' type='primary' danger>
-                  Delete
-                </Button>
-              ]}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.cover} />}
-                title={item.name}
-              />
-              <div>{item.title}</div>
-            </List.Item>
-          );
-        }}
-      ></List>
+                  <List.Item.Meta
+                    avatar={<Avatar src={item.cover} />}
+                    title={item.name}
+                  />
+                  <div>{item.title}</div>
+                </List.Item>
+              );
+            }}
+          ></List>
+        )}
+      </Spin>
     </div>
   );
 };

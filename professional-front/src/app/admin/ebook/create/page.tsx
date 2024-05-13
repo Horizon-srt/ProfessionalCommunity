@@ -11,7 +11,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
   const { TextArea } = Input;
   const router = useRouter();
   const defaultCreateParams = {
-    url: '/ebook',
+    url: '/education/ebook',
     method: 'POST' as ProvideMethod,
     params: null
   };

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeContext } from '@/components/ThemeProvider/themeContext';
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider, ConfigProviderProps, theme } from 'antd';
 import useTheme from '@/hooks/useTheme';
+import enUS from 'antd/locale/en_US';
 import locale from 'antd/locale/zh_CN';
 import 'dayjs/locale/zh-cn';
 
@@ -10,6 +11,8 @@ export interface ThemeProviderProps {
 }
 
 export function ThemeProvider(props: ThemeProviderProps) {
+  type Locale = ConfigProviderProps['locale'];
+  const [locale, setLocal] = useState<Locale>(enUS);
   const [value, toggleTheme] = useTheme();
 
   return (

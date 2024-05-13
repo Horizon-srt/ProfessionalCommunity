@@ -5,8 +5,15 @@ import { Carousel, Image } from 'antd';
 import styles from './styles/styles.module.css';
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import useFetch from '@/services/use-fetch';
 
 const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
+  // const { data, isLoading, error } = useFetch({
+  //   url: `/guides/${params.detail}`,
+  //   method: 'GET',
+  //   params: {}
+  // });
+
   const router = useRouter();
   const data = Array.from({ length: 23 }).map((_, i) => ({
     bid: i,
