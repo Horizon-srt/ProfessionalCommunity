@@ -45,8 +45,8 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
   }, [isMutating, error, deleteRes]);
 
   return (
-    <Link href={link}>
-      <div className='w-full flex relative mb-8'>
+    <div className='w-full flex relative mb-8'>
+      <Link href={link} className='flex'>
         <div className='absolute bg-green-500 w-full h-[0.1rem] mt-14'></div>
         <div className='mr-4 flex w-16 flex-col ml-3'>
           <div className='bg-green-500 h-6 text-white text-center'>{day}</div>
@@ -54,15 +54,18 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
             {`${year}-${month}`}
           </div>
         </div>
-        <div className='mt-3 dark:text-white'>
-          {data.content_slice}
-          {link.split('/')[1] === 'admin' ? (
-            <RestOutlined onClick={handleClick} style={{ fontSize: '1rem' }} />
-          ) : (
-            <></>
-          )}
-        </div>
-      </div>
-    </Link>
+        <div className='mt-3 dark:text-white'>{data.content_slice}</div>
+      </Link>
+
+      {link.split('/')[1] === 'admin' ? (
+        <RestOutlined
+          className='ml-3 mt-1'
+          onClick={handleClick}
+          style={{ fontSize: '1rem' }}
+        />
+      ) : (
+        <></>
+      )}
+    </div>
   );
 };

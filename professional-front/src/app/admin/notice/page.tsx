@@ -5,10 +5,16 @@ import { usePagination } from '@/hooks/usePagination';
 import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { PlusSquareOutlined } from '@ant-design/icons';
-import { Pagination } from 'antd';
+import { Empty, Pagination } from 'antd';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+interface INotice {
+  nid: string;
+  title: string;
+  time: string;
+  content_slice: string;
+}
 const Tourist: React.FC = () => {
   const [userType, setUserType] = useState('TOURIST');
   const router = useRouter();
@@ -57,7 +63,11 @@ const Tourist: React.FC = () => {
             </div>
           </div>
           <div className='w-full h-full flex flex-col p-8'>
-            {mockData.map(data => (
+            {(!data?.notifies || data?.notifies?.length === 0) && (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
+            {/* {data?.map((data: INotice) => ( */}
+            {data?.notifies?.map((data: INotice) => (
               <AnounceItem
                 link={`/${userType.toLowerCase()}/notice/${data.nid}`}
                 data={data}
@@ -65,14 +75,16 @@ const Tourist: React.FC = () => {
               />
             ))}
           </div>
-          <Pagination
-            defaultCurrent={1}
-            total={72}
-            current={pageNum}
-            onChange={page => {
-              setCurrentPage(page);
-            }}
-          />
+          <div className='w-full flex justify-center'>
+            <Pagination
+              defaultCurrent={1}
+              total={(data?.allPages || 1) * 10}
+              current={pageNum}
+              onChange={page => {
+                setCurrentPage(page);
+              }}
+            />
+          </div>
         </div>
       </Card>
     </div>

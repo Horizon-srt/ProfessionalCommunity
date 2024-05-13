@@ -4,7 +4,7 @@ import Card from '@/components/Card';
 import { usePagination } from '@/hooks/usePagination';
 import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
-import { Pagination } from 'antd';
+import { Empty, Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 interface INotice {
@@ -43,7 +43,10 @@ const NormalNotice: React.FC = () => {
             </div>
           </div>
           <div className='w-full h-full flex flex-col p-8'>
-            {data.map((data: INotice) => (
+            {(!data?.notifies || data?.notifies?.length === 0) && (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
+            {data?.notifies?.map((data: INotice) => (
               <AnounceItem
                 link={`/${userType.toLowerCase()}/notice/${data.nid}`}
                 data={data}
@@ -51,14 +54,17 @@ const NormalNotice: React.FC = () => {
               />
             ))}
           </div>
-          <Pagination
-            defaultCurrent={1}
-            total={72}
-            current={pageNum}
-            onChange={page => {
-              setCurrentPage(page);
-            }}
-          />
+          <div className='w-full flex justify-center'>
+            <Pagination
+              defaultCurrent={1}
+              total={(data?.allPages || 1) * 10}
+              showSizeChanger={false}
+              current={pageNum}
+              onChange={page => {
+                setCurrentPage(page);
+              }}
+            />
+          </div>
         </div>
       </Card>
     </div>
