@@ -33,7 +33,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   const isExpand = useStore(state => state.userInfoIsExpand);
 
   const userInfoExpandStlye = `
-  ${isExpand ? 'h-[65%]' : 'h-[40%]'}`;
+  ${isExpand ? 'h-[65%]' : 'h-[20%]'}`;
 
   const defaultChangeParams = {
     url: `/users/${uid}`,

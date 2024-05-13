@@ -6,6 +6,7 @@ import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import {
   Button,
+  Empty,
   Form,
   Input,
   message,
@@ -21,6 +22,11 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { md5 } from 'js-md5';
 
+interface IUser {
+  uid: string;
+  avator: string;
+  name: string;
+}
 export const UserManagement = () => {
   const { offset, pageNum, setCurrentPage } = usePagination({
     offset: 10,
@@ -38,13 +44,13 @@ export const UserManagement = () => {
     }
   });
 
-  const mockDatas = [
-    {
-      uid: '1111',
-      name: '2222',
-      avator: '1121'
-    }
-  ];
+  // const mockDatas = [
+  //   {
+  //     uid: '1111',
+  //     name: '2222',
+  //     avator: '1121'
+  //   }
+  // ];
 
   const defaultRegParams = {
     url: '/register/' + isEnte ? 'enterprise' : 'admin',
@@ -220,18 +226,23 @@ export const UserManagement = () => {
             className={`h-[80%] w-full flex flex-col justify-start 
              align-center`}
           >
-            {mockDatas.map(data => (
+            {(!data?.users || data?.users?.length === 0) && (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
+            {data?.users?.map((data: IUser) => (
               <UserItem uInfo={data} key={data.uid} />
             ))}
           </div>
           <div className='w-full flex justify-end'>
             <Pagination
               defaultCurrent={1}
-              total={72}
+              total={(data?.allPages || 1) * 10}
+              pageSize={10}
               current={pageNum}
               onChange={page => {
                 setCurrentPage(page);
               }}
+              showSizeChanger={false}
             />
           </div>
         </div>

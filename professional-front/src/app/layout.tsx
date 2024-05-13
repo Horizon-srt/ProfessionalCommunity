@@ -27,12 +27,12 @@ export default function RootLayout({
       </head>
       <body style={{ margin: '0px', padding: '0px' }}>
         <ThemeProvider>
-          <DynamicBackground>
-            <AntdRegistry>
-              <FloatSwitch />
-              {children}
-            </AntdRegistry>
-          </DynamicBackground>
+          {/* <DynamicBackground> */}
+          <AntdRegistry>
+            <FloatSwitch />
+            {children}
+          </AntdRegistry>
+          {/* </DynamicBackground> */}
         </ThemeProvider>
       </body>
     </html>
