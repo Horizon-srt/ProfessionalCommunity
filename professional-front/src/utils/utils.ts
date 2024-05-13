@@ -5,7 +5,7 @@ export const getToken = () => {
 };
 
 export const getType = () => {
-  return localStorage.getItem('user-type') || 'NORMAL';
+  return localStorage.getItem('user-type') || 'TOURIST';
 };
 
 export type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
