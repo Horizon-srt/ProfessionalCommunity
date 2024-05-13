@@ -99,10 +99,8 @@ def create_guide_router():
     @jwt_required()
     def get_all_guides():
         try:
-            data = request.json
-            # 解析请求参数
-            offset = int(data['offset'])
-            pageNum = int(data['pageNum'])
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询指南并分页
             guides = Guide.query.limit(offset).offset((pageNum - 1) * offset).all()

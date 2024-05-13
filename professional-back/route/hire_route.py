@@ -134,12 +134,11 @@ def create_hire_router():
     def get_all_hires():
         try:
             # 从请求中获取查询参数
-            data = request.json
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
-            status = data.get('status')
-            ename = data.get('ename')
-            available = data.get('available')
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
+            status = request.args.get('status', None)
+            ename = request.args.get('ename', None)
+            available = request.args.get('available', None)
 
             # 查询符合条件的招聘信息
             query = Hire.query
@@ -220,10 +219,8 @@ def create_hire_router():
     @jwt_required()
     def get_hires_by_company(uid):
         try:
-            # 从请求中获取查询参数
-            data = request.json
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询特定公司的招聘信息
             query = Hire.query.filter_by(uid=uid)
@@ -300,10 +297,8 @@ def create_hire_router():
     @jwt_required()
     def get_all_resumes():
         try:
-            # 从请求中获取参数
-            data = request.json
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询简历数据
             resumes_query = (

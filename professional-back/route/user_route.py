@@ -320,7 +320,7 @@ def create_user_router():
                 enterprise_user = EnterpriseUser.query.get(uid)
                 if enterprise_user:
                     enterprise_user.ename = params['ename']
-            normal_user = NormalUser.query.get_uid
+            normal_user = NormalUser.query.get(uid)
             if 'proof' in params:
                 if normal_user:
                     normal_user.proof = params['proof'].encode()
@@ -351,13 +351,11 @@ def create_user_router():
     @user_bp.route('/users/all', methods=['GET'])
     @jwt_required()
     def get_all_users():
-        data = request.json
         # 验证 JWT，获取当前用户 ID
         current_user_id = get_jwt_identity()
 
-        # 获取请求参数
-        offset = int(data['offset'])
-        pageNum = int(data['pageNum'])
+        offset = int(request.args.get('offset', 0))
+        pageNum = int(request.args.get('pageNum', 1))
 
         # 查询用户列表并分页
         users_query = User.query
@@ -473,7 +471,6 @@ def create_user_router():
     @user_bp.route('/users/diff_type', methods=['GET'])
     @jwt_required()
     def get_all_users_by_type():
-        data = request.json
         # 验证 JWT，获取当前用户 ID
         current_user_id = get_jwt_identity()
         
@@ -482,9 +479,9 @@ def create_user_router():
             return jsonify(code=404, message="非合法用户"), 404
 
         # 获取请求参数
-        type = data['type']
-        offset = int(data['offset'])
-        pageNum = int(data['pageNum'])
+        type = request.args.get('type')
+        offset = int(request.args.get('offset', 0))
+        pageNum = int(request.args.get('pageNum', 1))
         
         user_query = None
         if type == 'ADMIN':

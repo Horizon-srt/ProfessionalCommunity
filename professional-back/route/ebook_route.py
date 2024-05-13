@@ -138,10 +138,10 @@ def create_ebook_router():
     @jwt_required()
     def search_ebook_by_label():
         try:
-            data = request.json
-            labels = data.get('labels', [])
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            # Retrieving parameters from URL query string
+            labels = request.args.get('labels')
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             query = db.session.query(Ebook).join(LabelEbook, Ebook.bid == LabelEbook.bid)
 
@@ -149,7 +149,7 @@ def create_ebook_router():
                 query = query.filter(LabelEbook.label.in_(labels))
 
             total_count = query.count()
-            allPages = (total_count + offset - 1) // offset
+            allPages = (total_count + offset - 1) // offset if offset else 0
             ebooks = query.limit(offset).offset((pageNum - 1) * offset).all()
 
             response_data = {
@@ -172,35 +172,33 @@ def create_ebook_router():
     @jwt_required()
     def search_ebook_by_name():
         try:
-            # 获取请求参数
-            data = request.json
-            name = data.get('name', '')
-            offset = int(data.get('offset', 10))
-            pageNum = int(data.get('pageNum', 1))
+            name = request.args.get('name', '')
+            offset = int(request.args.get('offset', 10))
+            pageNum = int(request.args.get('pageNum', 1))
 
-            # 查询数据库，模糊搜索书名
+            # Querying the database with a case-insensitive like search on the book name
             ebooks_query = Ebook.query.filter(Ebook.name.ilike(f'%{name}%')).paginate(page=pageNum, per_page=offset,
                                                                                       error_out=False)
             ebooks = ebooks_query.items
             total_count = ebooks_query.total
 
-            # 构造返回数据
+            # Constructing the response data
             ebook_list = []
             for ebook in ebooks:
-                # 查询书籍对应的标签
+                # Querying for book labels
                 label_records = LabelEbook.query.filter_by(bid=ebook.bid).all()
                 label_list = [label_record.label for label_record in label_records]
 
                 ebook_info = {
                     'bid': str(ebook.bid),
                     'name': ebook.name,
-                    'description': ebook.description.decode(),
-                    'cover': ebook.cover.decode(),
+                    'description': ebook.description.decode() if ebook.description else None,
+                    'cover': ebook.cover.decode() if ebook.cover else None,
                     'label': label_list
                 }
                 ebook_list.append(ebook_info)
 
-            allPages = (total_count + offset - 1) // offset
+            allPages = (total_count + offset - 1) // offset if offset else 0
 
             return jsonify(code=200, data={'ebooks': ebook_list, 'allPages': allPages}, message="Query successful"), 200
         except Exception as e:
@@ -210,10 +208,9 @@ def create_ebook_router():
     @jwt_required()
     def recommend_ebooks():
         try:
-            data = request.json
-            offset = data.get('offset', 0)
+            offset = int(request.args.get('offset', 0))
+            page_num = int(request.args.get('pageNum', 1))
             per_page = offset
-            page_num = data.get('pageNum', 1)
 
             # Query ebooks
             all_ebooks = Ebook.query.all()

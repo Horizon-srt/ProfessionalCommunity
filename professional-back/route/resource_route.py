@@ -13,10 +13,8 @@ def create_resource_router():
     @jwt_required()
     def get_all_addresses():
         try:
-            # 从请求中获取查询参数
-            data = request.json
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询地址数据
             addresses_query = (
@@ -119,10 +117,8 @@ def create_resource_router():
     @jwt_required()
     def get_address_resources(aid):
         try:
-            # 从请求中获取查询参数
-            data = request.json
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询地址的资源
             resources_query = (

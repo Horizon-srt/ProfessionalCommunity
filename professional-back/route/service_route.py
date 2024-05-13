@@ -166,11 +166,9 @@ def create_service_router():
     @jwt_required()
     def get_services():
         try:
-            # 解析请求参数
-            data = request.json
-            service_type = data.get('type')
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            service_type = request.args.get('type', None)
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询服务并分页
             if service_type == ServiceType.FIXED:
@@ -333,10 +331,8 @@ def create_service_router():
     @jwt_required()
     def get_all_subscriptions():
         try:
-            # 解析请求参数
-            data = request.json
-            offset = int(data.get('offset', 0))
-            pageNum = int(data.get('pageNum', 1))
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
           
             # 查询所有的服务记录
             service_records = ServiceRecord.query.limit(offset).offset((pageNum - 1) * offset).all()

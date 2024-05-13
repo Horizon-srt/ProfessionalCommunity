@@ -108,10 +108,8 @@ def create_notify_router():
     @jwt_required()
     def get_all_notifies():
         try:
-            # 解析请求参数
-            data = request.json
-            offset = int(data['offset'])
-            pageNum = int(data['pageNum'])
+            offset = int(request.args.get('offset', 0))
+            pageNum = int(request.args.get('pageNum', 1))
 
             # 查询公告并分页
             total_notifies = Notify.query.count()
