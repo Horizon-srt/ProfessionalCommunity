@@ -214,18 +214,21 @@ def create_ebook_router():
 
             # Query ebooks
             all_ebooks = Ebook.query.all()
-
-            # Select 10 random ebooks
-            random_ebooks = sample(all_ebooks, 10)
+            
+            if len(all_ebooks) < offset:
+                random_ebooks = all_ebooks
+            else:
+              # Select 10 random ebooks
+              random_ebooks = sample(all_ebooks, offset)
 
             # Pagination
-            start_index = (page_num - 1) * per_page
-            end_index = start_index + per_page
-            paginated_ebooks = random_ebooks[start_index:end_index]
+            # start_index = (page_num - 1) * per_page
+            # end_index = start_index + per_page
+            # paginated_ebooks = random_ebooks[start_index:end_index]
 
             # Construct response data
             ebooks_data = []
-            for ebook in paginated_ebooks:
+            for ebook in random_ebooks:
                 ebook_data = {
                     'bid': ebook.bid,
                     'name': ebook.name,
