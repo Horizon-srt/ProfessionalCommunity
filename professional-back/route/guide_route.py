@@ -7,7 +7,7 @@ from model.service import Guide
 
 
 def create_guide_router():
-    guide_bp = Blueprint('guide_bp', __name__)
+    guide_bp = Blueprint('guide_bp', __name__, url_prefix='/api')
 
     @guide_bp.route('/guides', methods=['POST'])
     @jwt_required()

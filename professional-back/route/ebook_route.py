@@ -8,7 +8,7 @@ from model.service import Ebook, LabelEbook, ReadingRecord
 
 
 def create_ebook_router():
-    ebook_bp = Blueprint('ebook_bp', __name__)
+    ebook_bp = Blueprint('ebook_bp', __name__, url_prefix='/api')
 
     @ebook_bp.route('/education/ebook', methods=['POST'])
     @jwt_required()

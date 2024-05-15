@@ -7,7 +7,7 @@ from model.user import User
 
 
 def create_resource_router():
-    resource_bp = Blueprint('resource_bp', __name__)
+    resource_bp = Blueprint('resource_bp', __name__, url_prefix='/api')
 
     @resource_bp.route('/addresses', methods=['GET'])
     @jwt_required()

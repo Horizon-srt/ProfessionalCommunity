@@ -7,7 +7,7 @@ from model.user import Hire, Resume, EnterpriseUser, Admin, User
 
 
 def create_hire_router():
-    hire_bp = Blueprint('hire_bp', __name__)
+    hire_bp = Blueprint('hire_bp', __name__, url_prefix='/api')
 
     @hire_bp.route('/hires/create', methods=['POST'])
     @jwt_required()
