@@ -4,6 +4,9 @@ import { Avatar, Button, List, Menu, MenuProps } from 'antd';
 import { useRouter } from 'next/navigation';
 
 const PersonalReview: React.FC = () => {
+  const [currentData, setCurrentData] = useState<'profile' | 'recruit'>(
+    'profile'
+  );
   const router = useRouter();
   const list: any[] = [];
   for (let i = 1; i < 40; i += 1) {
@@ -67,6 +70,22 @@ const PersonalReview: React.FC = () => {
         mode='horizontal'
         items={items}
       />
+      <div>
+        <Button
+          onClick={() => {
+            setCurrentData('profile');
+          }}
+        >
+          Profile
+        </Button>
+        <Button
+          onClick={() => {
+            setCurrentData('recruit');
+          }}
+        >
+          Recruit
+        </Button>
+      </div>
       <List
         className={styles.list}
         rowKey='id'
@@ -81,7 +100,11 @@ const PersonalReview: React.FC = () => {
                 <Button
                   key=''
                   type='link'
-                  onClick={() => router.push(`review/profile/${item.bid}`)}
+                  onClick={() => {
+                    currentData === 'profile'
+                      ? router.push(`review/profile/${item.bid}`)
+                      : router.push(`review/recruit/${item.bid}`);
+                  }}
                 >
                   Detail
                 </Button>,

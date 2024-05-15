@@ -1,5 +1,5 @@
 .background {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   /* background-color: bisque; */
   background: linear-gradient(var(--rotate-deg), var(--bg-gradient-green) 0%, var(--bg-gradient-white) 12%, var(--bg-gradient-white) 88%, var(--bg-gradient-green) 100%);

@@ -25,7 +25,7 @@ const MainParts: React.FC<MainPartsProps> = ({ isNormal }) => {
           <ImageCarousel width='100%' height='100%' />
         </Col>
       </Row>
-      <Row style={{ width: '100%', height: '30%', paddingTop: '1rem' }}>
+      <Row style={{ width: '100%', height: '43vh', paddingTop: '1rem' }}>
         <Col span={12} style={{ paddingRight: '0.5rem' }}>
           <TopReading width='100%' height='100%' />
         </Col>

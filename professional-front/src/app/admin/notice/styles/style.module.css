@@ -4,3 +4,8 @@
     justify-content: space-between;
     width: 100%;
 }
+
+.main{
+    padding: 20px;
+    height: 93vh;
+}

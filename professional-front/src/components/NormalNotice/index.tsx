@@ -6,6 +6,7 @@ import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { Empty, Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
+import styles from './styles/styles.module.css';
 
 interface INotice {
   nid: string;
@@ -33,7 +34,7 @@ const NormalNotice: React.FC = () => {
   }, []);
 
   return (
-    <div className='p-4 h-full'>
+    <div className={styles.main}>
       <Card>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>

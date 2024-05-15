@@ -6,6 +6,7 @@ import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
+import styles from './styles/style.module.css';
 
 const Tourist: React.FC = () => {
   const [userType, setUserType] = useState('TOURIST');
@@ -35,7 +36,7 @@ const Tourist: React.FC = () => {
   }, []);
 
   return (
-    <div className='p-4 h-full'>
+    <div className={styles.main}>
       <Card>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>

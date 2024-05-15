@@ -8,6 +8,7 @@ import { PlusSquareOutlined } from '@ant-design/icons';
 import { Empty, Pagination } from 'antd';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import styles from './styles/style.module.css';
 
 interface INotice {
   nid: string;
@@ -45,7 +46,7 @@ const Tourist: React.FC = () => {
   }, []);
 
   return (
-    <div className='p-4 h-full'>
+    <div className={styles.main}>
       <Card>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between w-full'>

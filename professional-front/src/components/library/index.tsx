@@ -41,18 +41,18 @@ const Library: React.FC = () => {
   });
 
   const list: any[] = [];
-  for (let i = 1; i < 40; i += 1) {
-    list.push({
-      bid: i,
-      name: 'name' + i,
-      cover: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-      content:
-        'Umi@4 实战教程，专门针对中后台项目零基础的朋友，不管你是前端还是后端，看完这个系列你也有能力合理“抗雷”，“顶坑”',
-      description: 'this is a description' + i,
-      detail: 'this is a detail',
-      label: ['science', 'literature']
-    });
-  }
+  // for (let i = 1; i < 40; i += 1) {
+  //   list.push({
+  //     bid: i,
+  //     name: 'name' + i,
+  //     cover: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
+  //     content:
+  //       'Umi@4 实战教程，专门针对中后台项目零基础的朋友，不管你是前端还是后端，看完这个系列你也有能力合理“抗雷”，“顶坑”',
+  //     description: 'this is a description' + i,
+  //     detail: 'this is a detail',
+  //     label: ['science', 'literature']
+  //   });
+  // }
 
   const items: MenuProps['items'] = [
     {
@@ -75,27 +75,27 @@ const Library: React.FC = () => {
   };
 
   // 模糊搜索
-  useEffect(() => {
-    if (associatedValue) {
-      setFilterParamList([]);
-      setFilterParamList(
-        list.filter(item => {
-          if (
-            item?.name?.indexOf(associatedValue) !== -1 ||
-            item?.description?.indexOf(associatedValue) !== -1
-          ) {
-            return true;
-          }
-          return false;
-        })
-      );
-    } else {
-      //为空时将渲染原始表格数据
-      setFilterParamList(list);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [associatedValue]);
-  // 初始数据为data1
+  // useEffect(() => {
+  //   if (associatedValue) {
+  //     setFilterParamList([]);
+  //     setFilterParamList(
+  //       list.filter(item => {
+  //         if (
+  //           item?.name?.indexOf(associatedValue) !== -1 ||
+  //           item?.description?.indexOf(associatedValue) !== -1
+  //         ) {
+  //           return true;
+  //         }
+  //         return false;
+  //       })
+  //     );
+  //   } else {
+  //     //为空时将渲染原始表格数据
+  //     setFilterParamList(list);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [associatedValue]);
+  // // 初始数据为data1
   const [filterparamList, setFilterParamList] = useState(list);
 
   // 标签搜索
