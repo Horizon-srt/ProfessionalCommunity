@@ -13,7 +13,7 @@ class ServiceType:
 
 
 def create_service_router():
-    service_bp = Blueprint('service_bp', __name__)
+    service_bp = Blueprint('service_bp', __name__, url_prefix='/api')
 
     @service_bp.route('/services', methods=['POST'])
     @jwt_required()

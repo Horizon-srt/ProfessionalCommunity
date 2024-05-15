@@ -6,7 +6,7 @@ from model.service import Notify
 
 
 def create_notify_router():
-    notify_bp = Blueprint('notify_bp', __name__)
+    notify_bp = Blueprint('notify_bp', __name__, url_prefix='/api')
 
     @notify_bp.route('/notifies', methods=['POST'])
     @jwt_required()

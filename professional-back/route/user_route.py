@@ -10,7 +10,7 @@ from route.utils import check_user_role
 
 
 def create_user_router():
-    user_bp = Blueprint('user_bp', __name__)
+    user_bp = Blueprint('user_bp', __name__, url_prefix='/api')
     client = OpenAI(
         api_key="sk-proj-reSPfOWF6sKPjR3ZuQ43T3BlbkFJcCSJvfv3RRCfjVnO2v9C",
         timeout=60
