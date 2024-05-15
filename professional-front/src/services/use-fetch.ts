@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { ProvideMethod, host, port } from '@/types/data-types';
 import useSWRMutation from 'swr/mutation';
+import { message } from 'antd';
 
 const getToken = () => {
   return window.localStorage.getItem('pt-auth') || '';
@@ -26,7 +27,7 @@ const dataFetcher = async (url: string, method: ProvideMethod, params: any) => {
     const res = await fetch(`http://${host}:${port}/api${url}${query}`, {
       method,
       headers: {
-        Authorization: `Bearer ${newParams.Authorization}`,
+        Authorization: `${newParams.Authorization}`,
         'Content-Type': 'application/json'
       },
       ...(method !== 'GET'
@@ -45,10 +46,7 @@ const dataFetcher = async (url: string, method: ProvideMethod, params: any) => {
     });
     return res.data;
   } catch (error) {
-    console.log(error);
-    console.log(1111);
-
-    // message.error(error as JointContent);
+    message.error(error?.toString());
   }
 };
 

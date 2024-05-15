@@ -1,7 +1,7 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, List, Spin, Tabs, TabsProps, message } from 'antd';
 import style from '@/components/ServiceParts/styles/style.module.css';
 import { Image } from 'antd';
@@ -25,7 +25,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   const [fixedCurrent, setFixedCurrent] = useState(1);
   const [onDoorCurrent, setOnDoorCurrent] = useState(1);
   const [subscribeCurrent, setSubscribeCurrent] = useState(1);
-  const [allCurrent, setAllCurrent] = useState(1);
   const [itemList, setItemList] = useState([] as any);
   const router = useRouter();
   const [userType, setUserType] = useState('TOURIST');
@@ -287,6 +286,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     type: ServiceType;
     userType: string;
   }> = ({ userType, dataList, type }) => {
+    console.log(dataList);
     return (
       <List
         itemLayout='vertical'
@@ -313,6 +313,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
               <List.Item
                 key={item.title}
                 extra={
+                  // todos
                   <Image src={item.cover} alt={''} width={160} height={100} />
                 }
               >
@@ -338,18 +339,18 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
             setSubscribeCurrent(page);
           },
           pageSize: 4,
-          total: subscribeData.allPages ? subscribeData.allPages * 4 : 0
+          total: (subscribeData?.allPages || 1) * 4
         }}
         dataSource={subscribeData?.services || []}
         renderItem={(item: any) => {
           return (
             // <Link href={`/admin/service/edit/${item.srid}`}>
             <List.Item
-              key={item.srid + item.title}
+              key={item.srid + item.name}
               actions={[
                 <Link
                   href={`/admin/service/subscribe/${item.srid}`}
-                  key={item.srid + item.title}
+                  key={item.srid + item.name}
                 >
                   <Button style={{ color: '#6DC570' }}>View</Button>
                 </Link>
@@ -379,6 +380,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     );
   };
 
+  console.log(fixedData);
   const items: TabsProps['items'] = [
     {
       key: 'FIXED',
@@ -439,7 +441,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   useEffect(() => {
     setItemList(items);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fixedData, onDoorData]);
 
   return (
     <div className={style.backgoundCard}>

@@ -2,10 +2,10 @@
 import React from 'react';
 import SubscribeDetail from '@/components/SubscribeDetail';
 
-const SubscribeDetailPage: React.FC<{ params: { slug: string } }> = ({
+const SubscribeDetailPage: React.FC<{ params: { sid: string } }> = ({
   params
 }) => {
-  return <SubscribeDetail srid={params.slug} />;
+  return <SubscribeDetail srid={params.sid} />;
 };
 
 export default SubscribeDetailPage;
