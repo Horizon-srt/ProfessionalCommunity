@@ -18,7 +18,7 @@ import style from '@/components/ServiceDetail/styles/style.module.css';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import { ProvideMethod } from '@/types/data-types';
-import { useFetchMutation } from '@/services/use-fetch';
+import useFetch, { useFetchMutation } from '@/services/use-fetch';
 
 interface ServiceDetailProps {
   slug: string;
@@ -28,11 +28,15 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [time, setTime] = useState('');
   const [detail, setDetail] = useState('');
-  // const { data, isLoading, error } = useFetch({
-  //   url: `/services/${slug}`,
-  //   method: 'GET',
-  //   params: {}
-  // });
+  const {
+    data,
+    isLoading,
+    error: detailError
+  } = useFetch({
+    url: `/services/${slug}`,
+    method: 'GET',
+    params: {}
+  });
   const router = useRouter();
 
   const dateFormat = 'YYYY-MM-DD';
@@ -45,20 +49,20 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
 
   const { trigger, isMutating, error } = useFetchMutation(defaultUploadParams);
 
-  const data = {
-    sid: '1',
-    name: 'Sports items',
-    // Mock cover
-    cover:
-      'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-    available: '6:00 - 22:00',
-    detail: 'qwertyuiopasdfghjklzxcvbnm',
-    type: 'FIXED',
-    location: 'Teaching Building 4',
-    map: '/mock_map.jpg',
-    video: '/default_video.mp4',
-    line: '13832581023'
-  };
+  // const data = {
+  //   sid: '1',
+  //   name: 'Sports items',
+  //   // Mock cover
+  //   cover:
+  //     'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
+  //   available: '6:00 - 22:00',
+  //   detail: 'qwertyuiopasdfghjklzxcvbnm',
+  //   type: 'FIXED',
+  //   location: 'Teaching Building 4',
+  //   map: '/mock_map.jpg',
+  //   video: '/default_video.mp4',
+  //   line: '13832581023'
+  // };
 
   const handleBook = async () => {
     setShowUpload(false);
@@ -98,9 +102,9 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
     <div className={style.backgroundCard}>
       <div className={style.titleStyle}>
         Location in the community
-        <Label type={data.type} />
+        <Label type={data?.type || 'loading...'} />
       </div>
-      {data.type === 'FIXED' ? (
+      {!isLoading && data?.type === 'FIXED' ? (
         <>
           <div className={style.imagePosition}>
             <Image
@@ -121,7 +125,7 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
                 >{`(Open Time: ${data.available})`}</div>
               </div>
               <div style={{ paddingTop: '1rem' }}>
-                {data.type === 'FIXED'
+                {isLoading && data.type === 'FIXED'
                   ? `Location: ${data.location}`
                   : `Line: ${data.line}`}
               </div>
@@ -150,7 +154,7 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
           >
             <div style={{ width: '65%', height: '100%', marginRight: '1.5%' }}>
               <Image
-                src={data.cover}
+                src={data?.cover || ''}
                 width={'100%'}
                 height={'100%'}
                 alt=''
@@ -166,7 +170,9 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
                 padding: '1rem'
               }}
             >
-              <div style={{ fontSize: 'large' }}>{data.name}</div>
+              <div style={{ fontSize: 'large' }}>
+                {data?.name || 'loading...'}
+              </div>
               <div
                 style={{
                   fontSize: 'small',
@@ -174,10 +180,14 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
                   marginTop: '0.8rem'
                 }}
               >
-                {data.line}
+                {data?.line || 'loading...'}
               </div>
-              <div style={{ marginTop: '1.5rem' }}>{data.available}</div>
-              <div style={{ marginTop: '1rem' }}>{data.detail}</div>
+              <div style={{ marginTop: '1.5rem' }}>
+                {data?.available || 'loading...'}
+              </div>
+              <div style={{ marginTop: '1rem' }}>
+                {data?.detail || 'loading...'}
+              </div>
             </div>
           </div>
           <div

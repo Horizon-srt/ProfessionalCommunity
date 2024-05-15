@@ -22,7 +22,9 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
       }) => {
         if (resource.type) {
           lineChartTypeData[resource.type].push(
-            Object.assign({ time: `${resource.year}-${resource.month}` })
+            Object.assign(resource, {
+              time: `${resource.year}-${resource.month}`
+            })
           );
         }
         lineChartTypeData[ResourceType.ELETRIC].sort();
@@ -59,9 +61,28 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
     ]
   };
 
+  // 标准节水线
+  const saveLineChartData = useMemo(() => {
+    let saveLineChartTypeData = JSON.parse(JSON.stringify(lineChartDataMock));
+    Object.keys(saveLineChartTypeData).forEach(key => {
+      saveLineChartTypeData[key as unknown as ResourceType] =
+        saveLineChartTypeData[key as unknown as ResourceType].map(
+          (item: any) => {
+            item.value = 5;
+            return item;
+          }
+        );
+    });
+    console.log(saveLineChartTypeData);
+    return saveLineChartTypeData;
+  }, [lineChartDataMock]);
+
   useEffect(() => {
     updateChart();
   }, [data]);
+
+  let saveLine;
+  let line;
   const { containerRef: lineRef, updateChart } = useRenderChart({
     renderChart: container => {
       const chart = new Chart({
@@ -71,18 +92,10 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
       });
 
       // 声明可视化
-      chart
+
+      line = chart
         .line()
         .data(lineChartDataMock[currentOption])
-        // .data([
-        //   { month: '2023-10', value: 3.5 },
-        //   { month: '2023-11', value: 5 },
-        //   { month: '2023-12', value: 4.9 },
-        //   { month: '2024-1', value: 6 },
-        //   { month: '2024-2', value: 7 },
-        //   { month: '2024-3', value: 9 },
-        //   { month: '2024-4', value: 6 }
-        // ])
         .encode('x', 'month')
         .encode('y', 'value')
         .style({
@@ -100,13 +113,23 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
         })
         .style('strokeWidth', 10);
 
+      saveLine = chart
+        .line()
+        .data(saveLineChartData[currentOption])
+        .encode('x', 'month')
+        .encode('y', 'value')
+        .style({
+          stroke: 'red',
+          strokeWidth: 4
+        });
       // 渲染可视化
       chart.render();
 
       return chart;
     },
     updateChart: chart => {
-      chart.changeData(lineChartDataMock[currentOption]);
+      line.changeData(lineChartDataMock[currentOption]);
+      saveLine.changeData(saveLineChartData[currentOption]);
     }
   });
 

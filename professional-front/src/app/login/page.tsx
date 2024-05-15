@@ -78,11 +78,9 @@ const Login: React.FC = () => {
   }, [data, error, loginIsMutating]);
 
   useEffect(() => {
-    console.log(registerData, registerError, registerIsMutating);
     if (!registerIsMutating && registerError) {
       message.error(registerError);
     } else if (!registerIsMutating && registerData && registerData.jwt) {
-      console.log(registerData);
       window.localStorage.setItem('pt-auth', registerData.jwt);
       window.localStorage.setItem('user-type', registerData.type);
       // setUserType(data.userType);

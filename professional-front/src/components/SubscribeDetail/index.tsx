@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Card from '@/components/Card';
 import { Image, Spin, message } from 'antd';
 import Link from 'next/link';
+import useFetch from '@/services/use-fetch';
 
 interface SubscribeDetailProps {
   srid: string;
@@ -11,30 +12,30 @@ interface SubscribeDetailProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
-  // const { data, isLoading, error } = useFetch({
-  //   url: `/services/subscribe/${srid}`,
-  //   method: 'GET',
-  //   params: {}
-  // });
+  const { data, isLoading, error } = useFetch({
+    url: `/services/subscribe/${srid}`,
+    method: 'GET',
+    params: {}
+  });
 
-  const data = {
-    srid: '1',
-    avator: '/default_image1.jpg',
-    cover: '/default_image2.jpg',
-    building: 'string',
-    unit: 'string',
-    room: 'string',
-    name: 'Zhang San',
-    service_name: 'Fix air conditioner',
-    phone: '13832581023',
-    line: '13832581023',
-    detail:
-      'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;',
-    time: 'today'
-  };
+  // const data = {
+  //   srid: '1',
+  //   avator: '/default_image1.jpg',
+  //   cover: '/default_image2.jpg',
+  //   building: 'string',
+  //   unit: 'string',
+  //   room: 'string',
+  //   name: 'Zhang San',
+  //   service_name: 'Fix air conditioner',
+  //   phone: '13832581023',
+  //   line: '13832581023',
+  //   detail:
+  //     'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;',
+  //   time: 'today'
+  // };
 
-  const isLoading = false;
-  const error = '';
+  // const isLoading = false;
+  // const error = '';
 
   useEffect(() => {
     if (!isLoading && error) {

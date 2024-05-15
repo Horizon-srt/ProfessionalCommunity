@@ -199,9 +199,8 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
             </button>
           </Upload>
         </Form.Item>
-        <Form.Item label={'Service Type'}>
+        <Form.Item label={'Service Type'} name={'type'} initialValue={'FIXED'}>
           <Radio.Group
-            name='type'
             defaultValue={'FIXED'}
             onChange={e => {
               setServiceType(e.target.value);
@@ -287,9 +286,9 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
           <Form.Item>
             <ReturnButton />
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             <DeleteButton />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item>
             <SubmitButton />
           </Form.Item>
