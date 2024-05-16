@@ -74,16 +74,14 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
 
   const beforeUploadImg = (file: any, formFieldKey: string) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
       return false;
     }
-
     getBase64(file as FileType, url => {
       form.setFieldValue(formFieldKey, url);
     });
-    return true;
+    return false;
   };
 
   const beforeUploadVideo = (file: any) => {
@@ -91,11 +89,13 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
 
     if (!isMp4) {
       message.error('You can only upload MP4 file!');
+      return false;
     }
 
     const isLt50M = file.size / 1024 / 1024 < 50;
     if (!isLt50M) {
       message.error('Video must smaller than 50MB!');
+      return false;
     }
 
     getBase64(file as FileType, url => {
