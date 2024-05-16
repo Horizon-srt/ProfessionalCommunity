@@ -498,30 +498,27 @@ def create_user_router():
         for user in users:
             user_data = {}
             if type == 'ENTERPRISE':
+                temp_user = User.query.get(user.uid)
                 user_data = {
-                  "uid": user.uid,
-                  "name": user.name,
-                  "avator": user.avator,
-                  "ename": user.ename
+                    "uid": user.uid,
+                    "name": temp_user.name,
+                    "avator": str(temp_user.avator),
+                    "ename": user.ename
                 }
             else :
-              user_data = {
-                  "uid": user.uid,
-                  "name": user.name,
-                  "avator": user.avator,
-                  "ename": None
-              }
+                temp_user = User.query.get(user.uid)
+                user_data = {
+                    "uid": user.uid,
+                    "name": temp_user.name,
+                    "avator": str(temp_user.avator),
+                    "ename": None
+                }
             
             all_users.append(user_data)
 
         allPages = (users_count + offset - 1) // offset
 
-        response_data = {
-            "users": all_users,
-            "allPages": allPages
-        }
-
-        return jsonify(code=200, data=response_data), 200
+        return jsonify(code=200, data={"users": all_users, "allPages": allPages}), 200
 
 
     return user_bp
