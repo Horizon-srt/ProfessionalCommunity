@@ -14,22 +14,22 @@ interface NoticeDetailProps {
 }
 
 const NoticeDetail: React.FC<NoticeDetailProps> = ({ nid }) => {
-  // const { data, isLoading, error } = useFetch({
-  //   url: `/services/${nid}`,
-  //   method: 'GET',
-  //   params: {}
-  // });
+  const { data, isLoading, error } = useFetch({
+    url: `/notifies/${nid}`,
+    method: 'GET',
+    params: {}
+  });
 
-  const data = {
-    nid: '2',
-    title: 'String',
-    time: '2024-1-1',
-    content:
-      'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;'
-  };
+  // const data = {
+  //   nid: '2',
+  //   title: 'String',
+  //   time: '2024-1-1',
+  //   content:
+  //     'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;'
+  // };
 
-  const isLoading = false;
-  const error = '';
+  // const isLoading = false;
+  // const error = '';
 
   return (
     <div className='p-4 h-full'>
@@ -42,7 +42,7 @@ const NoticeDetail: React.FC<NoticeDetailProps> = ({ nid }) => {
               <div className='flex flex-row justify-between'>
                 <div className='relative'>
                   <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-                  <div>{data.title}</div>
+                  <div>{data?.title || ''}</div>
                 </div>
               </div>
               <div
@@ -51,7 +51,7 @@ const NoticeDetail: React.FC<NoticeDetailProps> = ({ nid }) => {
                   padding: '2rem'
                 }}
               >
-                <div className={style.messageBox}>{data.content}</div>
+                <div className={style.messageBox}>{data?.content || ''}</div>
                 <div
                   style={{
                     color: '#686868',
@@ -64,7 +64,7 @@ const NoticeDetail: React.FC<NoticeDetailProps> = ({ nid }) => {
                   }}
                 >
                   <div>Green Life Commuty</div>
-                  <div>{data.time}</div>
+                  <div>{data?.time || 's'}</div>
                 </div>
               </div>
             </>

@@ -32,14 +32,14 @@ const Tourist: React.FC = () => {
       offset
     }
   });
-  const mockData = [
-    {
-      nid: '11111',
-      title: 'aaa',
-      time: '2024-4-16',
-      content_slice: 'heoihilwjdlwkanlk'
-    }
-  ];
+  // const mockData = [
+  //   {
+  //     nid: '11111',
+  //     title: 'aaa',
+  //     time: '2024-4-16',
+  //     content_slice: 'heoihilwjdlwkanlk'
+  //   }
+  // ];
 
   useEffect(() => {
     setUserType(localStorage.getItem('user-type') || 'TOURIST');
@@ -79,7 +79,7 @@ const Tourist: React.FC = () => {
           <div className='w-full flex justify-center'>
             <Pagination
               defaultCurrent={1}
-              total={(data?.allPages || 1) * 10}
+              total={data?.allPages || 1}
               current={pageNum}
               onChange={page => {
                 setCurrentPage(page);
