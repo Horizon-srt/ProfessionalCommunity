@@ -23,6 +23,7 @@
     border-radius: 20px;
     padding: 1rem 0.5rem;
     width: 60%;
+    word-wrap: break-word
 }
 .contentStyle{
     padding: 1rem 0.5rem;

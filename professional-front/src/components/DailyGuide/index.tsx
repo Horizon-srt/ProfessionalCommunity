@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Card, Spin } from 'antd';
+import { Card, Spin, message } from 'antd';
 import Link from 'next/link';
-// import useFetch from '@/services/use-fetch';
-// import { ProvideMethod } from '@/types/data-types';
+import useFetch, { useFetchMutation } from '@/services/use-fetch';
+import { ProvideMethod } from '@/types/data-types';
 
 interface DailyGuideProps {
   width: string;
@@ -12,50 +12,65 @@ interface DailyGuideProps {
 
 const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
   const [type, setTypes] = useState('TOURIST');
-  // const [fetchParam, setFetchParam] = useState({
-  //   url: '',
-  //   method: 'GET' as ProvideMethod,
-  //   params: {}
-  // });
-
-  // useEffect(() => {
-  //   setTypes(localStorage.getItem('user-type') || 'TOURIST');
-  // }, []);
-
-  // const guideListFetch = useFetch({
-  //   url: '/guides',
-  //   method: 'GET',
-  //   params: {
-  //     offset: 1,
-  //     pageNumber: 1
-  //   }
-  // });
-
-  // useEffect(() => {
-  //   setFetchParam({
-  //     url: `/guides?gid=${guideListFetch.data.guides.gid}`,
-  //     method: 'GET' as ProvideMethod,
-  //     params: {}
-  //   });
-  // }, [guideListFetch.data.guides.gid, guideListFetch.isLoading]);
-
-  // const { data, isLoading } = useFetch(fetchParam);
-
-  const data = {
-    gid: '1',
-    author: 'string',
-    title: 'string',
-    content: 'string',
-    date: 'string',
-    cover: 'string'
+  const defaultFetchParams = {
+    url: '',
+    method: 'GET' as ProvideMethod,
+    params: {}
   };
 
-  const isLoading = false;
+  useEffect(() => {
+    setTypes(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
+
+  const {
+    data: guideListData,
+    isLoading,
+    error: guideListError
+  } = useFetch({
+    url: '/guides',
+    method: 'GET',
+    params: {
+      offset: 1,
+      pageNumber: 1
+    }
+  });
+
+  const {
+    data,
+    isMutating,
+    trigger,
+    error: guideError
+  } = useFetchMutation(defaultFetchParams);
+
+  useEffect(() => {
+    if (!isLoading && guideListError) {
+      message.error(guideListError);
+    }
+  }, [isLoading, guideListError]);
+
+  useEffect(() => {
+    if (!isMutating && guideError) {
+      message.error(guideError);
+    }
+  }, [isMutating, guideError]);
+
+  useEffect(() => {
+    console.log(guideListData);
+    if (!isLoading && !guideListError && guideListData.guides) {
+      trigger({
+        ...defaultFetchParams,
+        url: `/guides/${guideListData.guides[0].gid}`
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guideListData]);
 
   return (
     <Card
       title={
-        <div style={{ fontWeight: 'bold' }}>{`Guide - ${data.title}`}</div>
+        <div
+          style={{ fontWeight: 'bold' }}
+        >{`Guide - ${data?.title || ''}`}</div>
       }
       extra={
         <Link
@@ -73,14 +88,13 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
       }}
       styles={{ body: { paddingTop: '0px' } }}
     >
-      <Spin spinning={isLoading} size='large'>
-        <div>{data.content}</div>
-        {/* {isLoading ? (
-          <div></div>
-        ) : (
-
-        )} */}
-      </Spin>
+      {data ? (
+        <div style={{ wordWrap: 'break-word', marginTop: '1rem' }}>
+          {data.content}
+        </div>
+      ) : (
+        <Spin spinning={true} />
+      )}
     </Card>
   );
 };

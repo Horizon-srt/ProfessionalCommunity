@@ -9,80 +9,73 @@ import {
   UploadProps,
   message
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import styles from './styles/style.module.css';
 import { ProvideMethod } from '@/types/data-types';
 import { useFetchMutation } from '@/services/use-fetch';
+import { getBase64 } from '@/utils/utils';
 
-const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
+const Create: React.FC = () => {
   const { TextArea } = Input;
+  const [form] = Form.useForm();
+
   const router = useRouter();
   const defaultCreateParams = {
-    url: '/services',
+    url: '/guides',
     method: 'POST' as ProvideMethod,
     params: null
   };
 
-  const {
-    data: createReturnData,
-    error: createReturnError,
-    trigger: createService
-  } = useFetchMutation(defaultCreateParams);
+  const { data, isMutating, error, trigger } =
+    useFetchMutation(defaultCreateParams);
 
   const onCreateFinish = async (values: any) => {
-    const finalValue = {
-      ...values,
-      // TODO: 视频还没转成base64
-      cover: values.cover?.thumbUrl ? values.cover.thumbUrl : '',
-      map: values.map?.thumbUrl ? values.map.thumbUrl : '',
-      video: values.video?.thumbUrl ? values.video.thumbUrl : ''
-    };
-
-    console.log(finalValue);
-
-    // if (sid !== '-1') {
-    //   changeService({ ...defaultChangeParams, params: finalValue });
-    // } else {
-    //   createService({ ...defaultCreateParams, params: finalValue });
-    // }
+    trigger({
+      ...defaultCreateParams,
+      params: {
+        ...values,
+        cover: values.cover?.thumbUrl ? values.cover.thumbUrl : ''
+      }
+    });
   };
+
   const onFinishFailed = async (e: any) => {
-    console.log(e);
-    // message.error(e);
+    // console.log(e);
+    message.error(e);
   };
+
   type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
-  const getBase64 = (img: FileType, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result as string));
-    reader.readAsDataURL(img);
-  };
-  const beforeUpload = (file: FileType) => {
+  const beforeUploadImg = (file: any, formFieldKey: string) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
+      return false;
     }
-    return isJpgOrPng;
-  };
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
 
-  const handleChange: UploadProps['onChange'] = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      console.log(info.file);
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as FileType, url => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
+    getBase64(file as FileType, url => {
+      form.setFieldValue(formFieldKey, url);
+    });
+    return true;
   };
+
+  // const handleChange: UploadProps['onChange'] = info => {
+  //   if (info.file.status === 'uploading') {
+  //     setLoading(true);
+  //     // console.log(info.file);
+  //     return;
+  //   }
+  //   if (info.file.status === 'done') {
+  //     // Get this url from response in real world.
+  //     getBase64(info.file.originFileObj as FileType, url => {
+  //       setLoading(false);
+  //       setImageUrl(url);
+  //     });
+  //   }
+  // };
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -93,12 +86,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
 
   const SubmitButton: React.FC = () => {
     return (
-      <Button
-        style={{ width: '7.5rem' }}
-        onClick={() => router.push('/admin/guide')}
-        htmlType='submit'
-        type='primary'
-      >
+      <Button style={{ width: '7.5rem' }} htmlType='submit' type='primary'>
         Submit
       </Button>
     );
@@ -115,19 +103,29 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     );
   };
 
+  useEffect(() => {
+    if (!isMutating && error) {
+      message.error(error);
+    } else if (!isMutating && data) {
+      router.back();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMutating, error, data]);
+
   return (
     <div className='p-32 h-full'>
       <Card>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>
             <div className='relative'>
-              <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]'></div>
+              <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]' />
               <div style={{ fontSize: '2.5rem' }}>Guide Create</div>
             </div>
           </div>
           <Form
             onFinish={onCreateFinish}
             onFinishFailed={onFinishFailed}
+            form={form}
             layout='vertical'
           >
             <Form.Item
@@ -144,15 +142,19 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
               getValueFromEvent={normFile}
             >
               <Upload
-                name='avatar'
+                name='cover'
                 listType='picture-card'
-                className='avatar-uploader'
-                showUploadList={false}
-                action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
+                multiple={false}
+                maxCount={1}
+                beforeUpload={f => beforeUploadImg(f, 'cover')}
+                // onChange={handleChange}
               >
-                {imageUrl ? (
+                <button style={{ border: 0, background: 'none' }} type='button'>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </button>
+                {/* {imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={imageUrl} alt='avatar' style={{ width: '100%' }} />
                 ) : (
                   <button
@@ -162,7 +164,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                     {loading ? <LoadingOutlined /> : <PlusOutlined />}
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </button>
-                )}
+                )} */}
               </Upload>
             </Form.Item>
             <Form.Item
@@ -176,15 +178,15 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                 style={{ width: '50%' }}
               ></TextArea>
             </Form.Item>
+            <div className={styles.buttonArea}>
+              <Form.Item>
+                <ReturnButton />
+              </Form.Item>
+              <Form.Item>
+                <SubmitButton />
+              </Form.Item>
+            </div>
           </Form>
-          <div className={styles.buttonArea}>
-            <Form.Item>
-              <ReturnButton />
-            </Form.Item>
-            <Form.Item>
-              <SubmitButton />
-            </Form.Item>
-          </div>
         </div>
       </Card>
     </div>
