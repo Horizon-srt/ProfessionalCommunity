@@ -1,13 +1,19 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import styles from './styles/style.module.css';
-import { Avatar, Button, List, Spin, message } from 'antd';
+import { Avatar, Button, List, Popconfirm, Spin, message } from 'antd';
 import { useRouter } from 'next/navigation';
-import useFetch from '@/services/use-fetch';
+import useFetch, { useFetchMutation } from '@/services/use-fetch';
+import { ProvideMethod } from '@/types/data-types';
 
 const Tourist: React.FC = () => {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  const defaultDeleteParams = {
+    url: '',
+    method: 'DELETE' as ProvideMethod,
+    params: {}
+  };
 
   // const list: any[] = [];
   const { data, isLoading, error } = useFetch({
@@ -19,6 +25,12 @@ const Tourist: React.FC = () => {
       pageNum: currentPage
     }
   });
+
+  const {
+    isMutating,
+    error: deleteError,
+    trigger
+  } = useFetchMutation(defaultDeleteParams);
 
   // for (let i = 1; i < 40; i += 1) {
   //   list.push({
@@ -34,10 +46,16 @@ const Tourist: React.FC = () => {
   // const [filterparamList, setFilterParamList] = useState(list);
 
   useEffect(() => {
-    if (isLoading && error) {
+    if (!isLoading && error) {
       message.error(error);
     }
   }, [isLoading, error]);
+
+  useEffect(() => {
+    if (isMutating && deleteError) {
+      message.error(deleteError);
+    }
+  }, [isMutating, deleteError]);
 
   return (
     <div className={styles.main}>
@@ -76,20 +94,35 @@ const Tourist: React.FC = () => {
               return (
                 <List.Item
                   className={styles.listItem}
-                  key={item.bid}
+                  key={item.gid}
                   actions={[
                     <Button
-                      key='list-loadmore-edit'
+                      key={item.gid}
                       type='link'
                       onClick={() => {
-                        router.push(`guide/detail/${item.bid}`);
+                        router.push(`guide/detail/${item.gid}`);
                       }}
                     >
                       Detail
                     </Button>,
-                    <Button key='' type='primary' danger>
-                      Delete
-                    </Button>
+                    <Popconfirm
+                      key={item.gid}
+                      title='Delete the task'
+                      description='Are you sure to delete this task?'
+                      onConfirm={() => {
+                        trigger({
+                          ...defaultDeleteParams,
+                          url: `/guides/${item.gid}`
+                        });
+                        router.push('guide');
+                      }}
+                      okText='Yes'
+                      cancelText='No'
+                    >
+                      <Button type='primary' danger>
+                        Delete
+                      </Button>
+                    </Popconfirm>
                   ]}
                 >
                   <List.Item.Meta

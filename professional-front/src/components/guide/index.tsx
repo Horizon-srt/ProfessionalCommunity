@@ -43,11 +43,11 @@ const Guide: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     if (!isLoading && error) {
       message.error(error);
     }
-  });
+  }, [isLoading, error]);
 
   return (
     <main>
@@ -64,7 +64,7 @@ const Guide: React.FC = () => {
               pageSize: 4,
               total: (data?.allPages || 1) * 4
             }}
-            dataSource={data?.guide || []}
+            dataSource={data?.guides || []}
             renderItem={(item: any) => (
               <List.Item
                 key={item.title}
@@ -77,14 +77,14 @@ const Guide: React.FC = () => {
                     src='https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'
                   />
                 }
-                onClick={() => router.push(`guide/detail/${item.bid}`)}
+                onClick={() => router.push(`guide/detail/${item.gid}`)}
               >
                 <List.Item.Meta
                   title={item.title}
                   // title={<a href={item.href}>{item.title}</a>}
                   description={item.date}
                 />
-                {item.content[0].slice(0, 60)}+{'....'}
+                {item.content_slice + '....'}
               </List.Item>
             )}
           />
