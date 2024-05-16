@@ -54,7 +54,7 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
             {`${year}-${month}`}
           </div>
         </div>
-        <div className='mt-3 dark:text-white'>{data.content_slice}</div>
+        <div className='mt-3 dark:text-white'>{data.title}</div>
       </Link>
 
       {link.split('/')[1] === 'admin' ? (

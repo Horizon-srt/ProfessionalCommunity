@@ -5,6 +5,7 @@ import { Button, Card, Form, Input, message } from 'antd';
 import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { useRouter } from 'next/navigation';
+import dayjs from 'dayjs';
 
 const NoticeCreate: React.FC = () => {
   const router = useRouter();
@@ -15,11 +16,17 @@ const NoticeCreate: React.FC = () => {
     params: {}
   };
 
-  const { trigger, isMutating, error } = useFetchMutation(defaultNoticeParams);
+  const { data, trigger, isMutating, error } =
+    useFetchMutation(defaultNoticeParams);
 
   const onFinish = async (value: any) => {
-    console.log(value);
-    trigger({ ...defaultNoticeParams, params: { ...value } });
+    trigger({
+      ...defaultNoticeParams,
+      params: {
+        ...value,
+        time: dayjs().format('YYYY-MM-DD')
+      }
+    });
   };
 
   const onFinishFailed = (error: any) => {
@@ -31,6 +38,14 @@ const NoticeCreate: React.FC = () => {
       message.error(error);
     }
   }, [isMutating, error]);
+
+  useEffect(() => {
+    if (data && data.nid) {
+      message.info('Create successful!');
+      router.back();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <div className='p-32 h-full'>
@@ -72,7 +87,11 @@ const NoticeCreate: React.FC = () => {
                 </Button>
               </Form.Item>
               <Form.Item>
-                <Button id={style.submitButton} type='primary'>
+                <Button
+                  id={style.submitButton}
+                  type='primary'
+                  htmlType='submit'
+                >
                   Submit
                 </Button>
               </Form.Item>
