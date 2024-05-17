@@ -236,7 +236,7 @@ export const UserManagement = () => {
           <div className='w-full flex justify-end'>
             <Pagination
               defaultCurrent={1}
-              total={(data?.allPages || 1) * 10}
+              total={(data?.total_pages || 1) * 10}
               pageSize={10}
               current={pageNum}
               onChange={page => {

@@ -58,7 +58,7 @@ const NormalNotice: React.FC = () => {
           <div className='w-full flex justify-center'>
             <Pagination
               defaultCurrent={1}
-              total={(data?.allPages || 1) * 10}
+              total={(data?.total_pages || 1) * 10}
               showSizeChanger={false}
               current={pageNum}
               onChange={page => {
