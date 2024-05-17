@@ -29,7 +29,11 @@ export const PieChart = ({ data }: any) => {
         }
       }
     );
-    return pieChartTypeData;
+    return [
+      pieChartTypeData[ResourceType.ELETRIC],
+      pieChartTypeData[ResourceType.GAS],
+      pieChartTypeData[ResourceType.WATER]
+    ];
   }, [data]);
   useEffect(() => {
     updateChart();
@@ -43,16 +47,11 @@ export const PieChart = ({ data }: any) => {
         container: container as HTMLElement
       });
 
-      const dataMock = [
-        { type: 'Water', value: 500 },
-        { type: 'Electricity', value: 500 },
-        { type: 'Gas', value: 500 }
-      ];
       chart
         .interval()
         .coordinate({ type: 'theta', innerRadius: 0.5 })
         .transform({ type: 'stackY' })
-        .data(dataMock)
+        .data(getPieChartData())
         .encode('y', 'value')
         .encode('color', 'type');
       // 渲染可视化
@@ -61,7 +60,18 @@ export const PieChart = ({ data }: any) => {
       return chart;
     },
     updateChart: chart => {
-      //   chart.changeData(getPieChartData());
+      chart.clear();
+      chart
+        .interval()
+        .coordinate({ type: 'theta', innerRadius: 0.5 })
+        .transform({ type: 'stackY' })
+        .data(getPieChartData())
+        .encode('y', 'value')
+        .encode('color', 'type');
+      // 渲染可视化
+      chart.render();
+
+      return chart;
     }
   });
 

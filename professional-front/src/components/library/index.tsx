@@ -24,9 +24,9 @@ const Library: React.FC = () => {
     url: '/education/ebook/search/label',
     method: 'GET' as ProvideMethod,
     params: {
-      current,
+      labels: current,
       offset,
-      currentPage
+      pageNum: currentPage
     }
   });
 
@@ -34,9 +34,9 @@ const Library: React.FC = () => {
     url: '/education/ebook/search/name',
     method: 'GET' as ProvideMethod,
     params: {
-      associatedValue,
+      name: associatedValue,
       offset,
-      currentPage
+      pageNum: currentPage
     }
   });
 

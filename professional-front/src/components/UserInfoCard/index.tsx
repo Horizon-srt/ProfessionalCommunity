@@ -117,7 +117,9 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
             <div className='w-10/12 flex flex-col'>
               <div className='text-base text-right font-bold'>{data?.name}</div>
               <div className='text-sm text-right text-gray-400'>
-                Owner of Room 323, Unit 1, No. 14
+                {isLoading
+                  ? 'loading'
+                  : `Owner of Room ${data?.room}, Unit ${data?.unit}, No. ${data?.building}`}
               </div>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { useStore } from '@/hooks/useStore';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { Card, Row, Col, Slider, InputNumber, Button, message } from 'antd';
@@ -34,31 +35,58 @@ export const Threshold = () => {
   const [gas, setGas] = useState(0);
 
   // 先写死，不确定是context传递还是props传递
-  const aid = '1234';
+  const uid = useStore(state => state.uid);
+
   const DefaultPatchAlertParams = {
-    url: '/addresses/resources/' + aid,
+    url: '/addresses/resources/' + uid,
     method: 'PATCH' as ProvideMethod,
     params: null
   };
 
-  const { data: thresholdData } = useFetch({
-    url: '/addresses/resources/' + aid,
+  const { data: thresholdData, isLoading: isGetDataLoading } = useFetch({
+    url: '/addresses/resources/' + uid,
     method: 'GET' as ProvideMethod,
     params: {}
   });
 
+  const defaultCreateAlertParams = {
+    url: '/address/alert/' + uid,
+    method: 'POST' as ProvideMethod,
+    params: null
+  };
+  const { trigger: createAlert } = useFetchMutation(defaultCreateAlertParams);
   useEffect(() => {
-    if (!thresholdData || !Array.isArray(thresholdData)) return;
+    if (!isGetDataLoading || !Array.isArray(thresholdData)) return;
+    const flag = { ELECTRICITY: false, GAS: false, WATER: false } as Record<
+      string,
+      boolean
+    >;
     for (const data of thresholdData) {
       if (data.type === 'ELECTRICITY') {
+        flag.ELECTRICITY = true;
         setElect(data.value);
       } else if (data.type === 'GAS') {
+        flag.GAS = true;
         setGas(data.value);
       } else if (data.type === 'WATER') {
+        flag.WATER = true;
         setWater(data.value);
       }
     }
-  }, [thresholdData]);
+    Object.keys(flag).forEach((key: string) => {
+      if (flag[key]) {
+        createAlert({
+          ...DefaultPatchAlertParams,
+          ...{
+            params: {
+              type: key,
+              value: 50
+            }
+          }
+        });
+      }
+    });
+  }, [thresholdData, isGetDataLoading]);
   const { trigger: patchWaterAlert } = useFetchMutation(
     DefaultPatchAlertParams
   );

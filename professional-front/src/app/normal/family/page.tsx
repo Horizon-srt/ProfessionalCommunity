@@ -8,6 +8,7 @@ import { Threshold } from './Threshold';
 import { usePagination } from '@/hooks/usePagination';
 import useFetch from '@/services/use-fetch';
 import { ProvideMethod, ResourceType } from '@/types/data-types';
+import { useStore } from '@/hooks/useStore';
 
 const Family: React.FC = () => {
   const options = [
@@ -18,14 +19,13 @@ const Family: React.FC = () => {
 
   const [currentOption, setCurrentOption] = useState(0);
   const { offset, pageNum, nextPage, prevPage } = usePagination({
-    offset: 20,
+    offset: 5,
     pageNum: 1
   });
 
-  // 先写死，不确定是context传递还是props传递
-  const aid = '1234';
+  const uid = useStore(state => state.uid);
   const { data } = useFetch({
-    url: '/addresses/resources/' + aid,
+    url: '/addresses/resources/' + uid || '0',
     method: 'GET' as ProvideMethod,
     params: {
       pageNum,
@@ -39,7 +39,9 @@ const Family: React.FC = () => {
         <div className='w-full h-full'>
           <header className='flex justify-between'>
             <span className='font-bold mt-1'>Resource data</span>
-            <Button onClick={prevPage}>Last Page</Button>
+            <Button onClick={prevPage} disabled={!!(pageNum === 1)}>
+              Last Page
+            </Button>
             <Button onClick={nextPage}>Next Page</Button>
             <Radio.Group
               options={options}
