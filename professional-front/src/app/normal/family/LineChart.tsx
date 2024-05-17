@@ -1,7 +1,7 @@
 import { useRenderChart } from '@/hooks/useRenderChart';
 import { ResourceType } from '@/types/data-types';
 import { Chart } from '@antv/g2';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 export const LineChart = ({ data, currentOption, pageNum }: any) => {
   const lineChartData = useMemo(() => {
@@ -35,35 +35,35 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
     return lineChartTypeData;
   }, [data]);
 
-  const lineChartDataMock = {
-    [ResourceType.ELETRIC]: [
-      { month: '2023-10', value: 3.5, comparsion: false },
-      { month: '2023-11', value: 5, comparsion: true },
-      { month: '2023-12', value: 4.9 },
-      { month: '2024-1', value: 6, comparsion: true },
-      { month: '2024-2', value: 7, comparsion: true },
-      { month: '2024-3', value: 9 },
-      { month: '2024-4', value: 6 }
-    ],
-    [ResourceType.WATER]: [
-      { month: '2023-10', value: 0 },
-      { month: '2023-11', value: 5 },
-      { month: '2023-12', value: 8.9 },
-      { month: '2024-1', value: 6 },
-      { month: '2024-2', value: 7 },
-      { month: '2024-3', value: 9 },
-      { month: '2024-4', value: 6 }
-    ],
-    [ResourceType.GAS]: [
-      { month: '2023-10', value: 0 },
-      { month: '2023-11', value: 5 },
-      { month: '2023-12', value: 8.9 }
-    ]
-  };
+  // const lineChartDataMock = {
+  //   [ResourceType.ELETRIC]: [
+  //     { month: '2023-10', value: 3.5, comparsion: false },
+  //     { month: '2023-11', value: 5, comparsion: true },
+  //     { month: '2023-12', value: 4.9 },
+  //     { month: '2024-1', value: 6, comparsion: true },
+  //     { month: '2024-2', value: 7, comparsion: true },
+  //     { month: '2024-3', value: 9 },
+  //     { month: '2024-4', value: 6 }
+  //   ],
+  //   [ResourceType.WATER]: [
+  //     { month: '2023-10', value: 0 },
+  //     { month: '2023-11', value: 5 },
+  //     { month: '2023-12', value: 8.9 },
+  //     { month: '2024-1', value: 6 },
+  //     { month: '2024-2', value: 7 },
+  //     { month: '2024-3', value: 9 },
+  //     { month: '2024-4', value: 6 }
+  //   ],
+  //   [ResourceType.GAS]: [
+  //     { month: '2023-10', value: 0 },
+  //     { month: '2023-11', value: 5 },
+  //     { month: '2023-12', value: 8.9 }
+  //   ]
+  // };
 
   // 标准节水线
   const saveLineChartData = useMemo(() => {
-    let saveLineChartTypeData = JSON.parse(JSON.stringify(lineChartDataMock));
+    const saveLineChartTypeData = JSON.parse(JSON.stringify(lineChartData));
     Object.keys(saveLineChartTypeData).forEach(key => {
       saveLineChartTypeData[key as unknown as ResourceType] =
         saveLineChartTypeData[key as unknown as ResourceType].map(
@@ -73,16 +73,13 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
           }
         );
     });
-    console.log(saveLineChartTypeData);
     return saveLineChartTypeData;
-  }, [lineChartDataMock]);
+  }, [lineChartData]);
 
   useEffect(() => {
     updateChart();
-  }, [data]);
+  }, [data, currentOption]);
 
-  let saveLine;
-  let line;
   const { containerRef: lineRef, updateChart } = useRenderChart({
     renderChart: container => {
       const chart = new Chart({
@@ -92,10 +89,9 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
       });
 
       // 声明可视化
-
-      line = chart
+      chart
         .line()
-        .data(lineChartDataMock[currentOption])
+        .data(lineChartData[currentOption as ResourceType])
         .encode('x', 'month')
         .encode('y', 'value')
         .style({
@@ -105,7 +101,7 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
 
       chart
         .point()
-        .data(lineChartDataMock[currentOption])
+        .data(lineChartData[currentOption as ResourceType])
         .encode('x', 'month')
         .encode('y', 'value')
         .style('stroke', (s: any) => {
@@ -113,7 +109,7 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
         })
         .style('strokeWidth', 10);
 
-      saveLine = chart
+      chart
         .line()
         .data(saveLineChartData[currentOption])
         .encode('x', 'month')
@@ -128,8 +124,37 @@ export const LineChart = ({ data, currentOption, pageNum }: any) => {
       return chart;
     },
     updateChart: chart => {
-      line.changeData(lineChartDataMock[currentOption]);
-      saveLine.changeData(saveLineChartData[currentOption]);
+      chart.clear();
+      chart
+        .line()
+        .data(lineChartData[currentOption as ResourceType])
+        .encode('x', 'month')
+        .encode('y', 'value')
+        .style({
+          stroke: 'green',
+          strokeWidth: 4
+        });
+
+      chart
+        .point()
+        .data(lineChartData[currentOption as ResourceType])
+        .encode('x', 'month')
+        .encode('y', 'value')
+        .style('stroke', (s: any) => {
+          return s.comparsion ? 'red' : 'green';
+        })
+        .style('strokeWidth', 10);
+
+      chart
+        .line()
+        .data(saveLineChartData[currentOption])
+        .encode('x', 'month')
+        .encode('y', 'value')
+        .style({
+          stroke: 'red',
+          strokeWidth: 4
+        });
+      chart.render();
     }
   });
 

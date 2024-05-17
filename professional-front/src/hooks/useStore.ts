@@ -6,6 +6,8 @@ interface StoreState {
   switchExpand: () => void;
   userType: UserType;
   setUserType: (type: UserType) => void;
+  uid: string;
+  setUid: (uid: string) => void;
 }
 export const useStore = create<StoreState>(set => ({
   userInfoIsExpand: false,
@@ -18,6 +20,12 @@ export const useStore = create<StoreState>(set => ({
   setUserType: (type: UserType) => {
     set(() => ({
       userType: type
+    }));
+  },
+  uid: '',
+  setUid: (uid: string) => {
+    set(() => ({
+      uid
     }));
   }
 }));
