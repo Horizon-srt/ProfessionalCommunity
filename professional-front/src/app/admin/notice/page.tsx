@@ -79,7 +79,7 @@ const Tourist: React.FC = () => {
           <div className='w-full flex justify-center'>
             <Pagination
               defaultCurrent={1}
-              total={data?.allPages || 1}
+              total={data?.total_pages || 1}
               current={pageNum}
               onChange={page => {
                 setCurrentPage(page);

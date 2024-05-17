@@ -62,7 +62,7 @@ const Guide: React.FC = () => {
               current: currentPage,
               onChange: page => setCurrentPage(page),
               pageSize: 4,
-              total: (data?.allPages || 1) * 4
+              total: (data?.total_pages || 1) * 4
             }}
             dataSource={data?.guides || []}
             renderItem={(item: any) => (

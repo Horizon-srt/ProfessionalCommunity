@@ -339,9 +339,9 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
             setSubscribeCurrent(page);
           },
           pageSize: 4,
-          total: (subscribeData?.allPages || 1) * 4
+          total: (subscribeData?.total_pages || 1) * 4
         }}
-        dataSource={subscribeData?.services || []}
+        dataSource={subscribeData?.subscriptions || []}
         renderItem={(item: any) => {
           return (
             // <Link href={`/admin/service/edit/${item.srid}`}>
@@ -380,7 +380,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     );
   };
 
-  console.log(fixedData);
   const items: TabsProps['items'] = [
     {
       key: 'FIXED',

@@ -87,7 +87,7 @@ const Tourist: React.FC = () => {
               pageSize: 7,
               current: currentPage,
               onChange: page => setCurrentPage(page),
-              total: (data?.allPages || 1) * 7
+              total: (data?.total_pages || 1) * 7
             }}
             dataSource={data?.guides || []}
             renderItem={(item: any) => {
