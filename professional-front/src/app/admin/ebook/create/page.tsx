@@ -1,15 +1,33 @@
 'use client';
-import { Button, Card, Form, GetProp, Input, Select, SelectProps, Upload, UploadProps, message } from 'antd';
+import {
+  Button,
+  Card,
+  Form,
+  GetProp,
+  Input,
+  Select,
+  SelectProps,
+  Upload,
+  UploadProps,
+  message
+} from 'antd';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { InboxOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import {
+  InboxOutlined,
+  LoadingOutlined,
+  PlusOutlined
+} from '@ant-design/icons';
 import styles from './styles/style.module.css';
 import { ProvideMethod } from '@/types/data-types';
 import { useFetchMutation } from '@/services/use-fetch';
+import { FileType, getAntdFormErrorMessage, getBase64 } from '@/utils/utils';
 
 const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
   const { TextArea } = Input;
   const router = useRouter();
+  const [form] = Form.useForm();
+
   const defaultCreateParams = {
     url: '/education/ebook',
     method: 'POST' as ProvideMethod,
@@ -20,16 +38,24 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
       message.error('You can only upload JPG/PNG file!');
+      return false;
     }
-    return isJpgOrPng;
+    getBase64(file as FileType, url => {
+      form.setFieldValue('cover', url);
+    });
+    return false;
   };
 
   const beforeUploadEpub = (file: FileType) => {
     const isEpub = file.type === '/epub';
     if (!isEpub) {
       message.error('You can only upload EPUB file!');
+      return false;
     }
-    return isEpub;
+    getBase64(file as FileType, url => {
+      form.setFieldValue('file', url);
+    });
+    return false;
   };
 
   const {
@@ -89,14 +115,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     // }
   };
   const onFinishFailed = async (e: any) => {
-    message.error(e);
-  };
-  type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-  const getBase64 = (img: FileType, callback: (url: string) => void) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result as string));
-    reader.readAsDataURL(img);
+    message.error(getAntdFormErrorMessage(e));
   };
 
   const [loading, setLoading] = useState(false);
@@ -162,6 +181,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
             onFinish={onCreateFinish}
             onFinishFailed={onFinishFailed}
             layout='vertical'
+            form={form}
           >
             <Form.Item
               name={'name'}
@@ -217,7 +237,6 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                 listType='picture-card'
                 className='avatar-uploader'
                 showUploadList={false}
-                action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
                 beforeUpload={beforeUploadCover}
                 onChange={handleChange}
               >
@@ -244,7 +263,6 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                 name='file'
                 multiple={true}
                 style={{ width: '50%' }}
-                action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
                 beforeUpload={beforeUploadEpub}
                 onChange={handleFileChange}
               >

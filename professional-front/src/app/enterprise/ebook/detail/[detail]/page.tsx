@@ -6,10 +6,11 @@ import Image from 'next/image';
 import img from '@/../public/next.svg';
 import { Button } from 'antd';
 import useFetch from '@/services/use-fetch';
+import styles from './styles/styles.module.css';
 
-const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
+const Detail: React.FC<{ params: any }> = ({ params }) => {
   const { data, isLoading, error } = useFetch({
-    url: `/education/ebook/${params.detail}`,
+    url: `/education/ebook/${params.bid}`,
     method: 'GET',
     params: {}
   });
@@ -31,62 +32,90 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
 
   `;
 
-  const list: any = {
-    bid: 1,
-    name: '《人间失格》',
-    label: '外国文学',
-    author: '太宰治',
-    introduction: 'bla bla bla',
-    section: []
-  };
-  for (let i = 1; i < 15; i += 1) {
-    list.section.push({
-      id: i,
-      level: 1,
-      content: '章节' + i
-    });
-  }
   const frontDownload = () => {
+    if (isLoading) return;
     const a = document.createElement('a');
-    a.href = '/84800_React进阶之路_徐超.epub';
-    a.download = '84800_React进阶之路_徐超.epub';
+    a.href = data?.file || '';
+    a.download = data?.file || '';
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   };
   return (
-    <div className='w-full h-full'>
+    <div className={styles.main}>
       <Card>
-        <div className='flex flex-col w-full h-full'>
+        <div className='flex flex-col w-full h-full mx-[3%]'>
           <div className='h-full w-full p-8 flex flex-row'>
-            <Image alt='' src={img} width={100} height={200} className='h-32' />
+            <Image alt='' src={img} width={200} height={300} className='h-32' />
             <div className='ml-8 p-4'>
-              <div className='font-bold mb-3'> {list.name}</div>
-              <div className='flex flex-col text-gray-400 text-sm'>
-                <div>分类： {list.label}</div>
-                <div>作者： {list.author}</div>
-                <div>简介： {list.introduction}</div>
+              <div className='font-bold mb-3 text-2xl'>
+                {' '}
+                {data?.name || 'loading...'}
+              </div>
+              <div className='flex flex-col text-gray-400 text-2xl'>
+                <div>Label: {data?.label || 'loading...'}</div>
+                <div>Author: {data?.author || 'loading...'}</div>
+                <div>Introduction: {data?.detail || 'loading...'}</div>
               </div>
               <Button
+                className={styles.download}
                 onClick={() => {
                   frontDownload();
                 }}
               >
-                下载
+                <div className='text-green-500'>download</div>
               </Button>
             </div>
           </div>
           <div className='w-full h-full flex flex-row'>
             <div className='w-1/2 flex flex-col'>
-              {list.section.slice(0, 10).map(item => (
-                <li key={item.id} className={lineStyle + ' flex flex-row mb-2'}>
-                  <div className={'mr-3 text-green-500 relative' + bulletStyle}>
-                    <div className='text-sm absolute z-10'>{item.id}</div>
-                  </div>
-                  <div className='ml-4'>{item.content}</div>
-                </li>
-              ))}
+              {[
+                {
+                  id: '1',
+                  content: 'aaa'
+                }
+              ]
+                .slice(0, 1)
+                .map(item => (
+                  <li
+                    key={item.id}
+                    className={lineStyle + ' flex flex-row mb-2 mt-1'}
+                  >
+                    <div
+                      className={
+                        'mr-3 text-green-500 relative w-[2%]' + bulletStyle
+                      }
+                    >
+                      <div className='text-sm absolute z-10'>{item.id}</div>
+                    </div>
+                    <div className='ml-4 text-xl'>{item.content}</div>
+                  </li>
+                ))}
+            </div>
+            <div className='w-1/2 flex flex-col'>
+              {[
+                {
+                  id: '1',
+                  content: 'aaa'
+                }
+              ]
+                .slice(0, 1)
+                .map(item => (
+                  <li
+                    key={item.id}
+                    className={lineStyle + ' flex flex-row mb-2 mt-1'}
+                  >
+                    <div
+                      className={
+                        'mr-3 text-green-500 relative w-[2%]' + bulletStyle
+                      }
+                    >
+                      <div className='text-sm absolute z-10'>{item.id}</div>
+                    </div>
+                    <div className='ml-4 text-xl'>{item.content}</div>
+                  </li>
+                ))}
             </div>
           </div>
         </div>
