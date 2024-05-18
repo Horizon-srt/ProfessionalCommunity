@@ -140,16 +140,32 @@ def create_resource_router():
 
             # 构造响应数据
             response_data = {
-                'resources': [{
+                'resources': [],
+                'allPages': len(resources)
+            }
+            for resource in resources:
+                comparison = False
+                if alert_value and resource.value >= alert_value:
+                    comparison = True
+                response_data['resources'].append({
                     'resource_id': resource.resource_id,
                     'type': resource.type,
                     'value': resource.value,
                     'month': resource.month,
                     'year': resource.year,
-                    'comparison': resource.value >= alert_value
-                } for resource in resources],
-                'allPages': len(resources)  # 总页数
-            }
+                    'comparison': comparison
+                })
+            # response_data = {
+            #     'resources': [{
+            #         'resource_id': resource.resource_id,
+            #         'type': resource.type,
+            #         'value': resource.value,
+            #         'month': resource.month,
+            #         'year': resource.year,
+            #         'comparison': resource.value >= alert_value
+            #     } for resource in resources],
+            #     'allPages': len(resources)  # 总页数
+            # }
 
             return jsonify(code=200, data=response_data, message="Address resources retrieved successfully"), 200
         except Exception as e:
