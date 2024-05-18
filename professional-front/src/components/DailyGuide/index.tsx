@@ -58,7 +58,7 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
     if (!isLoading && !guideListError && guideListData.guides) {
       trigger({
         ...defaultFetchParams,
-        url: `/guides/${guideListData?.guides?.[0]?.gid}`
+        url: `/guides/${guideListData?.guides[0]?.gid || ''}`
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
