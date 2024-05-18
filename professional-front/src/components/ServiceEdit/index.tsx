@@ -28,10 +28,6 @@ interface ServiceEditProps {
 }
 
 const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
-  const [cover, setCover] = useState<string | ArrayBuffer>('');
-  const [map, setMap] = useState<string | ArrayBuffer>('');
-  const [video, setVideo] = useState<string | ArrayBuffer>('');
-
   const [form] = Form.useForm();
 
   const router = useRouter();
@@ -104,32 +100,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
     return false;
   };
 
-  // const handleCover = async (info: any) => {
-  //   if (info.file.status === 'done') {
-  //     const reader = new FileReader();
-  //     reader.addEventListener('load', () => setCover(reader.result || ''));
-  //     reader.readAsDataURL(info.file.originFileObj);
-  //   }
-  // };
-
-  // const handleMap = async (info: any) => {
-  //   if (info.file.status === 'done') {
-  //     const reader = new FileReader();
-  //     reader.addEventListener('load', () => setMap(reader.result || ''));
-  //     reader.readAsDataURL(info.file.originFileObj);
-  //   }
-  // };
-
-  // const handleVideo = async (info: any) => {
-  //   if (info.file.status === 'done') {
-  //     const reader = new FileReader();
-  //     reader.addEventListener('load', () => setVideo(reader.result || ''));
-  //     reader.readAsDataURL(info.file.originFileObj);
-  //   }
-  // };
-
   const normFile = (e: any) => {
-    // TODO: 视频转换成base64
     if (Array.isArray(e)) {
       return e[0];
     }
@@ -139,16 +110,10 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
   const onCreateFinish = async (values: any) => {
     const finalValue = {
       ...values,
-      // TODO: 视频还没转成base64
-      // cover: values.cover?.thumbUrl ? values.cover.thumbUrl : '',
-      // map: values.map?.thumbUrl ? values.map.thumbUrl : '',
-      // video: values.video?.thumbUrl ? values.video.thumbUrl : ''
       cover: form.getFieldValue('cover'),
       map: form.getFieldValue('map'),
       video: form.getFieldValue('video')
     };
-
-    console.log(finalValue);
 
     if (sid !== '-1') {
       changeService({ ...defaultChangeParams, params: finalValue });

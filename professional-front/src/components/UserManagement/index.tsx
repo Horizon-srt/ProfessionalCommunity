@@ -120,6 +120,7 @@ export const UserManagement = () => {
     getBase64(info.file.originFileObj, url => {
       setLoading(false);
       setImageUrl(url);
+      console.log(url);
     });
   };
 
@@ -137,7 +138,6 @@ export const UserManagement = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        // forceRender
         okText={'Add'}
         cancelText={'Cancel'}
       >
