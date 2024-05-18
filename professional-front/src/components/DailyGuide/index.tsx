@@ -56,10 +56,12 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
 
   useEffect(() => {
     if (!isLoading && !guideListError && guideListData.guides) {
-      trigger({
-        ...defaultFetchParams,
-        url: `/guides/${guideListData?.guides[0]?.gid || ''}`
-      });
+      if (guideListData.guides[0]?.gid || false) {
+        trigger({
+          ...defaultFetchParams,
+          url: `/guides/${guideListData?.guides[0]?.gid || ''}`
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [guideListData]);
