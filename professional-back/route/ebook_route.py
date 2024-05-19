@@ -156,7 +156,7 @@ def create_ebook_router():
                 'ebooks': [{
                     'bid': ebook.bid,
                     'name': ebook.name,
-                    'description': ebook.description.decode(),
+                    'description': ebook.description,
                     'cover': ebook.cover.decode() if ebook.cover else None,
                     'labels': [label.label for label in LabelEbook.query.filter_by(bid=ebook.bid)]
                 } for ebook in ebooks],
@@ -232,7 +232,7 @@ def create_ebook_router():
                 ebook_data = {
                     'bid': ebook.bid,
                     'name': ebook.name,
-                    'description': ebook.description.decode(),
+                    'description': ebook.description,
                     'cover': ebook.cover.decode(),
                     'labels': [label.label for label in ebook.labels]
                 }

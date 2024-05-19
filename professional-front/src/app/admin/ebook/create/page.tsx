@@ -11,7 +11,7 @@ import {
   UploadProps,
   message
 } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   InboxOutlined,
@@ -42,18 +42,20 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     }
     getBase64(file as FileType, url => {
       form.setFieldValue('cover', url);
+      setImageUrl(url);
     });
     return false;
   };
 
   const beforeUploadEpub = (file: FileType) => {
-    const isEpub = file.type === '/epub';
+    console.log(file);
+    const isEpub = file.type === 'application/epub+zip';
     if (!isEpub) {
       message.error('You can only upload EPUB file!');
       return false;
     }
     getBase64(file as FileType, url => {
-      form.setFieldValue('file', url);
+      form.setFieldValue('content', url);
     });
     return false;
   };
@@ -64,77 +66,40 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     trigger: createService
   } = useFetchMutation(defaultCreateParams);
 
+  useEffect(() => {
+    if (createReturnData) {
+      message.success('Ebook added successfully!');
+      router.push('/admin/ebook');
+    }
+  }, [createReturnData]);
   const options: SelectProps['options'] = [
     {
-      label: 'science',
+      label: 'Science',
       value: 'science'
     },
     {
-      label: 'computer',
-      value: 'computer'
+      label: 'Literature',
+      value: 'literature'
+    },
+    {
+      label: 'Math',
+      value: 'math'
     }
   ];
-  for (let i = 10; i < 16; i++) {
-    options.push({
-      label: i.toString(16) + i,
-      value: i.toString(16) + i
-    });
-  }
-  const { Dragger } = Upload;
-  const handleFileChange: UploadProps['onChange'] = info => {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
 
-  const handleSelect = (value: string[]) => {
-    console.log(`selected ${value}`);
-  };
+  const { Dragger } = Upload;
 
   const onCreateFinish = async (values: any) => {
-    const finalValue = {
-      ...values,
-      // TODO: 视频还没转成base64
-      cover: values.cover?.thumbUrl ? values.cover.thumbUrl : '',
-      map: values.map?.thumbUrl ? values.map.thumbUrl : '',
-      video: values.video?.thumbUrl ? values.video.thumbUrl : ''
-    };
-
-    console.log(finalValue);
-
-    // if (sid !== '-1') {
-    //   changeService({ ...defaultChangeParams, params: finalValue });
-    // } else {
-    //   createService({ ...defaultCreateParams, params: finalValue });
-    // }
+    createService({
+      ...defaultCreateParams,
+      ...{ params: form.getFieldsValue() }
+    });
   };
   const onFinishFailed = async (e: any) => {
     message.error(getAntdFormErrorMessage(e));
   };
 
-  const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
-
-  const handleChange: UploadProps['onChange'] = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      console.log(info.file);
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as FileType, url => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -147,8 +112,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     return (
       <Button
         style={{ width: '7.5rem' }}
-        onClick={() => router.push('/admin/ebook')}
-        htmlType='submit'
+        onClick={onCreateFinish}
         type='primary'
       >
         Submit
@@ -162,7 +126,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
         style={{ width: '7.5rem' }}
         onClick={() => router.push('/admin/ebook')}
       >
-        Return
+        Back
       </Button>
     );
   };
@@ -208,7 +172,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
             >
               <TextArea
                 rows={4}
-                placeholder='Please input Detail'
+                placeholder='Please input Detail, like 1.first chapter 2.second chapter'
                 style={{ width: '50%' }}
               ></TextArea>
             </Form.Item>
@@ -222,7 +186,6 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                 allowClear
                 style={{ width: '50%' }}
                 placeholder='Please select'
-                onChange={handleSelect}
                 options={options}
               />
             </Form.Item>
@@ -238,7 +201,6 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                 className='avatar-uploader'
                 showUploadList={false}
                 beforeUpload={beforeUploadCover}
-                onChange={handleChange}
               >
                 {imageUrl ? (
                   <img src={imageUrl} alt='avatar' style={{ width: '100%' }} />
@@ -247,24 +209,23 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
                     style={{ border: 0, background: 'none' }}
                     type='button'
                   >
-                    {loading ? <LoadingOutlined /> : <PlusOutlined />}
+                    <PlusOutlined />
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </button>
                 )}
               </Upload>
             </Form.Item>
             <Form.Item
-              label={'Cover'}
+              label={'Content(.epub)'}
               // valuePropName='fileList'
-              name={'cover'}
+              name={'content'}
               getValueFromEvent={normFile}
             >
               <Dragger
                 name='file'
-                multiple={true}
+                multiple={false}
                 style={{ width: '50%' }}
                 beforeUpload={beforeUploadEpub}
-                onChange={handleFileChange}
               >
                 <p className='ant-upload-drag-icon'>
                   <InboxOutlined />

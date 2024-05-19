@@ -11,7 +11,7 @@ import { usePagination } from '@/hooks/usePagination';
 
 const Library: React.FC = () => {
   const [associatedValue, setAssociatedValue] = useState('');
-  const [current, setCurrent] = useState('science');
+  const [currentLabel, setCurrentLabel] = useState('science');
   const [currentPage, setCurrentPage] = useState(1);
   const pathname = usePathname();
   const router = useRouter();
@@ -20,27 +20,34 @@ const Library: React.FC = () => {
     pageNum: 1
   });
 
-  const { data } = useFetch({
-    url: '/education/ebook/search/label',
-    method: 'GET' as ProvideMethod,
-    params: {
-      labels: current,
-      offset,
-      pageNum: currentPage
-    }
-  });
+  const { data } = useFetch(
+    associatedValue === ''
+      ? {
+          url: '/education/ebook/search/label',
+          method: 'GET' as ProvideMethod,
+          params: {
+            labels: currentLabel,
+            offset,
+            pageNum: currentPage
+          }
+        }
+      : null
+  );
 
-  const { data: data2 } = useFetch({
-    url: '/education/ebook/search/name',
-    method: 'GET' as ProvideMethod,
-    params: {
-      name: associatedValue,
-      offset,
-      pageNum: currentPage
-    }
-  });
+  const { data: data2 } = useFetch(
+    associatedValue === ''
+      ? null
+      : {
+          url: '/education/ebook/search/name',
+          method: 'GET' as ProvideMethod,
+          params: {
+            name: associatedValue,
+            offset,
+            pageNum: currentPage
+          }
+        }
+  );
 
-  const list: any[] = [];
   // for (let i = 1; i < 40; i += 1) {
   //   list.push({
   //     bid: i,
@@ -71,32 +78,11 @@ const Library: React.FC = () => {
 
   const onClick: MenuProps['onClick'] = (e: any) => {
     setAssociatedValue('');
-    setCurrent(e.key);
+    setCurrentLabel(e.key);
   };
 
-  // 模糊搜索
-  // useEffect(() => {
-  //   if (associatedValue) {
-  //     setFilterParamList([]);
-  //     setFilterParamList(
-  //       list.filter(item => {
-  //         if (
-  //           item?.name?.indexOf(associatedValue) !== -1 ||
-  //           item?.description?.indexOf(associatedValue) !== -1
-  //         ) {
-  //           return true;
-  //         }
-  //         return false;
-  //       })
-  //     );
-  //   } else {
-  //     //为空时将渲染原始表格数据
-  //     setFilterParamList(list);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [associatedValue]);
   // // 初始数据为data1
-  const [filterparamList, setFilterParamList] = useState(list);
+  const [filterparamList, setFilterParamList] = useState([]);
 
   // 标签搜索
 
@@ -107,10 +93,6 @@ const Library: React.FC = () => {
       setFilterParamList(data?.ebooks || []);
     }
   }, [data, data2]);
-
-  // useEffect(() => {
-  //   setFilterParamList(data1);
-  // }, [data1]);
 
   return (
     <div className={styles.main}>
@@ -125,13 +107,13 @@ const Library: React.FC = () => {
       />
       <Menu
         onClick={onClick}
-        selectedKeys={[current]}
+        selectedKeys={[currentLabel]}
         mode='horizontal'
         items={items}
       />
       <List
         className={styles.list}
-        rowKey='id'
+        rowKey={(item: any) => item.eid}
         grid={{
           gutter: 10,
           xs: 1,
@@ -154,7 +136,7 @@ const Library: React.FC = () => {
             ? [{}, ...filterparamList]
             : [...filterparamList]
         }
-        renderItem={item => {
+        renderItem={(item: any) => {
           if (item && item.bid) {
             return (
               <List.Item key={item.bid} style={{ margin: '20px' }}>
