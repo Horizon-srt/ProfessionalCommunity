@@ -26,6 +26,7 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
   before:z-0
   before:w-5
   before:top-0
+  before:left-1
   before:rounded-full
   before:block
   before:absolute before:-inset-1  before:bg-green-200 relative inline-block
@@ -35,8 +36,8 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
   const frontDownload = () => {
     if (isLoading) return;
     const a = document.createElement('a');
-    a.href = data?.file || '';
-    a.download = data?.file || '';
+    a.href = data?.content || '';
+    a.download = data?.content || '';
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
@@ -47,16 +48,21 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
       <Card>
         <div className='flex flex-col w-full h-full mx-[3%]'>
           <div className='h-full w-full p-8 flex flex-row'>
-            <Image alt='' src={img} width={200} height={300} className='h-32' />
+            <Image
+              alt=''
+              src={data?.cover || []}
+              width={200}
+              height={300}
+              className='h-32'
+            />
             <div className='ml-8 p-4'>
               <div className='font-bold mb-3 text-2xl'>
                 {' '}
                 {data?.name || 'loading...'}
               </div>
               <div className='flex flex-col text-gray-400 text-2xl'>
-                <div>Label: {data?.label || 'loading...'}</div>
-                <div>Author: {data?.author || 'loading...'}</div>
-                <div>Introduction: {data?.detail || 'loading...'}</div>
+                <div>Label: {data?.labels?.join(',') || 'loading...'}</div>
+                <div>Introduction: {data?.description || 'loading...'}</div>
               </div>
               <Button
                 className={styles.download}
@@ -69,17 +75,12 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
             </div>
           </div>
           <div className='w-full h-full flex flex-row'>
-            <div className='w-1/2 flex flex-col'>
-              {[
-                {
-                  id: '1',
-                  content: 'aaa'
-                }
-              ]
-                .slice(0, 1)
-                .map(item => (
+            <div className='w-full flex flex-col h-[200px] overflow-y-scroll ml-3'>
+              {data?.detail?.split(' ')?.map((item: string) => {
+                const [id, content] = item.split(':');
+                return (
                   <li
-                    key={item.id}
+                    key={id}
                     className={lineStyle + ' flex flex-row mb-2 mt-1'}
                   >
                     <div
@@ -87,35 +88,12 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
                         'mr-3 text-green-500 relative w-[2%]' + bulletStyle
                       }
                     >
-                      <div className='text-sm absolute z-10'>{item.id}</div>
+                      <div className='text-sm absolute z-10 left-2'>{id}</div>
                     </div>
-                    <div className='ml-4 text-xl'>{item.content}</div>
+                    <div className='ml-4 text-xl'>{content}</div>
                   </li>
-                ))}
-            </div>
-            <div className='w-1/2 flex flex-col'>
-              {[
-                {
-                  id: '1',
-                  content: 'aaa'
-                }
-              ]
-                .slice(0, 1)
-                .map(item => (
-                  <li
-                    key={item.id}
-                    className={lineStyle + ' flex flex-row mb-2 mt-1'}
-                  >
-                    <div
-                      className={
-                        'mr-3 text-green-500 relative w-[2%]' + bulletStyle
-                      }
-                    >
-                      <div className='text-sm absolute z-10'>{item.id}</div>
-                    </div>
-                    <div className='ml-4 text-xl'>{item.content}</div>
-                  </li>
-                ))}
+                );
+              })}
             </div>
           </div>
         </div>
