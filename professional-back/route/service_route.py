@@ -39,7 +39,7 @@ def create_service_router():
 
             if service_type == ServiceType.FIXED:
                 location = data.get('location')
-                map_ = data.get('map')
+                map_ = data.get('map').encode()
                 video = data.get('video').encode()
                 new_fixed_service = FixedService(
                     sid=new_service.sid,
@@ -128,7 +128,7 @@ def create_service_router():
                 if 'location' in data:
                     fixed_service.location = data['location']
                 if 'map' in data:
-                    fixed_service.map = data['map']
+                    fixed_service.map = data['map'].encode() if data.get('video') else None
                 if 'video' in data:
                     fixed_service.video = data['video'].encode() if data.get('video') else None
 
@@ -151,7 +151,7 @@ def create_service_router():
                 'detail': service.detail.decode(),
                 'type': service_type,
                 'location': getattr(fixed_service, 'location', None) if service_type == ServiceType.FIXED else None,
-                'map': getattr(fixed_service, 'map', None) if service_type == ServiceType.FIXED else None,
+                'map': getattr(fixed_service, 'map', None).decode() if service_type == ServiceType.FIXED else None,
                 'video': getattr(fixed_service, 'video', None).decode() if (
                             service_type == ServiceType.FIXED and getattr(fixed_service, 'video', None)) else None,
                 'line': getattr(ondoor_service, 'line', None) if service_type == ServiceType.ONDOOR else None
@@ -230,7 +230,7 @@ def create_service_router():
             if fixed_service:
                 response_data["type"] = "FIXED"
                 response_data["location"] = fixed_service.location
-                response_data["map"] = fixed_service.map
+                response_data["map"] = fixed_service.map.decode()
                 response_data["video"] = fixed_service.video.decode()
             elif ondoor_service:
                 response_data["type"] = "ONDOOR"

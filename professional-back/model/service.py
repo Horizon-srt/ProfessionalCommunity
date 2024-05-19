@@ -18,7 +18,7 @@ class FixedService(db.Model):
     __tablename__ = 'fixed_service'
     sid = db.Column(db.Integer, db.ForeignKey('service.sid'), primary_key=True)
     location = db.Column(db.String(255), nullable=True)
-    map = db.Column(db.String(255), nullable=True)
+    map = db.Column(db.LargeBinary, nullable=True)
     video = db.Column(db.LargeBinary, nullable=True)
 
 
