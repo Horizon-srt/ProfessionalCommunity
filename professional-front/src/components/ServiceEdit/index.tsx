@@ -120,6 +120,8 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
     } else {
       createService({ ...defaultCreateParams, params: finalValue });
     }
+
+    router.back();
   };
 
   const onFinishFailed = async (e: any) => {
