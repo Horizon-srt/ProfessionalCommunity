@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
-  App,
   Avatar,
   Button,
   Divider,
@@ -29,6 +28,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [uid, setUid] = useState('');
   const [form] = Form.useForm();
+  const [userType, setUserType] = useState('NORMAL');
 
   const isExpand = useStore(state => state.userInfoIsExpand);
 
@@ -103,6 +103,10 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
     message.error('Update failed');
   }, [updateError]);
 
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'NORMAL');
+  }, []);
+
   // 文件没解析完
   const [fileParsing, setFileParsing] = useState(false);
 
@@ -116,11 +120,16 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
             </div>
             <div className='w-10/12 flex flex-col'>
               <div className='text-base text-right font-bold'>{data?.name}</div>
-              <div className='text-sm text-right text-gray-400'>
-                {isLoading
-                  ? 'loading'
-                  : `Owner of Room ${data?.room}, Unit ${data?.unit}, No. ${data?.building}`}
-              </div>
+              {userType !== 'ENTERPRISE' ? (
+                <div className='text-sm text-right text-gray-400'>
+                  {isLoading
+                    ? 'loading'
+                    : // eslint-disable-next-line max-len
+                      `Owner of Room ${data?.room}, Unit ${data?.unit}, No. ${data?.building}`}
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <Divider />
