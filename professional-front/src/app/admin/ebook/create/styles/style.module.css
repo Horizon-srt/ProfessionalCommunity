@@ -8,3 +8,9 @@
     flex-direction: row;
     justify-content: space-between;
   }
+
+.main{
+    padding-left: 32dp;
+    padding-right: 32dp;
+    height: 89vh;
+}

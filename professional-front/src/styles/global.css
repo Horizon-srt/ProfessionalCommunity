@@ -4,6 +4,7 @@
   --text-color: #000000;
   --background-color: #FFFFFF;
   --button-color: #16A609;
+  --login-color:#ACE589;
   --bg-gradient-green: #8FCA6A;
   --bg-gradient-white: #F1FCEA;
 }
@@ -14,6 +15,7 @@
   --text-color: #FFFFFF;
   --background-color: #000000;
   --button-color: #16A609;
+  --login-color:#4D6F39;
   --bg-gradient-green: #07827B;
   --bg-gradient-white: #032202;
 }

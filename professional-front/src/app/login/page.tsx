@@ -96,7 +96,7 @@ const Login: React.FC = () => {
         className={style.rectangleContent}
       >
         <div className={style.loginFont}>Login</div>
-        <div className={style.inputArea}>
+        <div className={style.inputArea} style={{ overflow: 'auto' }}>
           <Form.Item
             name='account'
             rules={[{ required: true, message: 'Please input your account!' }]}
@@ -130,7 +130,7 @@ const Login: React.FC = () => {
         className={style.rectangleContent}
       >
         <div className={style.loginFont}>Register</div>
-        <div className={style.inputArea}>
+        <div className={style.inputArea} style={{ overflow: 'auto' }}>
           <Form.Item
             name='name'
             rules={[

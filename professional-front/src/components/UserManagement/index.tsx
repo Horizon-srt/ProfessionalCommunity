@@ -19,6 +19,7 @@ import { UserItem } from './UserItem';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { md5 } from 'js-md5';
+import styles from '@/components/UserManagement/styles/style.module.css';
 
 interface IUser {
   uid: string;
@@ -140,7 +141,7 @@ export const UserManagement = () => {
   );
 
   return (
-    <div className='p-3 w-full h-full'>
+    <div className={styles.main}>
       <Modal
         title='Add User'
         open={isModalOpen}

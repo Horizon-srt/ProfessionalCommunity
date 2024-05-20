@@ -140,8 +140,8 @@ const Create: React.FC = () => {
   };
 
   return (
-    <div className='p-32 h-full'>
-      <Card>
+    <div className='px-32 h-full'>
+      <Card className={styles.main} style={{ overflow: 'auto' }}>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>
             <div className='relative'>

@@ -55,3 +55,7 @@
   height: 100%;
   object-fit: cover;
 }
+
+.card{
+    height: 98%;
+}

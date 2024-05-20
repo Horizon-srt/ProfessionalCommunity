@@ -75,33 +75,28 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
           <div>{data?.content || ''}</div>
         </div>
         <div className={styles.contentStyle}>
-          <Carousel autoplay style={{ width: '25vw', height: '20vh' }}>
-            {guideListData ? (
-              <>
-                {guideListData.guides.map((item: any) => {
-                  console.log(item);
-                  return (
-                    <div
-                      key={item.gid}
-                      onClick={() => {
-                        if (guideListData) router.push(`${item.gid}`);
-                      }}
-                    >
-                      <Image
-                        alt=''
-                        width={'25vw'}
-                        height={'20vh'}
-                        preview={false}
-                        src={item.cover || ''}
-                      />
-                    </div>
-                  );
-                })}
-              </>
-            ) : (
-              <Spin spinning={true} />
-            )}
-          </Carousel>
+          {guideListData ? (
+            <Carousel autoplay style={{ width: '25vw', height: '50vh' }}>
+              {guideListData.guides.map((item: any) => (
+                <div
+                  key={item.gid}
+                  onClick={() => {
+                    router.push(`${item.gid}`);
+                  }}
+                >
+                  <Image
+                    alt=''
+                    width={'25vw'}
+                    height={'50vh'}
+                    preview={false}
+                    src={item.cover}
+                  />
+                </div>
+              ))}
+            </Carousel>
+          ) : (
+            <Spin spinning={true} />
+          )}
         </div>
       </div>
     </div>

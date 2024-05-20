@@ -4,6 +4,7 @@ import { RestOutlined } from '@ant-design/icons';
 import { message } from 'antd';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import styles from '@/components/AnounceItem/styles/style.module.css';
 
 interface IAnounceItem {
   nid: string;
@@ -56,16 +57,17 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
         </div>
         <div className='mt-3 dark:text-white'>{data.title}</div>
       </Link>
-
-      {link.split('/')[1] === 'admin' ? (
-        <RestOutlined
-          className='ml-3 mt-1'
-          onClick={handleClick}
-          style={{ fontSize: '1rem' }}
-        />
-      ) : (
-        <></>
-      )}
+      <div className={styles.restOutlined}>
+        {link.split('/')[1] === 'admin' ? (
+          <RestOutlined
+            className='ml-3 mt-1'
+            onClick={handleClick}
+            style={{ fontSize: '1rem' }}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };

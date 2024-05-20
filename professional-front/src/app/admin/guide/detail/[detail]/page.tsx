@@ -3,6 +3,7 @@
 import { Card, Image, Spin, message } from 'antd';
 import React, { useEffect } from 'react';
 import useFetch from '@/services/use-fetch';
+import styles from './styles/styles.module.css';
 
 const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
   const { data, isLoading, error } = useFetch({
@@ -18,8 +19,8 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
   }, [isLoading, error]);
 
   return (
-    <div className='p-32 h-full'>
-      <Card>
+    <div className='px-32 h-full'>
+      <Card className={styles.card} style={{ overflow: 'auto' }}>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>
             <div className='relative'>

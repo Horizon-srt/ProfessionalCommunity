@@ -20,7 +20,7 @@
 .rectangle {
   height: 75vh;
   width: 50%;
-  background-color: #ACE589;
+  background-color: var(--login-color);
   margin-top: -7.5vh;
   display: flex;
   flex-direction: column;
@@ -113,6 +113,7 @@
 
 .welcome {
   font-size: 30px;
+  color: var(--text-color) ;
 }
 
 .tips {
