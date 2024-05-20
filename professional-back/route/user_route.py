@@ -531,5 +531,58 @@ def create_user_router():
 
         return jsonify(code=200, data={"users": all_users, "allPages": allPages}), 200
 
+    @user_bp.route('/users/review', methods=['GET'])
+    @jwt_required()  # 需要登录
+    def review_users():
+        # 获取当前用户身份
+        current_user = get_jwt_identity()
+
+        # 获取请求参数
+        filter_value = request.args.get('filter')
+        offset = int(request.args.get('offset', 10))  # 默认一页显示10条数据
+        pageNum = int(request.args.get('pageNum', 1))  # 默认第一页
+
+        try:
+            # 根据过滤条件查询用户
+            query = db.session.query(User).join(NormalUser, User.uid == NormalUser.uid)
+            if filter_value == '0':
+                query = query.filter(NormalUser.status != 'pending')
+            elif filter_value == '1':
+                query = query.filter(NormalUser.status == 'pending')
+            else:
+                return jsonify({'code': 'InvalidFilter', 'message': 'Invalid filter value'}), 400
+
+            # 分页
+            pagination = query.paginate(page=pageNum, per_page=offset, error_out=False)
+            users = pagination.items
+
+            # 构造响应数据
+            user_list = []
+            for user in users:
+                # 获取用户地址信息
+                address = Address.query.filter_by(uid=user.uid).first()
+                user_data = {
+                    'uid': user.uid,
+                    'name': user.name,
+                    'status': user.normal_user.status,  # 从NormalUser中获取status
+                    'building': address.building if address else '',
+                    'unit': address.unit if address else '',
+                    'room': address.room if address else ''
+                }
+                user_list.append(user_data)
+
+            response_data = {
+                'code': 'Success',
+                'data': {
+                    'users': user_list,
+                    'allPages': pagination.pages
+                }
+            }
+            return jsonify(response_data), 200
+        except Exception as e:
+            # 异常处理
+            return jsonify({'code': 'ServerError', 'message': str(e)}), 500
+
+
 
     return user_bp

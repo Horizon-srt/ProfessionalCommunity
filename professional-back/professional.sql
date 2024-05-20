@@ -434,7 +434,7 @@ DROP TABLE IF EXISTS `resume`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `resume` (
   `resume_id` int NOT NULL AUTO_INCREMENT,
-  `content` blob,
+  `content` longblob,
   `position` varchar(255) DEFAULT NULL,
   `hid` int DEFAULT NULL,
   `uid` int DEFAULT NULL,

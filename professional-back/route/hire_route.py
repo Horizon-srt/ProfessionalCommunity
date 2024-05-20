@@ -361,4 +361,52 @@ def create_hire_router():
             # 如果出现异常，返回404错误
             return jsonify(code=404, message=f"An error occurred while retrieving the resume: {str(e)}"), 404
 
+    @hire_bp.route('/hires/review', methods=['GET'])
+    @jwt_required()  # 需要登录
+    def review_hires():
+        # 获取当前用户身份
+        current_user = get_jwt_identity()
+
+        # 获取请求参数
+        filter_value = request.args.get('filter')
+        offset = int(request.args.get('offset', 10))  # 默认一页显示10条数据
+        pageNum = int(request.args.get('pageNum', 1))  # 默认第一页
+
+        try:
+            # 根据过滤条件查询招聘信息
+            query = db.session.query(Hire).join(EnterpriseUser, Hire.uid == EnterpriseUser.uid)
+            if filter_value == '0':
+                query = query.filter(Hire.status != 'pending')
+            elif filter_value == '1':
+                query = query.filter(Hire.status == 'pending')
+            else:
+                return jsonify({'code': 404, 'message': 'Invalid filter value'}), 404
+
+            # 分页
+            pagination = query.paginate(page=pageNum, per_page=offset, error_out=False)
+            hires = pagination.items
+
+            # 构造响应数据
+            hire_list = []
+            for hire in hires:
+                ename = EnterpriseUser.query.get(hire.uid).ename
+                hire_data = {
+                    'hid': hire.hid,
+                    'title': hire.title,
+                    'ename': ename,
+                    'status': hire.status
+                }
+                hire_list.append(hire_data)
+
+            response_data = {
+                'code': 200,
+                'data': {
+                    'hires': hire_list,
+                    'allPages': pagination.pages
+                }
+            }
+            return jsonify(response_data), 200
+        except Exception as e:
+            # 异常处理
+            return jsonify({'code': 404, 'message': str(e)}), 404
     return hire_bp
