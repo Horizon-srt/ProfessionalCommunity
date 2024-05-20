@@ -102,7 +102,9 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   }, [data, isLoading, error]);
 
   useEffect(() => {
-    message.error('Update failed');
+    if (updateError) {
+      message.error('Update failed');
+    }
   }, [updateError]);
 
   useEffect(() => {

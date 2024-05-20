@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import Card from '@/components/Card';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import img from '@/../public/next.svg';
-import { Button } from 'antd';
-import useFetch from '@/services/use-fetch';
+import { Button, message } from 'antd';
+import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import styles from './styles/styles.module.css';
+import { ProvideMethod } from '@/types/data-types';
+import { useRouter } from 'next/navigation';
 
 const Detail: React.FC<{ params: any }> = ({ params }) => {
   const { data, isLoading, error } = useFetch({
@@ -15,6 +17,28 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
     params: {}
   });
 
+  const defaultDeleteParams = {
+    url: `/education/ebook/${params.bid}`,
+    method: 'DELETE' as ProvideMethod,
+    params: {}
+  };
+  const router = useRouter();
+  const {
+    data: deleteData,
+    trigger: deleteTrigger,
+    isMutating,
+    error: deleteError
+  } = useFetchMutation(defaultDeleteParams);
+
+  useEffect(() => {
+    if (deleteError || isMutating) {
+      return;
+    }
+    if (deleteData) {
+      message.success('Delete Succesfully');
+      router.back();
+    }
+  }, [deleteData, deleteError]);
   const lineStyle = `
     w-1/2 relative inline-block before:block
     before:absolute before:w-full
@@ -72,12 +96,22 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
               >
                 <div className='text-green-500'>download</div>
               </Button>
+              <Button
+                className='ml-3'
+                type='primary'
+                danger
+                onClick={() => {
+                  deleteTrigger({ ...defaultDeleteParams });
+                }}
+              >
+                Delete
+              </Button>
             </div>
           </div>
           <div className='w-full h-full flex flex-row'>
             <div className='w-full flex flex-col h-[200px] overflow-y-scroll ml-3'>
               {data?.detail?.split(' ')?.map((item: string) => {
-                const [id, content] = item.split(':');
+                const [id, content] = item.split('.');
                 return (
                   <li
                     key={id}
@@ -90,7 +124,7 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
                     >
                       <div className='text-sm absolute z-10 left-2'>{id}</div>
                     </div>
-                    <div className='ml-4 text-xl'>{content}</div>
+                    <div className='ml-4 text-xl mb-4'>{content}</div>
                   </li>
                 );
               })}

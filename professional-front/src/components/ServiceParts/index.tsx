@@ -286,7 +286,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     type: ServiceType;
     userType: string;
   }> = ({ userType, dataList, type }) => {
-    console.log(dataList);
     return (
       <List
         itemLayout='vertical'
