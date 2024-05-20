@@ -80,12 +80,12 @@ const NoticeCard: React.FC<ImageCarouselProps> = ({ width, height }) => {
           <List
             dataSource={data?.notifies || []}
             renderItem={(item: any) => {
+              console.log(item);
               return (
                 <List.Item
                   actions={[
                     <Link
-                      // 链接没确定
-                      href={`/${type.toLowerCase()}/notice`}
+                      href={`/${type.toLowerCase()}/notice/${item.nid}`}
                       key={item.bid}
                       style={{ color: 'black' }}
                     >

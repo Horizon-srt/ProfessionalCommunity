@@ -43,13 +43,6 @@ const Login: React.FC = () => {
         params: { ...values, password: md5(values.password) }
       });
     } else {
-      // 记得改下
-      // setFetchParam({
-      //   url: '/register/normal',
-      //   method: 'POST',
-      //   params: values
-      // });
-      console.log('register');
       register({
         ...defaultRegisterParams,
         params: {
