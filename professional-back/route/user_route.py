@@ -124,7 +124,7 @@ def create_user_router():
                 email=data['email'],
                 phone=data['phone'],
                 password=data['password'],
-                avator=data.get('avator').encode()
+                avator=data['avator'].encode()
             )
             db.session.add(new_user)
             db.session.commit()
@@ -247,7 +247,13 @@ def create_user_router():
             current_user_id = get_jwt_identity()
 
             # 检查用户角色
-            user_role = check_user_role(current_user_id)
+            user_role = check_user_role(uid)
+            
+            user_chat = Chat.query.filter(Chat.uid == uid)
+            if user_chat:
+              for chat in user_chat:
+                  if chat:
+                    db.session.delete(chat)
 
             # 获取用户信息
             user = User.query.get(uid)
@@ -263,7 +269,7 @@ def create_user_router():
                 if enterprise_user:
                     db.session.delete(enterprise_user)
             else:
-                normal_user = NormalUser.query.filter_by(uid=uid).first()
+                normal_user = NormalUser.query.get(uid)
                 if normal_user:
                     db.session.delete(normal_user)
 

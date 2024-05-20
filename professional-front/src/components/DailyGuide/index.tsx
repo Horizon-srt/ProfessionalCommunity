@@ -55,8 +55,8 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
   }, [isMutating, guideError]);
 
   useEffect(() => {
-    if (!isLoading && !guideListError && guideListData.guides) {
-      if (guideListData.guides[0]?.gid || false) {
+    if (!isLoading && !guideListError && (guideListData?.guides || [])) {
+      if (guideListData?.guides[0]?.gid || false) {
         trigger({
           ...defaultFetchParams,
           url: `/guides/${guideListData?.guides[0]?.gid || ''}`

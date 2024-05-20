@@ -24,14 +24,13 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
           <div className='flex flex-row justify-between'>
             <div className='relative'>
               <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]' />
-              <div style={{ fontSize: '2.5rem' }}>Guide Detail</div>
+              <div style={{ fontSize: '2.5rem' }}>{data?.title || ''}</div>
             </div>
           </div>
           <div>
             <div style={{ overflow: 'auto' }}>
               {!isLoading && data ? (
                 <>
-                  <div>{data.title}</div>
                   <hr />
                   <Image
                     src={data.cover}

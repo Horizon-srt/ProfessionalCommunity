@@ -180,7 +180,7 @@ export const UserManagement = () => {
               <Upload
                 name='avatar'
                 maxCount={1}
-                listType='picture-circle'
+                listType='picture-card'
                 className='avatar-uploader'
                 showUploadList={false}
                 beforeUpload={beforeUpload}
@@ -209,7 +209,7 @@ export const UserManagement = () => {
                   <Upload
                     name='cover'
                     maxCount={1}
-                    listType='picture-circle'
+                    listType='picture-card'
                     showUploadList={false}
                     beforeUpload={beforeUpload}
                     onChange={handleCoverChange}
