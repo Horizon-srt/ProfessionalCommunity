@@ -1,12 +1,11 @@
 'use client';
-import React, { useState } from 'react';
-import { Empty, Pagination, Spin } from 'antd';
+import React, { useEffect } from 'react';
+import { Empty, Pagination, Spin, message } from 'antd';
 import { EmployItem } from '@/components/EmployItem';
 import Link from 'next/link';
 import { usePagination } from '@/hooks/usePagination';
 import useFetch from '@/services/use-fetch';
 import { useStore } from '@/hooks/useStore';
-import dayjs from 'dayjs';
 import { toStatus } from '@/utils/utils';
 // import useFetch from '@/services/use-fetch';
 
@@ -17,7 +16,7 @@ const Employment: React.FC = () => {
   const { data, isLoading, error } = useFetch(
     uid
       ? {
-          url: '/hires/all/' + uid,
+          url: '/hires/all',
           method: 'GET',
           params: {
             offset: 9,
@@ -26,6 +25,12 @@ const Employment: React.FC = () => {
         }
       : null
   );
+
+  useEffect(() => {
+    if (!isLoading && error) {
+      message.error(error);
+    }
+  }, [isLoading, error]);
 
   return (
     <div className='flex flex-col justify-between h-full p-4 overflow-auto'>

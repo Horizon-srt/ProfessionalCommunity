@@ -388,7 +388,7 @@ def create_service_router():
         except Exception as e:
             return jsonify(code=500, message=f"An error occurred while retrieving all subscriptions: {str(e)}"), 500
 
-    @service_bp.route('/services/subscribe/<int:srid>', methods=['GET'])
+    @service_bp.route('/services/subscribe/rec/<int:srid>', methods=['GET'])
     @jwt_required()
     def get_subscribe(srid):
         try:
@@ -411,7 +411,7 @@ def create_service_router():
             user = User.query.get(user_address.uid)
             
             # 获取用户头像
-            avator = user.avator
+            avator = user.avator.decode()
 
             service_name = ""
             detail = ""
@@ -422,7 +422,7 @@ def create_service_router():
                 service = Service.query.get(record.sid)
                 if service:
                     service_name = service.name
-                    cover = service.cover
+                    cover = service.cover.decode()
                     detail = service.detail.decode() if service.detail else ""
                     fixed_service = FixedService.query.filter_by(sid=record.sid).first()
                     if fixed_service:
@@ -438,9 +438,9 @@ def create_service_router():
                 "building": building,
                 "unit": unit,
                 "room": room,
-                "name": user_address.user.name if user_address.user else "",
+                "name": user.name if user else "",
                 "service_name": service_name,
-                "phone": user_address.user.phone if user_address.user else "",
+                "phone": user.phone if user else "",
                 "line": ondoor_service.line if ondoor_service else "",
                 "detail": detail,
                 "time": time

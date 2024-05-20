@@ -17,7 +17,7 @@ const Employment: React.FC = () => {
 
   const uid = useStore(state => state.uid);
   const { data } = useFetch({
-    url: '/hires/all/' + uid,
+    url: '/hires/all/comp/' + uid,
     method: 'GET' as ProvideMethod,
     params: {
       pageNum,
@@ -68,8 +68,8 @@ const Employment: React.FC = () => {
              align-center`}
           >
             {/* todos */}
-            {data?.data?.length ? (
-              data?.data.map((data: any) => (
+            {data?.hires?.length ? (
+              data?.hires.map((data: any) => (
                 <RecruitItem
                   key={data.hid}
                   rInfo={data}

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import PersonalReview from '@/components/PersonalReview';
 
 const ReviewPage: React.FC = () => {

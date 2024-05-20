@@ -53,7 +53,12 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
     params: null
   };
 
-  const { trigger, isMutating, error } = useFetchMutation(defaultUploadParams);
+  const {
+    data: uploadData,
+    trigger,
+    isMutating,
+    error
+  } = useFetchMutation(defaultUploadParams);
 
   // const data = {
   //   sid: '1',
@@ -103,6 +108,12 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
       message.error(error);
     }
   }, [isMutating, error]);
+
+  useEffect(() => {
+    if (!isMutating && uploadData) {
+      message.info('Book successful!');
+    }
+  }, [isMutating, uploadData]);
 
   return (
     <div className={style.backgroundCard}>

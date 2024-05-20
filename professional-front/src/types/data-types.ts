@@ -47,9 +47,3 @@ export enum ResourceType {
   ELETRIC,
   GAS
 }
-
-export enum RecruitmentStatus {
-  APPROVED,
-  NOTAPPROVED,
-  APPROVING
-}

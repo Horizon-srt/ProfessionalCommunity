@@ -13,7 +13,7 @@ interface SubscribeDetailProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
   const { data, isLoading, error } = useFetch({
-    url: `/services/subscribe/${srid}`,
+    url: `/services/subscribe/rec/${srid}`,
     method: 'GET',
     params: {}
   });

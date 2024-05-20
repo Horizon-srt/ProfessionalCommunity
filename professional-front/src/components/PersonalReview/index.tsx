@@ -141,7 +141,7 @@ const PersonalReview: React.FC = () => {
           }
         }}
         dataSource={[...filterparamList]}
-        renderItem={item => {
+        renderItem={(item: any) => {
           return (
             <List.Item
               className={styles.listItem}

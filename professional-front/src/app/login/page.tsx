@@ -78,7 +78,9 @@ const Login: React.FC = () => {
       window.localStorage.setItem('user-type', registerData.type);
       // setUserType(data.userType);
       window.localStorage.setItem('user-id', registerData.uid);
-      router.push(`/${registerData.type.toLowerCase()}/main`);
+      // router.push(`/${registerData.type.toLowerCase()}/main`);
+      message.success('Register success!');
+      router.push('/login');
     }
   }, [registerData, registerError, registerIsMutating]);
 
