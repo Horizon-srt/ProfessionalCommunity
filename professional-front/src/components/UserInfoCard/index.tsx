@@ -88,8 +88,10 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
     // return isPdf;
   };
 
+  const setUidInZuzstand = useStore(state => state.setUid);
   useEffect(() => {
     setUid(localStorage.getItem('user-id') || '');
+    setUidInZuzstand(localStorage.getItem('user-id') || '');
   }, []);
 
   useEffect(() => {
