@@ -44,11 +44,14 @@ const Create = () => {
     }
   }, [hireData, error]);
   const onFinish: FormProps<FieldType>['onFinish'] = values => {
+    console.log(values?.time);
+    const startObj = values?.time?.[0];
+    const endObj = values?.time?.[1];
     const newParams = {
       title: values.title,
       content: values.content,
-      start_time: values?.time?.[0],
-      end_time: values?.time?.[1]
+      start_time: `${startObj?.$y || 0}/${(startObj?.$M || 2) + 1}/${startObj?.$D || 2 - 1}`,
+      end_time: `${endObj?.$y || 0}/${(endObj?.$M || 2) + 1}/${endObj?.$D || 2 - 1}`
     };
     createHire({ ...defaultParams, ...{ params: newParams } });
   };
@@ -92,7 +95,10 @@ const Create = () => {
                   }
                 ]}
               >
-                <DatePicker.RangePicker placeholder={['Start', 'End']} />
+                <DatePicker.RangePicker
+                  format={'YYYY/MM/DD'}
+                  placeholder={['Start', 'End']}
+                />
               </Form.Item>
               <Form.Item
                 name='content'

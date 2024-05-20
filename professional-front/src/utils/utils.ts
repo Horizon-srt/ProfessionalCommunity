@@ -1,4 +1,5 @@
 import { GetProp, UploadProps, message } from 'antd';
+import dayjs from 'dayjs';
 
 export const getToken = () => {
   return localStorage.getItem('pt-auth') || '';
@@ -31,4 +32,14 @@ export const getAntdFormErrorMessage = (e: any) => {
   });
 
   return errorMsg;
+};
+
+export const toStatus = (startTime: string, endTime: string) => {
+  if (dayjs().isBefore(dayjs(startTime))) {
+    return 1;
+  }
+  if (dayjs().isAfter(dayjs(endTime))) {
+    return 2;
+  }
+  return 0;
 };
