@@ -46,7 +46,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
 
   const defaultDeleteParams = {
     url: '/services/' + sid,
-    method: 'PATCH' as ProvideMethod,
+    method: 'DELETE' as ProvideMethod,
     params: null
   };
 

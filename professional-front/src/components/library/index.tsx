@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Image, Input, List } from 'antd';

@@ -27,11 +27,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   const [subscribeCurrent, setSubscribeCurrent] = useState(1);
   const [itemList, setItemList] = useState([] as any);
   const router = useRouter();
-  const [userType, setUserType] = useState('TOURIST');
-
-  useEffect(() => {
-    setUserType(localStorage.getItem('user-type') || 'TOURIST');
-  }, []);
 
   const {
     data: fixedData,
@@ -96,8 +91,13 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   const ContentList: React.FC<{
     dataList: any;
     type: ServiceType;
-    userType: string;
-  }> = ({ userType, dataList, type }) => {
+  }> = ({ dataList, type }) => {
+    const [userType, setUserType] = useState('TOURIST');
+
+    useEffect(() => {
+      setUserType(localStorage.getItem('user-type') || 'TOURIST');
+    }, []);
+
     return (
       <List
         itemLayout='vertical'
@@ -113,6 +113,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         }}
         dataSource={dataList}
         renderItem={(item: any) => {
+          console.log(userType);
           return (
             <Link
               href={
@@ -120,7 +121,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
                   ? `/${userType.toLowerCase()}/service/edit/${item.sid}`
                   : `/${userType.toLowerCase()}/service/${item.sid}`
               }
-              onClick={() => console.log(userType)}
             >
               <List.Item
                 key={item.title}
@@ -142,10 +142,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     );
   };
 
-  const SubscribeList: React.FC<{ userType: string; data: any }> = ({
-    userType,
-    data
-  }) => {
+  const SubscribeList: React.FC<{ data: any }> = ({ data }) => {
     const subscribeData = data;
 
     return (
@@ -207,11 +204,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         </div>
       ),
       children: (
-        <ContentList
-          dataList={fixedData?.services || []}
-          type='FIXED'
-          userType={userType}
-        />
+        <ContentList dataList={fixedData?.services || []} type='FIXED' />
       )
     },
     {
@@ -223,11 +216,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
         </div>
       ),
       children: (
-        <ContentList
-          dataList={onDoorData?.services || []}
-          type='ONDOOR'
-          userType={userType}
-        />
+        <ContentList dataList={onDoorData?.services || []} type='ONDOOR' />
       )
     }
   ];
@@ -241,7 +230,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
           Subscription
         </div>
       ),
-      children: <SubscribeList userType={userType} data={subscribeData} />
+      children: <SubscribeList data={subscribeData} />
     });
     items.push({
       key: 'ADDITION',

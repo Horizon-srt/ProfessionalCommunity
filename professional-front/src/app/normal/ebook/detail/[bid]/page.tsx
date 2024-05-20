@@ -1,9 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import Card from '@/components/Card';
 import React from 'react';
 import Image from 'next/image';
-import img from '@/../public/next.svg';
 import { Button } from 'antd';
 import useFetch from '@/services/use-fetch';
 import styles from './styles/styles.module.css';

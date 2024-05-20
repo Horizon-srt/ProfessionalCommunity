@@ -1,29 +1,26 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable max-len */
 'use client';
 import {
   Button,
   Card,
   Form,
-  GetProp,
   Input,
   Select,
   SelectProps,
   Upload,
-  UploadProps,
   message
 } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  InboxOutlined,
-  LoadingOutlined,
-  PlusOutlined
-} from '@ant-design/icons';
+import { InboxOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './styles/style.module.css';
 import { ProvideMethod } from '@/types/data-types';
 import { useFetchMutation } from '@/services/use-fetch';
 import { FileType, getAntdFormErrorMessage, getBase64 } from '@/utils/utils';
 
-const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
+const Create: React.FC = () => {
   const { TextArea } = Input;
   const router = useRouter();
   const [form] = Form.useForm();
@@ -54,6 +51,11 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
       message.error('You can only upload EPUB file!');
       return false;
     }
+    const isSmallerThan1m = file.size / 1024 / 1024 < 1;
+    if (!isSmallerThan1m) {
+      message.error('EPUB file must smaller than 1M');
+      return false;
+    }
     getBase64(file as FileType, url => {
       form.setFieldValue('content', url);
     });
@@ -65,6 +67,12 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
     error: createReturnError,
     trigger: createService
   } = useFetchMutation(defaultCreateParams);
+
+  useEffect(() => {
+    if (createReturnError) {
+      message.error(createReturnError);
+    }
+  }, [createReturnError]);
 
   useEffect(() => {
     if (createReturnData) {
@@ -89,7 +97,7 @@ const Create: React.FC<{ params: { detail: string } }> = ({ params }) => {
 
   const { Dragger } = Upload;
 
-  const onCreateFinish = async (values: any) => {
+  const onCreateFinish = async () => {
     createService({
       ...defaultCreateParams,
       ...{ params: form.getFieldsValue() }
