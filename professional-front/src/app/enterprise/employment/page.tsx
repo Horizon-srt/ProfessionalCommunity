@@ -1,12 +1,13 @@
 'use client';
 import React, { useEffect } from 'react';
-import { Pagination, message } from 'antd';
+import { Empty, Pagination, message } from 'antd';
 import Card from '@/components/Card';
 import { RecruitItem } from '@/components/RecruitmentItem';
 import { usePagination } from '@/hooks/usePagination';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { useRouter } from 'next/navigation';
+import { useStore } from '@/hooks/useStore';
 
 const Employment: React.FC = () => {
   const { offset, pageNum, setCurrentPage } = usePagination({
@@ -14,29 +15,15 @@ const Employment: React.FC = () => {
     pageNum: 1
   });
 
-  // 先写死，不确定是context传递还是props传递
-  const companyName = '1234';
+  const uid = useStore(state => state.uid);
   const { data } = useFetch({
-    url: '/hires/all',
+    url: '/hires/all/' + uid,
     method: 'GET' as ProvideMethod,
     params: {
-      ename: companyName,
       pageNum,
       offset
     }
   });
-
-  const mockDatas = [
-    {
-      hid: '13131',
-      title: 'title111',
-      ename: 'company11',
-      start_time: '2024-2-5',
-      end_time: '2025-2-6',
-      content_slice: '23u242',
-      status: 1
-    }
-  ];
 
   const {
     data: hireData,
@@ -80,19 +67,23 @@ const Employment: React.FC = () => {
             className={`h-[80%] w-full flex flex-col justify-start 
              align-center`}
           >
-            {mockDatas.map(data => (
-              <RecruitItem
-                key={data.hid}
-                rInfo={data}
-                deleteHire={deleteHire}
-              />
-            ))}
+            {/* todos */}
+            {data?.data?.length ? (
+              data?.data.map((data: any) => (
+                <RecruitItem
+                  key={data.hid}
+                  rInfo={data}
+                  deleteHire={deleteHire}
+                />
+              ))
+            ) : (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
           </div>
           <div className='w-full flex justify-end'>
             <Pagination
-              defaultCurrent={1}
-              total={72}
               current={pageNum}
+              total={(data?.allPages || 1) * 5}
               onChange={page => {
                 setCurrentPage(page);
               }}
