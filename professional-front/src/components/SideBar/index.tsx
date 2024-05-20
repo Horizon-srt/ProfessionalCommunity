@@ -8,7 +8,6 @@ import { UserManagement } from '../UserManagement';
 const SideBar: React.FC = () => {
   const [userType, setUserType] = useState('TOURIST');
   useEffect(() => {
-    console.log(localStorage.getItem('user-type') || 'TOURIST');
     setUserType(localStorage.getItem('user-type') || 'TOURIST');
   }, []);
 

@@ -28,6 +28,12 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
   const [showUpload, setShowUpload] = useState(false);
   const [time, setTime] = useState('');
   const [detail, setDetail] = useState('');
+  const [userType, setUserType] = useState('TOURIST');
+
+  useEffect(() => {
+    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+  }, []);
+
   const {
     data,
     isLoading,
@@ -204,14 +210,18 @@ const ServiceDetail: React.FC<ServiceDetailProps> = ({ slug }) => {
             >
               Back
             </Button>
-            <Button
-              style={{ width: '7.5rem' }}
-              type='primary'
-              id={style.applyButton}
-              onClick={() => setShowUpload(true)}
-            >
-              Book
-            </Button>
+            {userType === 'NORMAL' ? (
+              <Button
+                style={{ width: '7.5rem' }}
+                type='primary'
+                id={style.applyButton}
+                onClick={() => setShowUpload(true)}
+              >
+                Book
+              </Button>
+            ) : (
+              <></>
+            )}
           </div>
           <Modal
             title={

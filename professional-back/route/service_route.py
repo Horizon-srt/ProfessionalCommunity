@@ -163,7 +163,7 @@ def create_service_router():
             return jsonify(code=500, message=f"An error occurred while updating the service: {str(e)}"), 500
 
     @service_bp.route('/services', methods=['GET'])
-    @jwt_required()
+    # @jwt_required()
     def get_services():
         try:
             service_type = request.args.get('type', None)
@@ -200,7 +200,7 @@ def create_service_router():
             return jsonify(code=500, message=f"An error occurred while retrieving services: {str(e)}"), 500
 
     @service_bp.route('/services/<int:sid>', methods=['GET'])
-    @jwt_required()
+    # @jwt_required()
     def get_service(sid):
         try:
             # 查询服务

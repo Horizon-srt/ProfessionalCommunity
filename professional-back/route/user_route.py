@@ -519,7 +519,7 @@ def create_user_router():
                 user_data = {
                     "uid": user.uid,
                     "name": temp_user.name,
-                    "avator": str(temp_user.avator),
+                    "avator": temp_user.avator.decode(),
                     "ename": user.ename
                 }
             else :
@@ -527,7 +527,7 @@ def create_user_router():
                 user_data = {
                     "uid": user.uid,
                     "name": temp_user.name,
-                    "avator": str(temp_user.avator),
+                    "avator": temp_user.avator.decode(),
                     "ename": None
                 }
             

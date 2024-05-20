@@ -74,7 +74,7 @@ const Guide: React.FC = () => {
                     height={'9rem'}
                     alt='logo'
                     // eslint-disable-next-line max-len
-                    src='https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png'
+                    src={item.cover}
                   />
                 }
                 onClick={() => router.push(`guide/detail/${item.gid}`)}
