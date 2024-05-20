@@ -187,16 +187,16 @@ def create_user_router():
         if not user:
             return jsonify({"msg": "User not found"}), 404
           
-        user_address = {
-            "building": "",
-            "room": "",
-            "unit": ""
-        }
+        # user_address = {
+        #     "building": "",
+        #     "room": "",
+        #     "unit": ""
+        # }
           
         # 查询用户住址信息
-        address = Address.query.filter(Address.uid == uid).first();
-        if address:
-            user_address = address
+        # address = Address.query.filter(Address.uid == uid).first();
+        # if address:
+        #     user_address = address
 
         # 构建基础用户信息字典
         user_info = {
@@ -205,16 +205,27 @@ def create_user_router():
             "email": user.email,
             "phone": user.phone,
             "avator": user.avator.decode(),
-            "building": user_address.building,
-            "room": user_address.room,
-            "unit": user_address.unit
+            # "building": user_address.building,
+            # "room": user_address.room,
+            # "unit": user_address.unit
         }
 
         # 查询普通用户信息
         normal_user = NormalUser.query.get(uid)
         if normal_user:
+            user_address = {
+                "building": "",
+                "room": "",
+                "unit": ""
+            }
+            address = Address.query.filter(Address.uid == uid).first();
+            if address:
+                user_address = address
             user_info.update({
                 "status": normal_user.status,
+                "building": user_address.building,
+                "unit": user_address.unit,
+                "room": user_address.room
             })
 
         # 查询企业用户信息

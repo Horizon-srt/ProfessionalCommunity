@@ -5,7 +5,6 @@ import { usePagination } from '@/hooks/usePagination';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import {
-  Button,
   Empty,
   Form,
   Input,
@@ -16,7 +15,6 @@ import {
   Upload,
   UploadProps
 } from 'antd';
-import { RecruitItem } from '../RecruitmentItem';
 import { UserItem } from './UserItem';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
@@ -53,7 +51,7 @@ export const UserManagement = () => {
   // ];
 
   const defaultRegParams = {
-    url: '/register/' + isEnte ? 'enterprise' : 'admin',
+    url: '/register/' + (isEnte ? 'enterprise' : 'admin'),
     method: 'POST' as ProvideMethod,
     params: null
   };
@@ -83,6 +81,7 @@ export const UserManagement = () => {
     const newParams = {
       ...form.getFieldsValue(),
       ...{ avator: imageUrl },
+      cover: coverImageUrl,
       password: md5(form.getFieldValue('password'))
     };
     register({ ...defaultRegParams, ...{ params: newParams } });
@@ -115,12 +114,21 @@ export const UserManagement = () => {
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const [coverImageUrl, setCoverImageUrl] = useState<string>();
 
   const handleChange: UploadProps['onChange'] = info => {
     getBase64(info.file.originFileObj, url => {
       setLoading(false);
       setImageUrl(url);
-      console.log(url);
+      // console.log(url);
+    });
+  };
+
+  const handleCoverChange: UploadProps['onChange'] = info => {
+    getBase64(info.file.originFileObj, url => {
+      setLoading(false);
+      setCoverImageUrl(url);
+      // console.log(url);
     });
   };
 
@@ -157,10 +165,10 @@ export const UserManagement = () => {
         >
           <div className='mt-3'>
             <Form.Item label='Name' name='name'>
-              <Input placeholder='Title' />
+              <Input placeholder='Name' />
             </Form.Item>
             <Form.Item label='Password' name='password'>
-              <Input placeholder='Password' />
+              <Input.Password placeholder='Password' />
             </Form.Item>
             <Form.Item label='Email' name='email'>
               <Input placeholder='Email' />
@@ -168,20 +176,24 @@ export const UserManagement = () => {
             <Form.Item label='Phone' name='phone'>
               <Input placeholder='Phone' />
             </Form.Item>
-            <Upload
-              name='avatar'
-              listType='picture-circle'
-              className='avatar-uploader'
-              showUploadList={false}
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
-            >
-              {imageUrl ? (
-                <img src={imageUrl} alt='avatar' style={{ width: '100%' }} />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
+            <Form.Item label='Avatar' name='avatar'>
+              <Upload
+                name='avatar'
+                maxCount={1}
+                listType='picture-circle'
+                className='avatar-uploader'
+                showUploadList={false}
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+              >
+                {imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={imageUrl} alt='avatar' style={{ width: '100%' }} />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </Form.Item>
             {isEnte ? (
               <>
                 <Form.Item label='CompanyName' name='ename'>
@@ -190,8 +202,29 @@ export const UserManagement = () => {
                 <Form.Item label='Description' name='description'>
                   <TextArea />
                 </Form.Item>
-                <Form.Item label='Cover' name='cover'>
+                {/* <Form.Item label='Cover' name='cover'>
                   <Input placeholder='Cover' />
+                </Form.Item> */}
+                <Form.Item label='Cover' name='cover'>
+                  <Upload
+                    name='cover'
+                    maxCount={1}
+                    listType='picture-circle'
+                    showUploadList={false}
+                    beforeUpload={beforeUpload}
+                    onChange={handleCoverChange}
+                  >
+                    {coverImageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={coverImageUrl}
+                        alt='cover'
+                        style={{ width: '100%' }}
+                      />
+                    ) : (
+                      uploadButton
+                    )}
+                  </Upload>
                 </Form.Item>
               </>
             ) : null}
