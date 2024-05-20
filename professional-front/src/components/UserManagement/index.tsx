@@ -149,7 +149,7 @@ export const UserManagement = () => {
         okText={'Add'}
         cancelText={'Cancel'}
       >
-        <span className='mr-6'>Enterprise/Admin:</span>
+        <span className='mr-6'>Admin/Enterprise:</span>
         <Switch
           className='ml-6'
           value={isEnte}
@@ -237,7 +237,7 @@ export const UserManagement = () => {
             <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
             <div className='text-md'>User Management</div>
             <div>
-              <span className='mr-2 text-sm'>Enterprise/Admin:</span>
+              <span className='mr-2 text-sm'>Admin/Enterprise:</span>
               <Switch
                 className='ml-6'
                 value={isEnte}

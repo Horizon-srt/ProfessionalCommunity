@@ -93,194 +93,6 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     subscribeError
   ]);
 
-  // const fixedFetch = {
-  //   data: {
-  //     services: [
-  //       {
-  //         sid: 1,
-  //         name: 'string1',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       },
-  //       {
-  //         sid: 2,
-  //         name: 'string2',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       },
-  //       {
-  //         sid: 3,
-  //         name: 'string3',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       },
-  //       {
-  //         sid: 4,
-  //         name: 'string4',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       }
-  //     ],
-  //     allPages: 10
-  //   },
-  //   isLoading: false
-  // };
-
-  // const onDoorFetch = {
-  //   data: {
-  //     services: [
-  //       {
-  //         sid: 11,
-  //         name: 'string11',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       },
-  //       {
-  //         sid: 12,
-  //         name: 'string12',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       },
-  //       {
-  //         sid: 13,
-  //         name: 'string13',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       },
-  //       {
-  //         sid: 14,
-  //         name: 'string14',
-  //         cover:
-  //           'https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png',
-  //         available: 'string',
-  //         detail_slice: 'string'
-  //       }
-  //     ],
-  //     allPages: 10
-  //   },
-  //   isLoading: false
-  // };
-
-  // const subscribeFetch = {
-  //   data: {
-  //     services: [
-  //       {
-  //         srid: '1',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'Zhang San',
-  //         service_name: 'Fix air conditioner',
-  //         phone: '13832581023;',
-  //         line: '13832581023;',
-  //         detail:
-  //           'string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;string;',
-  //         time: 'today;'
-  //       },
-  //       {
-  //         srid: '2',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       },
-  //       {
-  //         srid: '3',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       },
-  //       {
-  //         srid: '4',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       },
-  //       {
-  //         srid: '5',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       },
-  //       {
-  //         srid: '6',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       },
-  //       {
-  //         srid: '7',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       },
-  //       {
-  //         srid: '8',
-  //         building: 'string;',
-  //         unit: 'string;',
-  //         room: 'string;',
-  //         name: 'string;',
-  //         service_name: 'string;',
-  //         phone: 'string;',
-  //         line: 'string;',
-  //         detail: 'string;',
-  //         time: 'string;'
-  //       }
-  //     ],
-  //     allPages: 10
-  //   },
-  //   isLoading: false
-  // };
-
   const ContentList: React.FC<{
     dataList: any;
     type: ServiceType;
@@ -330,7 +142,12 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
     );
   };
 
-  const SubscribeList: React.FC<{ userType: string }> = ({ userType }) => {
+  const SubscribeList: React.FC<{ userType: string; data: any }> = ({
+    userType,
+    data
+  }) => {
+    const subscribeData = data;
+
     return (
       <List
         itemLayout='horizontal'
@@ -424,7 +241,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
           Subscription
         </div>
       ),
-      children: <SubscribeList userType={userType} />
+      children: <SubscribeList userType={userType} data={subscribeData} />
     });
     items.push({
       key: 'ADDITION',
@@ -440,7 +257,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
   useEffect(() => {
     setItemList(items);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fixedData, onDoorData]);
+  }, [fixedData, onDoorData, subscribeData]);
 
   return (
     <div className={style.backgoundCard}>

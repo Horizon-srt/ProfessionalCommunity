@@ -20,6 +20,7 @@ const FloatSwitch: React.FC = () => {
   useEffect(() => {
     setUserType(localStorage.getItem('user-type') || 'TOURIST');
   }, []);
+
   return (
     <FloatButton.Group trigger='hover' type='primary' icon={<PlusOutlined />}>
       <FloatButton

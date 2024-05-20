@@ -78,7 +78,7 @@ const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
               >
                 <div>
                   <Image
-                    src={data.avator}
+                    src={data?.avator || ''}
                     alt=''
                     width={'6rem'}
                     height={'6rem'}
@@ -88,23 +88,23 @@ const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
 
                 <div style={{ marginTop: '3rem', display: 'flex' }}>
                   <div style={{ width: '5rem' }}>Name: </div>
-                  <div>{data.name}</div>
+                  <div>{data?.name || 'loading...'}</div>
                 </div>
                 <div style={{ marginTop: '1.5rem', display: 'flex' }}>
                   <div style={{ width: '5rem' }}>Phone: </div>
-                  <div>{data.phone}</div>
+                  <div>{data?.phone || 'loading...'}</div>
                 </div>
                 <div style={{ marginTop: '1.5rem', display: 'flex' }}>
                   <div style={{ width: '5rem' }}>Building: </div>
-                  <div>{data.building}</div>
+                  <div>{data?.building || 'loading...'}</div>
                 </div>
                 <div style={{ marginTop: '1.5rem', display: 'flex' }}>
                   <div style={{ width: '5rem' }}>Unit: </div>
-                  <div>{data.unit}</div>
+                  <div>{data?.unit || 'loading...'}</div>
                 </div>
                 <div style={{ marginTop: '1.5rem', display: 'flex' }}>
                   <div style={{ width: '5rem' }}>Room: </div>
-                  <div>{data.room}</div>
+                  <div>{data?.room || 'loading...'}</div>
                 </div>
               </div>
               <div
@@ -127,7 +127,7 @@ const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
                 >
                   <div style={{ width: '50%', height: '100%' }}>
                     <Image
-                      src={data.cover}
+                      src={data?.cover || 'loading...'}
                       alt=''
                       width={'100%'}
                       height={'100%'}
@@ -135,7 +135,7 @@ const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
                   </div>
                   <div style={{ margin: '2rem' }}>
                     <div style={{ fontSize: 'larger' }}>
-                      {data.service_name}
+                      {data?.service_name || 'loading...'}
                     </div>
                     <div
                       style={{
@@ -144,7 +144,7 @@ const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
                         marginTop: '1rem'
                       }}
                     >
-                      {data.line}
+                      {data?.line || 'loading...'}
                     </div>
                   </div>
                 </div>
@@ -158,9 +158,9 @@ const SubscribeDetail: React.FC<SubscribeDetailProps> = ({ srid }) => {
                     border: '1px solid #000000'
                   }}
                 >
-                  <div>{`Booking Time: ${data.time}`}</div>
+                  <div>{`Booking Time: ${data?.time || 'loading...'}`}</div>
                   <div style={{ marginTop: '1rem', wordWrap: 'break-word' }}>
-                    {'Description: ' + data.detail}
+                    {'Description: ' + data?.detail || 'loading...'}
                   </div>
                 </div>
               </div>
