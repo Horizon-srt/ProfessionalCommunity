@@ -13,3 +13,27 @@
 .listItem{
     height: 100px;
 }
+
+.buttonContainer {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .customButton {
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+  .verticalCenter {
+    margin-left: 30px;
+    margin-top: 1.5%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: large;
+  }
+
+  .locationText {
+    font-size: large;
+    margin-left: 16px; /* 调整与左边内容的距离 */
+  }

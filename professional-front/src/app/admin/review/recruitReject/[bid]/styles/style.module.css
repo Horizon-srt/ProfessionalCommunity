@@ -1,0 +1,10 @@
+.input{
+    width: 50%;
+    flex: content;
+}
+
+.buttonArea {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
