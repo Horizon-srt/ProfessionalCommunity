@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS `chat`;
 CREATE TABLE `chat` (
   `id` int NOT NULL AUTO_INCREMENT,
   `uid` int DEFAULT NULL,
-  `from` int DEFAULT NULL COMMENT '消息谁发的 0是user 1是chat',
+  `from_user` int DEFAULT NULL COMMENT '消息谁发的 0是user 1是chat',
   `content` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `chat_user` (`uid`),
