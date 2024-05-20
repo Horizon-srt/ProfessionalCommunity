@@ -195,7 +195,7 @@ def create_hire_router():
     def get_hires_by_hid(hid):
         try:
             # 查询特定hid招聘信息
-            hire = Hire.query.get(hid=hid)
+            hire = Hire.query.get(hid)
 
             if not hire:
               return jsonify(code=404, message="Guide not found"), 404

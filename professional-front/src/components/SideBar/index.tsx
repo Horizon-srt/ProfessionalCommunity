@@ -32,8 +32,14 @@ const SideBar: React.FC = () => {
           </div>
         </Card>
       </div> */}
-      <UserInfoCard />
-      <AssistantCard />
+      {userType === 'TOURIST' ? (
+        <AssistantCard />
+      ) : (
+        <>
+          <UserInfoCard />
+          <AssistantCard />
+        </>
+      )}
     </div>
   );
 };

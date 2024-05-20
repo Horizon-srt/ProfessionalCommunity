@@ -308,6 +308,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
                   ? `/${userType.toLowerCase()}/service/edit/${item.sid}`
                   : `/${userType.toLowerCase()}/service/${item.sid}`
               }
+              onClick={() => console.log(userType)}
             >
               <List.Item
                 key={item.title}

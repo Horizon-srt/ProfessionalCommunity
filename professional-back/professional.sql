@@ -132,7 +132,7 @@ DROP TABLE IF EXISTS `ebook`;
 CREATE TABLE `ebook` (
   `bid` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `content` blob,
+  `content` longblob,
   `cover` longblob,
   `description` varchar(255) DEFAULT NULL,
   `detail` varchar(255) DEFAULT NULL,

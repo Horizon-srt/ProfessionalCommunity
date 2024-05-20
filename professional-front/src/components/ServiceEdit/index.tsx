@@ -157,15 +157,13 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
           label={'Detail'}
           rules={[{ required: true, message: 'Please input detail!' }]}
         >
-          <Input.TextArea
-            className={style.inputStyle}
-            placeholder={'Available Time'}
-          />
+          <Input.TextArea className={style.inputStyle} placeholder={'Detail'} />
         </Form.Item>
         <Form.Item
           label={'Cover'}
           // valuePropName='fileList'
           name={'cover'}
+          rules={[{ required: true }]}
           getValueFromEvent={normFile}
         >
           <Upload
@@ -212,6 +210,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
               label={'Map'}
               // valuePropName='fileList'
               name={'map'}
+              rules={[{ required: true }]}
               getValueFromEvent={normFile}
             >
               <Upload
@@ -232,6 +231,7 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
               label={'Video'}
               // valuePropName='fileList'
               name={'video'}
+              rules={[{ required: true }]}
               getValueFromEvent={normFile}
             >
               <Upload
@@ -282,26 +282,11 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
   };
 
   const EditForm: React.FC = () => {
-    // const { data, error, isLoading } = useFetch({
-    //   url: `/services/${sid}`,
-    //   method: 'GET',
-    //   params: {}
-    // });
-
-    const data = {
-      sid: 'aa',
-      name: 'string',
-      available: 'string',
-      detail: 'string',
-      type: 'ONDOOR',
-      // 针对不同服务类型
-      location: 'string',
-      map: 'string',
-      video: 'dada',
-      line: 'dadadad'
-    };
-
-    const [isLoading, setIsLoading] = useState(true);
+    const { data, error, isLoading } = useFetch({
+      url: `/services/${sid}`,
+      method: 'GET',
+      params: {}
+    });
 
     const [form] = Form.useForm();
 
@@ -311,10 +296,6 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
-
-    useEffect(() => {
-      setIsLoading(false);
-    }, []);
 
     return (
       <>

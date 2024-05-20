@@ -1,17 +1,19 @@
-import { Avatar, Button, message } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { ProvideMethod, RecruitmentStatus } from '@/types/data-types';
+/* eslint-disable max-len */
+import { Avatar, message } from 'antd';
+import React, { useEffect } from 'react';
+import { ProvideMethod } from '@/types/data-types';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useFetchMutation } from '@/services/use-fetch';
 
 interface IUserInfo {
   uid: string;
   name: string;
+  avator: string;
 }
 export const UserItem = ({ uInfo }: { uInfo: IUserInfo }) => {
   const defaultDeleteParams = {
     url: `/users/${uInfo.uid}`,
-    method: 'GET' as ProvideMethod,
+    method: 'DELETE' as ProvideMethod,
     params: {}
   };
   const { data, trigger: deleteUser } = useFetchMutation(defaultDeleteParams);
@@ -25,7 +27,7 @@ export const UserItem = ({ uInfo }: { uInfo: IUserInfo }) => {
     <div className={'p-3  flex flex-row justify-between relative'}>
       <div className={'flex flex-row'}>
         <div className='mr-3'>
-          <Avatar />
+          <Avatar src={uInfo.avator} />
         </div>
         <div className='mt-1'>{uInfo.name}</div>
       </div>
