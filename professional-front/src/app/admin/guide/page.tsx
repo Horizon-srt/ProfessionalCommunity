@@ -18,7 +18,6 @@ const Tourist: React.FC = () => {
   // const list: any[] = [];
   const { data, isLoading, error } = useFetch({
     url: '/guides',
-
     method: 'GET',
     params: {
       offset: 7,

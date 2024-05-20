@@ -48,19 +48,6 @@ const Library: React.FC = () => {
         }
   );
 
-  // for (let i = 1; i < 40; i += 1) {
-  //   list.push({
-  //     bid: i,
-  //     name: 'name' + i,
-  //     cover: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-  //     content:
-  //       'Umi@4 实战教程，专门针对中后台项目零基础的朋友，不管你是前端还是后端，看完这个系列你也有能力合理“抗雷”，“顶坑”',
-  //     description: 'this is a description' + i,
-  //     detail: 'this is a detail',
-  //     label: ['science', 'literature']
-  //   });
-  // }
-
   const items: MenuProps['items'] = [
     {
       label: 'Science',
@@ -81,7 +68,6 @@ const Library: React.FC = () => {
     setCurrentLabel(e.key);
   };
 
-  // // 初始数据为data1
   const [filterparamList, setFilterParamList] = useState([]);
 
   // 标签搜索

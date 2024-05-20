@@ -1,20 +1,23 @@
 'use client';
-import { Button, Card } from 'antd';
-import React from 'react';
-import Image from 'next/image';
-import img from '@/../public/next.svg';
+import { Button, Card, Col, Row, Spin, message } from 'antd';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from './styles/styles.module.css';
+import useFetch from '@/services/use-fetch';
 
-const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
+const Detail: React.FC<{ params: { recruit: string } }> = ({ params }) => {
   const router = useRouter();
-  const list: any = {
-    bid: 1,
-    title: '招聘摄影师',
-    company: '1号公司',
-    startTime: '2022.1.1',
-    endTime: '2023.1.1',
-    details: '***********'
-  };
+  const { data, isLoading, error } = useFetch({
+    url: `/hires/${params.recruit}`,
+    method: 'GET',
+    params: {}
+  });
+
+  useEffect(() => {
+    if (!isLoading && error) {
+      message.error(error);
+    }
+  }, [isLoading, error]);
   return (
     <div className='p-20 h-full'>
       <Card>
@@ -25,20 +28,57 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
               <div style={{ fontSize: '2.5rem' }}>Recruit Detail</div>
             </div>
           </div>
-          <div className='flex justify-center' style={{ fontSize: '2.5rem' }}>
-            Title: {list.title}
-          </div>
-          <div className='flex justify-center' style={{ fontSize: '2.5rem' }}>
-            Company: {list.company}
-          </div>
-          <div className='flex justify-center' style={{ fontSize: '2.5rem' }}>
-            Time: {list.startTime} - {list.endTime}
-          </div>
-          <div className='flex justify-center' style={{ fontSize: '2.5rem' }}>
-            Details: {list.details}
-          </div>
-          <div className='flex justify-center' style={{ fontSize: '2.5rem' }}>
-            <Button onClick={() => router.push('/admin/review')}>back</Button>
+          <div className='f-col px-[5%] py-[4%]'>
+            {!isLoading && data ? (
+              <>
+                <div className={styles.h1Title} style={{ fontSize: '1.5rem' }}>
+                  Basic Information
+                </div>
+                <div className={styles.customCard}>
+                  <Row className={styles.rowStyle} gutter={16}>
+                    <Col span={8} style={{ fontSize: '1.25rem' }}>
+                      Company:
+                    </Col>
+                    <Col span={8} style={{ fontSize: '1.25rem' }}>
+                      Title:
+                    </Col>
+                    <Col span={8} style={{ fontSize: '1.25rem' }}>
+                      Time:
+                    </Col>
+                  </Row>
+                  <Row className={styles.rowStyle} gutter={16}>
+                    <Col span={8} style={{ fontSize: '1.25rem' }}>
+                      {data.ename}
+                    </Col>
+                    <Col span={8} style={{ fontSize: '1.25rem' }}>
+                      {data.title}
+                    </Col>
+                    <Col span={8} style={{ fontSize: '1.25rem' }}>
+                      {data.startTime} - {data.endTime}
+                    </Col>
+                  </Row>
+                </div>
+                <div className={styles.h1Title} style={{ fontSize: '1.5rem' }}>
+                  Details
+                </div>
+                <div
+                  className={styles.detailText}
+                  style={{ fontSize: '1.25rem' }}
+                >
+                  {data.content}
+                </div>
+              </>
+            ) : (
+              <Spin spinning={isLoading} />
+            )}
+            <div className='flex justify-center pt-10'>
+              <Button
+                style={{ width: 200 }}
+                onClick={() => router.push('/admin/review')}
+              >
+                Back
+              </Button>
+            </div>
           </div>
         </div>
       </Card>

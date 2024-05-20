@@ -515,7 +515,12 @@ const ServiceEdit: React.FC<ServiceEditProps> = ({ title, sid }) => {
 
   return (
     <Card
-      style={{ padding: '2rem', height: '100%', overflow: 'auto' }}
+      style={{
+        padding: '2rem',
+        height: '100%',
+        width: '60vw',
+        overflow: 'auto'
+      }}
       title={title}
     >
       {sid === '-1' ? <CreateForm /> : <EditForm />}
