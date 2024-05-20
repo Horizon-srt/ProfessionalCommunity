@@ -1,15 +1,11 @@
-import { RecruitmentStatus } from '@/types/data-types';
-import { Button } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-export const RecruitStatus = ({ status }: { status: RecruitmentStatus }) => {
-  if (status === RecruitmentStatus.APPROVED) {
+export const RecruitStatus = ({ status }: { status: string }) => {
+  if (status === 'approved') {
     return <div className='text-green-400'>Approved</div>;
-  } else if (status === RecruitmentStatus.APPROVING) {
-    return <div className='text-gray-400'>Approving</div>;
-  } else if (status === RecruitmentStatus.NOTAPPROVED) {
-    return <div className='text-gray-400'>Not Approved</div>;
+  } else if (status === 'pending') {
+    return <div className='text-gray-400'>Pending</div>;
   } else {
-    return <></>;
+    return <div className='text-gray-400'>{status}</div>;
   }
 };

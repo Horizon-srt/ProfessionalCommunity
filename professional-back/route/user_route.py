@@ -51,6 +51,7 @@ def create_user_router():
             # 创建普通用户额外信息
             normal_user = NormalUser(
                 uid=new_user.uid,
+                status='pending',
                 proof=data['proof'].encode() if 'proof' in data else None
             )
             db.session.add(normal_user)

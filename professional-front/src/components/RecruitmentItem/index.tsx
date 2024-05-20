@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 import { Button } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { RecruitStatus } from './RecruitmentStatus';
-import { ProvideMethod, RecruitmentStatus } from '@/types/data-types';
+import { ProvideMethod } from '@/types/data-types';
 import { FilePdfOutlined } from '@ant-design/icons';
 
 interface IRecruitmentInfo {
@@ -11,7 +12,7 @@ interface IRecruitmentInfo {
   start_time: string;
   end_time: string;
   content_slice: string;
-  status: RecruitmentStatus;
+  status: string;
 }
 export const RecruitItem = ({
   rInfo,

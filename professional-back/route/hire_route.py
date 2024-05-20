@@ -29,7 +29,8 @@ def create_hire_router():
                 content=content.encode(),
                 start_time=start_time,
                 end_time=end_time,
-                uid=get_jwt_identity()
+                uid=get_jwt_identity(),
+                status='pending'
             )
 
             db.session.add(hire)
@@ -198,7 +199,7 @@ def create_hire_router():
             hire = Hire.query.get(hid)
 
             if not hire:
-              return jsonify(code=404, message="Guide not found"), 404
+              return jsonify(code=404, message="Hire not found"), 404
             
             hire_data = {
               'hid': hire.hid,
@@ -215,7 +216,7 @@ def create_hire_router():
             return jsonify(code=404, message=f"An error occurred while retrieving hires by company: {str(e)}"), 500
 
 
-    @hire_bp.route('/hires/all/<int:uid>', methods=['GET'])
+    @hire_bp.route('/hires/all/comp/<int:uid>', methods=['GET'])
     @jwt_required()
     def get_hires_by_company(uid):
         try:
