@@ -546,7 +546,7 @@ def create_user_router():
 
         # 获取请求参数
         filter_value = request.args.get('filter')
-        offset = int(request.args.get('offset', 10))  # 默认一页显示10条数据
+        per_page = int(request.args.get('offset', 10))  # 默认一页显示10条数据
         pageNum = int(request.args.get('pageNum', 1))  # 默认第一页
 
         try:
@@ -560,8 +560,8 @@ def create_user_router():
                 return jsonify({'code': '404', 'message': 'Invalid filter value'}), 404
 
             # 分页
-            pagination = query.paginate(page=pageNum, per_page=offset, error_out=False)
-            users = pagination.items
+            total_users = query.count()
+            users = query.limit(per_page).offset((pageNum - 1) * per_page).all()
 
             # 构造响应数据
             user_list = []
@@ -580,16 +580,16 @@ def create_user_router():
                 user_list.append(user_data)
 
             response_data = {
-                'code': 'Success',
+                'code': 200,
                 'data': {
                     'users': user_list,
-                    'allPages': pagination.pages
+                    'allPages': (total_users + per_page - 1) // per_page  # 计算总页数
                 }
             }
             return jsonify(response_data), 200
         except Exception as e:
             # 异常处理
-            return jsonify({'code': '404', 'message': str(e)}), 404
+            return jsonify({'code': 404, 'message': str(e)}), 404
 
 
 
