@@ -236,10 +236,11 @@ def create_hire_router():
             # 构造返回数据
             hires_data = []
             for hire in hires:
+                eUser = EnterpriseUser.query.get(hire.uid)
                 hires_data.append({
                     'hid': hire.hid,
                     'title': hire.title,
-                    'ename': EnterpriseUser.query.get(hire.uid).ename,
+                    'ename': eUser.ename if eUser else '',
                     'start_time': hire.start_time,
                     'end_time': hire.end_time,
                     'content_slice': hire.content[:50].decode(),  # 取内容的前50个字符作为节选
