@@ -557,7 +557,7 @@ def create_user_router():
             elif filter_value == '1':
                 query = query.filter(NormalUser.status == 'pending')
             else:
-                return jsonify({'code': 'InvalidFilter', 'message': 'Invalid filter value'}), 400
+                return jsonify({'code': '404', 'message': 'Invalid filter value'}), 404
 
             # 分页
             pagination = query.paginate(page=pageNum, per_page=offset, error_out=False)
@@ -568,10 +568,11 @@ def create_user_router():
             for user in users:
                 # 获取用户地址信息
                 address = Address.query.filter_by(uid=user.uid).first()
+                normal_user = NormalUser.query.filter_by(uid=user.uid).first()
                 user_data = {
                     'uid': user.uid,
                     'name': user.name,
-                    'status': user.normal_user.status,  # 从NormalUser中获取status
+                    'status': normal_user.status if normal_user else '',  # 从NormalUser中获取status
                     'building': address.building if address else '',
                     'unit': address.unit if address else '',
                     'room': address.room if address else ''
@@ -588,7 +589,7 @@ def create_user_router():
             return jsonify(response_data), 200
         except Exception as e:
             # 异常处理
-            return jsonify({'code': 'ServerError', 'message': str(e)}), 500
+            return jsonify({'code': '404', 'message': str(e)}), 404
 
 
 
