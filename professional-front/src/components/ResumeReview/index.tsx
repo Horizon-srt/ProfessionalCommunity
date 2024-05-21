@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styles from './styles/style.module.css';
-import { Avatar, Button, List, Menu, MenuProps } from 'antd';
+import { Avatar, Button, Empty, List, Menu, MenuProps, Spin } from 'antd';
 import { useRouter } from 'next/navigation';
+import { usePagination } from '@/hooks/usePagination';
+import useFetch from '@/services/use-fetch';
+import { ProvideMethod } from '@/types/data-types';
 
 const ResumeReview: React.FC = () => {
   const list: any[] = [];
@@ -16,17 +19,27 @@ const ResumeReview: React.FC = () => {
       label: ['待审核']
     });
   }
-  const [filterparamList, setFilterParamList] = useState(list);
-  const frontDownload = () => {
+  const frontDownload = (content: string) => {
     const a = document.createElement('a');
-    a.href = '/01a-Trees-2.pdf';
-    a.download = '01a-Trees-2.pdf';
+    a.href = content;
+    a.download = content;
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   };
 
+  const { pageNum, setCurrentPage } = usePagination({ offset: 7, pageNum: 1 });
+
+  const { data, isLoading } = useFetch({
+    url: '/resume/all',
+    method: 'GET' as ProvideMethod,
+    params: {
+      offset: 7,
+      pageNum
+    }
+  });
+  console.log(data);
   return (
     <div className={styles.main}>
       <div className='flex flex-row justify-between'>
@@ -35,43 +48,59 @@ const ResumeReview: React.FC = () => {
           <div style={{ fontSize: '2.5rem' }}>Receive Recruitment</div>
         </div>
       </div>
-      <List
-        className={styles.list}
-        rowKey='id'
-        pagination={{ position: 'bottom', align: 'center', pageSize: 7 }}
-        dataSource={[...filterparamList]}
-        renderItem={item => {
-          return (
-            <List.Item
-              className={styles.listItem}
-              key={item.bid}
-              actions={[
-                <Button
-                  key='list-loadmore-edit'
-                  type='link'
-                  onClick={() => {
-                    frontDownload();
-                  }}
-                >
-                  Download
-                </Button>,
-                <Button key='' type='primary'>
-                  Accept
-                </Button>,
-                <Button key='' type='primary' danger>
-                  Reject
-                </Button>
-              ]}
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.cover} />}
-                title={item.name}
-              />
-              <div>{item.title}</div>
-            </List.Item>
-          );
-        }}
-      ></List>
+      {isLoading ? (
+        <Spin />
+      ) : data?.resume?.length ? (
+        <List
+          className={styles.list}
+          rowKey='id'
+          pagination={{
+            position: 'bottom',
+            align: 'center',
+            pageSize: 7,
+            current: pageNum,
+            onChange: page => {
+              setCurrentPage(page);
+            },
+            total: (data?.allPages || 1) * 7
+          }}
+          dataSource={data?.resume || []}
+          renderItem={(item: any) => {
+            return (
+              <List.Item
+                className={styles.listItem}
+                key={item?.bid || ''}
+                actions={[
+                  <Button
+                    key='list-loadmore-edit'
+                    type='link'
+                    onClick={() => {
+                      frontDownload(item?.content);
+                    }}
+                  >
+                    Download
+                  </Button>
+                  // <Button key='' type='primary'>
+                  //   Accept
+                  // </Button>,
+                  // <Button key='' type='primary' danger>
+                  //   Reject
+                  // </Button>
+                ]}
+              >
+                <List.Item.Meta title={item?.name} />
+                <div className='flex flex-row justify-center'>
+                  <div>{item?.position}</div>
+                  <div>{item?.phone}</div>
+                  <div>{item?.email}</div>
+                </div>
+              </List.Item>
+            );
+          }}
+        ></List>
+      ) : (
+        <Empty />
+      )}
     </div>
   );
 };
