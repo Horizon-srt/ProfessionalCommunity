@@ -10,15 +10,17 @@ import {
 } from '@ant-design/icons';
 import { useThemeContext } from '@/components/ThemeProvider/themeContext';
 import { useStore } from '@/hooks/useStore';
+import { UserType } from '@/types/data-types';
 
-const FloatSwitch: React.FC = () => {
+const FloatSwitch = ({ outsideUserType }: { outsideUserType: UserType }) => {
   const { theme, toggleTheme } = useThemeContext();
   const switchExpand = useStore(state => state.switchExpand);
   const isExpand = useStore(state => state.userInfoIsExpand);
-  const [userType, setUserType] = useState('TOURIST');
 
+  const setStoreUserType = useStore(state => state.setUserType);
   useEffect(() => {
-    setUserType(localStorage.getItem('user-type') || 'TOURIST');
+    const currentUserType = localStorage.getItem('user-type') || 'TOURIST';
+    setStoreUserType(currentUserType as UserType);
   }, []);
 
   return (
@@ -27,7 +29,7 @@ const FloatSwitch: React.FC = () => {
         icon={theme === 'light' ? <MoonOutlined /> : <SunOutlined />}
         onClick={() => toggleTheme && toggleTheme()}
       />
-      {userType === 'NORMAL' ? (
+      {outsideUserType === 'NORMAL' ? (
         <FloatButton
           icon={
             !isExpand ? (

@@ -13,14 +13,6 @@ import { useStore } from '@/hooks/useStore';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  // ex.发请求
-
-  // const { data } = useFetch({
-  //   url: 'http://127.0.0.1:4523/m1/4275099-0-default/pet/4',
-  //   method: 'POST',
-  //   params: { b: '1' }
-  // });
-
   // 使用时，使用useThemeContext更改主题
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { theme, toggleTheme } = useThemeContext();

@@ -8,6 +8,7 @@ import DynamicBackground from '@/components/DynamicBackground';
 import './globals.css';
 
 import FloatSwitch from '@/components/FloatButton';
+import { useStore } from '@/hooks/useStore';
 
 // export const metadata: Metadata = {
 //   title: 'Create Next App',
@@ -19,6 +20,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const outsideUserType = useStore(state => state.userType);
   return (
     <html lang='en'>
       <head>
@@ -29,7 +31,7 @@ export default function RootLayout({
         <ThemeProvider>
           <DynamicBackground>
             <AntdRegistry>
-              <FloatSwitch />
+              <FloatSwitch outsideUserType={outsideUserType} />
               {children}
             </AntdRegistry>
           </DynamicBackground>
