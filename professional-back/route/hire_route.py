@@ -363,7 +363,7 @@ def create_hire_router():
             # 如果出现异常，返回404错误
             return jsonify(code=404, message=f"An error occurred while retrieving the resume: {str(e)}"), 404
 
-    @hire.route('/hires/review', methods=['GET'])
+    @hire_bp.route('/hires/review', methods=['GET'])
     @jwt_required()  # 需要登录
     def review_hires():
         # 获取当前用户身份
