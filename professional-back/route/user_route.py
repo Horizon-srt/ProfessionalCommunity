@@ -1,3 +1,4 @@
+import httpx
 from openai import OpenAI
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
@@ -12,9 +13,13 @@ from route.utils import check_user_role
 def create_user_router():
     user_bp = Blueprint('user_bp', __name__, url_prefix='/api')
     client = OpenAI(
-        api_key="sk-proj-reSPfOWF6sKPjR3ZuQ43T3BlbkFJcCSJvfv3RRCfjVnO2v9C",
-        timeout=60
-    )
+        base_url="https://api.xty.app/v1",
+        api_key="sk-py17ph1aEFScFGpaB0Ef9530C8E04a0fB845Ab55D5E0E01f",
+        http_client=httpx.Client(
+            base_url="https://api.xty.app/v1",
+            follow_redirects=True,
+            timeout=60
+        ))
 
     @user_bp.route('/register/normal', methods=['POST'])
     def register_normal():
@@ -141,7 +146,8 @@ def create_user_router():
             db.session.commit()
 
             return jsonify(code=200,
-                           data={'name': new_user.name, 'ename': enterprise_user.ename, 'avator': new_user.avator.decode()},
+                           data={'name': new_user.name, 'ename': enterprise_user.ename,
+                                 'avator': new_user.avator.decode()},
                            message="Enterprise user registration successful")
 
         except Exception as e:
@@ -187,13 +193,13 @@ def create_user_router():
         user = User.query.get(uid)
         if not user:
             return jsonify({"msg": "User not found"}), 404
-          
+
         # user_address = {
         #     "building": "",
         #     "room": "",
         #     "unit": ""
         # }
-          
+
         # 查询用户住址信息
         # address = Address.query.filter(Address.uid == uid).first();
         # if address:
@@ -249,12 +255,12 @@ def create_user_router():
 
             # 检查用户角色
             user_role = check_user_role(uid)
-            
+
             user_chat = Chat.query.filter(Chat.uid == uid)
             if user_chat:
-              for chat in user_chat:
-                  if chat:
-                    db.session.delete(chat)
+                for chat in user_chat:
+                    if chat:
+                        db.session.delete(chat)
 
             # 获取用户信息
             user = User.query.get(uid)
@@ -298,7 +304,7 @@ def create_user_router():
             user = User.query.get(uid)
             if not user:
                 return jsonify(code=404, message="User not found"), 404
-              
+
             # 获取用户地址
             address = Address.query.filter(Address.uid == uid).first()
 
@@ -443,11 +449,12 @@ def create_user_router():
 
         try:
             chat_completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",
                 messages=[
                     {"role": "user", "content": user_message}
-                ],
-                model="gpt-3.5-turbo",
+                ]
             )
+
             ai_response = chat_completion['choices'][0]['message']['content']
         except Exception as e:
             return jsonify({'error': str(e)}), 500
@@ -491,7 +498,7 @@ def create_user_router():
     def get_all_users_by_type():
         # 验证 JWT，获取当前用户 ID
         current_user_id = get_jwt_identity()
-        
+
         user_role = check_user_role(current_user_id)
         if user_role != "ADMIN":
             return jsonify(code=404, message="非合法用户"), 404
@@ -500,7 +507,7 @@ def create_user_router():
         type = request.args.get('type')
         offset = int(request.args.get('offset', 0))
         pageNum = int(request.args.get('pageNum', 1))
-        
+
         user_query = None
         if type == 'ADMIN':
             users_query = Admin.query
@@ -523,7 +530,7 @@ def create_user_router():
                     "avator": temp_user.avator.decode(),
                     "ename": user.ename
                 }
-            else :
+            else:
                 temp_user = User.query.get(user.uid)
                 user_data = {
                     "uid": user.uid,
@@ -531,7 +538,7 @@ def create_user_router():
                     "avator": temp_user.avator.decode(),
                     "ename": None
                 }
-            
+
             all_users.append(user_data)
 
         allPages = (users_count + offset - 1) // offset
@@ -590,7 +597,5 @@ def create_user_router():
         except Exception as e:
             # 异常处理
             return jsonify({'code': 404, 'message': str(e)}), 404
-
-
 
     return user_bp
