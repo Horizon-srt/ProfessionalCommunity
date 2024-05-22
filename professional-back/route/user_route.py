@@ -454,8 +454,8 @@ def create_user_router():
                     {"role": "user", "content": user_message}
                 ]
             )
-
-            ai_response = chat_completion['choices'][0]['message']['content']
+            print(chat_completion)
+            ai_response = chat_completion.choices[0].message.content
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
