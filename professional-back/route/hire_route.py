@@ -376,7 +376,7 @@ def create_hire_router():
 
         try:
             # 根据过滤条件查询招聘信息
-            query = db.session.query(Hire).join(EnterpriseUser, Hire.uid == EnterpriseUser.uid)
+            query = db.session.query(Hire)
             if filter_value == '0':
                 query = query.filter(Hire.status != 'pending')
             elif filter_value == '1':
