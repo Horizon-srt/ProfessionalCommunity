@@ -61,7 +61,7 @@ const PersonalReview: React.FC = () => {
     }
   }, [data2]);
 
-  const { dataList } = useFetch(
+  const { data: dataList } = useFetch(
     currentData === 'profile'
       ? {
           url: '/users/review',
@@ -86,6 +86,7 @@ const PersonalReview: React.FC = () => {
   const onClickMenu: MenuProps['onClick'] = (e: any) => {
     setCurrent(e.key);
   };
+  console.log(data + ' data');
   const items: MenuProps['items'] = [
     {
       label: 'pending',
@@ -98,8 +99,12 @@ const PersonalReview: React.FC = () => {
   ];
 
   useEffect(() => {
-    setFilterParamList(data?.users || []);
-  }, [currentData, data]);
+    if (currentData === 'profile') {
+      setFilterParamList(dataList?.users || []);
+    } else {
+      setFilterParamList(dataList?.hires || []);
+    }
+  }, [currentData, data, current]);
 
   return (
     <div className={styles.main}>
@@ -154,7 +159,7 @@ const PersonalReview: React.FC = () => {
                         type='link'
                         onClick={() => {
                           currentData === 'profile'
-                            ? router.push(`review/profile/${item.hid}`)
+                            ? router.push(`review/profile/${item.uid}`)
                             : router.push(`review/recruit/${item.hid}`);
                         }}
                       >
@@ -168,7 +173,7 @@ const PersonalReview: React.FC = () => {
                             ? AcceptUser({
                                 ...defaultUserAcceptParams,
                                 ...{
-                                  url: `/users/${item.hid}`,
+                                  url: `/users/${item.uid}`,
                                   params: { status: 'approved' }
                                 }
                               })
@@ -189,7 +194,7 @@ const PersonalReview: React.FC = () => {
                         danger
                         onClick={() => {
                           currentData === 'profile'
-                            ? router.push(`review/profileReject/${item.hid}`)
+                            ? router.push(`review/profileReject/${item.uid}`)
                             : router.push(`review/recruitReject/${item.hid}`);
                         }}
                       >
@@ -201,7 +206,9 @@ const PersonalReview: React.FC = () => {
                         key='detail'
                         type='link'
                         onClick={() => {
-                          router.push(`review/recruit/${item.hid}`);
+                          currentData === 'profile'
+                            ? router.push(`review/profile/${item.uid}`)
+                            : router.push(`review/recruit/${item.hid}`);
                         }}
                       >
                         Detail

@@ -51,8 +51,8 @@ const Tourist: React.FC = () => {
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between w-full'>
             <div className='relative flex items-center'>
-              <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-              <div>News Anouncement</div>
+              <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]'></div>
+              <div style={{ fontSize: '2.5rem' }}>News Anouncement</div>
             </div>
             <div
               className='flex items-center cursor-pointer'

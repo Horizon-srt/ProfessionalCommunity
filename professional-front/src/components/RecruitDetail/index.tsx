@@ -105,7 +105,7 @@ const RecruiteDetail: React.FC<RecruiteDetailProps> = ({ hid }) => {
           <div className='flex flex-row justify-between'>
             <div className='relative'>
               <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-              <div>Recruit Detail</div>
+              <div style={{ fontSize: '2.5rem' }}>Recruit Detail</div>
             </div>
           </div>
           <div

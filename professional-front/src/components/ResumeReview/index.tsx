@@ -41,11 +41,11 @@ const ResumeReview: React.FC = () => {
   });
   console.log(data);
   return (
-    <div className={styles.main}>
+    <div className={styles.main} style={{ overflow: 'auto' }}>
       <div className='flex flex-row justify-between'>
         <div className='relative'>
           <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]'></div>
-          <div style={{ fontSize: '2.5rem' }}>Receive Recruitment</div>
+          <div style={{ fontSize: '2.5rem' }}>Receive Resume</div>
         </div>
       </div>
       {isLoading ? (

@@ -1,0 +1,23 @@
+.rowStyle{
+    padding: 10px;
+}
+
+.customCard {
+    padding: 15px;
+    background-color: #f0f0f0; /* 设置背景色为浅灰色 */
+    border-radius: 8px; /* 设置圆角，可以根据需要调整 */
+  }
+  
+.h1Title{
+    padding-top: 10px;
+}
+
+.detailText {
+    font-size: 1.25rem;
+    width: 100%; /* 使宽度占满父组件 */
+    text-align: left; /* 确保文本左对齐 */
+    padding: 0 16px; /* 添加左右内边距确保文本不会紧贴边缘 */
+    box-sizing: border-box; /* 包括内边距和边框在内 */
+    word-wrap: break-word; /* 自动换行 */
+    word-break: break-word;
+  }

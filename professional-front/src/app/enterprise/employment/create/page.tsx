@@ -63,7 +63,7 @@ const Create = () => {
         title={
           <div className='relative flex flex-row justify-between'>
             <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-            <div className='text-lg'>Add New Recruitment</div>
+            <div style={{ fontSize: '2.5rem' }}>Add New Recruitment</div>
           </div>
         }
       >

@@ -52,7 +52,7 @@ const Employment: React.FC = () => {
         title={
           <div className='relative flex flex-row justify-between'>
             <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-            <div className='text-lg'>My Recruitment</div>
+            <div style={{ fontSize: '2.5rem' }}>My Recruitment</div>
             <div
               className='text-green-500 text-lg cursor-pointer'
               onClick={() => router.push('/enterprise/employment/create')}

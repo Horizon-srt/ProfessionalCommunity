@@ -2,13 +2,13 @@
 import { Button, Card, Col, Row, Spin, message } from 'antd';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './styles/styles.module.css';
+import styles from './styles/style.module.css';
 import useFetch from '@/services/use-fetch';
 
-const Detail: React.FC<{ params: { recruit: string } }> = ({ params }) => {
+const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
   const router = useRouter();
   const { data, isLoading, error } = useFetch({
-    url: `/hires/${params.recruit}`,
+    url: `/hires/${params.detail}`,
     method: 'GET',
     params: {}
   });

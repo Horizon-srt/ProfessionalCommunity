@@ -4,6 +4,7 @@ import React from 'react';
 import { RecruitStatus } from './RecruitmentStatus';
 import { ProvideMethod } from '@/types/data-types';
 import { FilePdfOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 interface IRecruitmentInfo {
   hid: string;
@@ -21,6 +22,7 @@ export const RecruitItem = ({
   rInfo: IRecruitmentInfo;
   deleteHire: (info: any) => void;
 }) => {
+  const router = useRouter();
   return (
     <div className={'p-3 px-6 flex flex-row justify-between relative'}>
       <div className={'flex flex-row'}>
@@ -34,7 +36,13 @@ export const RecruitItem = ({
         <div className='mr-3 mt-1'>
           <RecruitStatus status={rInfo.status} />
         </div>
-        <Button className='mr-3' style={{ color: 'green' }}>
+        <Button
+          className='mr-3'
+          style={{ color: 'green' }}
+          onClick={() => {
+            router.push(`employment/detail/${rInfo.hid}`);
+          }}
+        >
           Detail
         </Button>
         <Button

@@ -40,7 +40,7 @@ const NormalNotice: React.FC = () => {
           <div className='flex flex-row justify-between'>
             <div className='relative'>
               <div className='bg-green-500 w-1 h-6 absolute left-[-1rem]'></div>
-              <div>News Anouncement</div>
+              <div style={{ fontSize: '2.5rem' }}>News Anouncement</div>
             </div>
           </div>
           <div className='w-full h-full flex flex-col p-8'>
