@@ -191,7 +191,7 @@ def create_hire_router():
         except Exception as e:
             return jsonify(code=404, message=f"An error occurred while retrieving hires: {str(e)}"), 500
 
-    @hire_bp.route('/hires/all/<int:hid>', methods=['GET'])
+    @hire_bp.route('/hires/<int:hid>', methods=['GET'])
     @jwt_required()
     def get_hires_by_hid(hid):
         try:
