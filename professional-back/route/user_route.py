@@ -576,15 +576,16 @@ def create_user_router():
                 # 获取用户地址信息
                 address = Address.query.filter_by(uid=user.uid).first()
                 normal_user = NormalUser.query.filter_by(uid=user.uid).first()
-                user_data = {
-                    'uid': user.uid,
-                    'name': user.name,
-                    'status': normal_user.status if normal_user else '',  # 从NormalUser中获取status
-                    'building': address.building if address else '',
-                    'unit': address.unit if address else '',
-                    'room': address.room if address else ''
-                }
-                user_list.append(user_data)
+                if normal_user:
+                    user_data = {
+                        'uid': user.uid,
+                        'name': user.name,
+                        'status': normal_user.status if normal_user else '',  # 从NormalUser中获取status
+                        'building': address.building if address else '',
+                        'unit': address.unit if address else '',
+                        'room': address.room if address else ''
+                    }
+                    user_list.append(user_data)
 
             response_data = {
                 'code': 200,
