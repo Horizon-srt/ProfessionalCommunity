@@ -5,6 +5,7 @@ import { usePagination } from '@/hooks/usePagination';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import {
+  Button,
   Empty,
   Form,
   Input,
@@ -20,6 +21,8 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { md5 } from 'js-md5';
 import styles from '@/components/UserManagement/styles/style.module.css';
+import { setuid } from 'process';
+import { useRouter } from 'next/navigation';
 
 interface IUser {
   uid: string;
@@ -33,7 +36,7 @@ export const UserManagement = () => {
   });
   const [isEnte, setIsEnte] = useState(false);
 
-  const { data } = useFetch({
+  const defaultDiffParams = {
     url: '/users/diff_type',
     method: 'GET' as ProvideMethod,
     params: {
@@ -41,7 +44,8 @@ export const UserManagement = () => {
       pageNum,
       offset
     }
-  });
+  };
+  const { data, trigger } = useFetchMutation(defaultDiffParams);
 
   // const mockDatas = [
   //   {
@@ -51,6 +55,9 @@ export const UserManagement = () => {
   //   }
   // ];
 
+  useEffect(() => {
+    trigger(defaultDiffParams);
+  }, []);
   const defaultRegParams = {
     url: '/register/' + (isEnte ? 'enterprise' : 'admin'),
     method: 'POST' as ProvideMethod,
@@ -69,6 +76,7 @@ export const UserManagement = () => {
     }
     if (registerData) {
       message.success('Register Successful');
+      trigger(defaultDiffParams);
     }
   }, [registerData, error]);
 
@@ -78,7 +86,7 @@ export const UserManagement = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     const newParams = {
       ...form.getFieldsValue(),
       ...{ avator: imageUrl },
@@ -145,10 +153,8 @@ export const UserManagement = () => {
       <Modal
         title='Add User'
         open={isModalOpen}
-        onOk={handleOk}
+        footer={null}
         onCancel={handleCancel}
-        okText={'Add'}
-        cancelText={'Cancel'}
       >
         <span className='mr-6'>Admin/Enterprise:</span>
         <Switch
@@ -163,21 +169,42 @@ export const UserManagement = () => {
           // onFinishFailed={onFinishFailed}
           autoComplete='off'
           className='h-full w-2/3 flex flex-col justify-between'
+          onFinish={handleOk}
         >
           <div className='mt-3'>
-            <Form.Item label='Name' name='name'>
+            <Form.Item label='Name' name='name' required>
               <Input placeholder='Name' />
             </Form.Item>
-            <Form.Item label='Password' name='password'>
+            <Form.Item
+              label='Password'
+              name='password'
+              rules={[{ min: 6 }, { required: true }]}
+              required
+            >
               <Input.Password placeholder='Password' />
             </Form.Item>
-            <Form.Item label='Email' name='email'>
+            <Form.Item
+              label='Email'
+              name='email'
+              required
+              rules={[{ required: true, type: 'email' }]}
+            >
               <Input placeholder='Email' />
             </Form.Item>
-            <Form.Item label='Phone' name='phone'>
+            <Form.Item
+              label='Phone'
+              name='phone'
+              required
+              rules={[{ required: true }]}
+            >
               <Input placeholder='Phone' />
             </Form.Item>
-            <Form.Item label='Avatar' name='avatar'>
+            <Form.Item
+              label='Avatar'
+              name='avatar'
+              required
+              rules={[{ required: true }]}
+            >
               <Upload
                 name='avatar'
                 maxCount={1}
@@ -197,16 +224,28 @@ export const UserManagement = () => {
             </Form.Item>
             {isEnte ? (
               <>
-                <Form.Item label='CompanyName' name='ename'>
+                <Form.Item
+                  label='CompanyName'
+                  name='ename'
+                  rules={[{ required: true }]}
+                >
                   <Input placeholder='Ename' />
                 </Form.Item>
-                <Form.Item label='Description' name='description'>
+                <Form.Item
+                  label='Description'
+                  name='description'
+                  rules={[{ required: true }]}
+                >
                   <TextArea />
                 </Form.Item>
                 {/* <Form.Item label='Cover' name='cover'>
                   <Input placeholder='Cover' />
                 </Form.Item> */}
-                <Form.Item label='Cover' name='cover'>
+                <Form.Item
+                  label='Cover'
+                  name='cover'
+                  rules={[{ required: true }]}
+                >
                   <Upload
                     name='cover'
                     maxCount={1}
@@ -229,6 +268,18 @@ export const UserManagement = () => {
                 </Form.Item>
               </>
             ) : null}
+            <Form.Item className='w-full'>
+              <div className='w-full flex flew-row align-end ml-[60%]'>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  size='large'
+                  style={{ width: '150px' }}
+                >
+                  Add
+                </Button>
+              </div>
+            </Form.Item>
           </div>
         </Form>
       </Modal>
@@ -264,7 +315,11 @@ export const UserManagement = () => {
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             )}
             {data?.users?.map((data: IUser) => (
-              <UserItem uInfo={data} key={data.uid} />
+              <UserItem
+                uInfo={data}
+                key={data.uid}
+                deleteCallback={() => trigger(defaultDiffParams)}
+              />
             ))}
           </div>
           <div className='w-full flex justify-end'>

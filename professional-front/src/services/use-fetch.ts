@@ -44,7 +44,7 @@ const dataFetcher = async (url: string, method: ProvideMethod, params: any) => {
 
       return res;
     });
-    return res.data;
+    return res.data || res;
   } catch (error) {
     message.error(error?.toString());
   }
