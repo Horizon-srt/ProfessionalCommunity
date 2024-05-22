@@ -8,6 +8,10 @@ interface StoreState {
   setUserType: (type: UserType) => void;
   uid: string;
   setUid: (uid: string) => void;
+  avator: string;
+  setAvator: (a: string) => void;
+  userName: string;
+  setUserName: (u: string) => void;
 }
 export const useStore = create<StoreState>(set => ({
   userInfoIsExpand: false,
@@ -26,6 +30,18 @@ export const useStore = create<StoreState>(set => ({
   setUid: (uid: string) => {
     set(() => ({
       uid
+    }));
+  },
+  userName: '',
+  setUserName: (u: string) => {
+    set(() => ({
+      userName: u
+    }));
+  },
+  avator: '',
+  setAvator(a) {
+    set(() => ({
+      avator: a
     }));
   }
 }));

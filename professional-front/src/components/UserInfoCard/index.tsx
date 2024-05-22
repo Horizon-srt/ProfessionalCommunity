@@ -94,9 +94,14 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
     setUidInZuzstand(localStorage.getItem('user-id') || '');
   }, []);
 
+  const setUserName = useStore(state => state.setUserName);
+  const setAvator = useStore(state => state.setAvator);
+
   useEffect(() => {
     if (!isLoading && data) {
       form.setFieldsValue({ ...data });
+      setUserName(data?.name);
+      setAvator(data?.avator);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading, error]);

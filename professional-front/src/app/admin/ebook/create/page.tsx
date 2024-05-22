@@ -180,7 +180,7 @@ const Create: React.FC = () => {
             >
               <TextArea
                 rows={4}
-                placeholder='Please input Detail, like 1.first chapter 2.second chapter'
+                placeholder='Please input Detail, like 1.first chapter\2.second chapter'
                 style={{ width: '50%' }}
               ></TextArea>
             </Form.Item>

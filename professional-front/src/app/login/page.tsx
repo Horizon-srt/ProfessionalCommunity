@@ -8,6 +8,7 @@ import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { useRouter } from 'next/navigation';
 import { md5 } from 'js-md5';
+import { useStore } from '@/hooks/useStore';
 // import { useStore } from '@/hooks/useStore';
 
 const Login: React.FC = () => {
@@ -58,15 +59,17 @@ const Login: React.FC = () => {
   // const setUserType = useStore(state => state.setUserType);
   const router = useRouter();
 
+  const setUserType = useStore(state => state.setUserType);
   useEffect(() => {
     if (!loginIsMutating && error) {
       message.error(error);
     } else if (!loginIsMutating && data && data.jwt) {
       window.localStorage.setItem('pt-auth', `Bearer ${data.jwt}`);
       window.localStorage.setItem('user-type', data.type);
-      // setUserType(data.userType);
+      setUserType(data.type);
       window.localStorage.setItem('user-id', data.uid);
       router.push(`/${data.type.toLowerCase()}/main`);
+      router.refresh();
     }
   }, [data, error, loginIsMutating]);
 

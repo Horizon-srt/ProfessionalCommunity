@@ -4,13 +4,20 @@ import React, { useEffect } from 'react';
 import { ProvideMethod } from '@/types/data-types';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useFetchMutation } from '@/services/use-fetch';
+import { useRouter } from 'next/navigation';
 
 interface IUserInfo {
   uid: string;
   name: string;
   avator: string;
 }
-export const UserItem = ({ uInfo }: { uInfo: IUserInfo }) => {
+export const UserItem = ({
+  uInfo,
+  deleteCallback
+}: {
+  uInfo: IUserInfo;
+  deleteCallback: any;
+}) => {
   const defaultDeleteParams = {
     url: `/users/${uInfo.uid}`,
     method: 'DELETE' as ProvideMethod,
@@ -18,9 +25,11 @@ export const UserItem = ({ uInfo }: { uInfo: IUserInfo }) => {
   };
   const { data, trigger: deleteUser } = useFetchMutation(defaultDeleteParams);
 
+  const router = useRouter();
   useEffect(() => {
     if (data) {
-      message.success(data?.message);
+      message.success('Delete Successfully');
+      deleteCallback();
     }
   }, [data]);
   return (
