@@ -471,7 +471,6 @@ def create_user_router():
         return jsonify({'content': ai_response}), 200
 
     @user_bp.route('/chat', methods=['GET'])
-    @jwt_required()
     def get_chat():
         uid = request.args.get('uid', type=int)
         if not uid:

@@ -24,14 +24,18 @@ const Family: React.FC = () => {
   });
 
   const uid = useStore(state => state.uid);
-  const { data } = useFetch({
-    url: '/addresses/resources/' + uid || '0',
-    method: 'GET' as ProvideMethod,
-    params: {
-      pageNum,
-      offset
-    }
-  });
+  const { data } = useFetch(
+    uid
+      ? {
+          url: '/addresses/resources/' + uid || '0',
+          method: 'GET' as ProvideMethod,
+          params: {
+            pageNum,
+            offset
+          }
+        }
+      : null
+  );
 
   return (
     <main className='p-3 h-full'>
