@@ -122,6 +122,7 @@ const Create: React.FC = () => {
         style={{ width: '7.5rem' }}
         onClick={onCreateFinish}
         type='primary'
+        htmlType='submit'
       >
         Submit
       </Button>
@@ -187,7 +188,9 @@ const Create: React.FC = () => {
             <Form.Item
               name={'label'}
               label={'Label'}
-              rules={[{ required: true, message: 'Please input guide label!' }]}
+              rules={[
+                { required: true, message: 'Please select guide label!' }
+              ]}
             >
               <Select
                 mode='multiple'
@@ -201,6 +204,7 @@ const Create: React.FC = () => {
               label={'Cover'}
               // valuePropName='fileList'
               name={'cover'}
+              rules={[{ required: true, message: 'Please upload cover!' }]}
               getValueFromEvent={normFile}
             >
               <Upload
@@ -228,6 +232,7 @@ const Create: React.FC = () => {
               // valuePropName='fileList'
               name={'content'}
               getValueFromEvent={normFile}
+              rules={[{ required: true, message: 'Please upload content!' }]}
             >
               <Dragger
                 name='file'
