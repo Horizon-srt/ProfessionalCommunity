@@ -3,10 +3,10 @@ import Head from 'next/head';
 import React, { useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/global.module.css';
-import { Button, Image } from 'antd';
 import { useThemeContext } from '@/components/ThemeProvider/themeContext';
 import { UserType } from '@/types/data-types';
 import { useStore } from '@/hooks/useStore';
+import { useRouter } from 'next/navigation';
 
 // import TopBar from '@/components/Topbar';
 // import useFetch from '@/libs/use-fetch';
@@ -16,14 +16,25 @@ export default function Home() {
   // 使用时，使用useThemeContext更改主题
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { theme, toggleTheme } = useThemeContext();
+  const router = useRouter();
 
   const setStoreUserType = useStore(state => state.setUserType);
+  const userType = useStore(state => state.userType);
   useEffect(() => {
     setStoreUserType(
       (localStorage.getItem('user-type') as UserType) || 'TOURIST'
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    console.log(userType);
+    // 没有登录的话
+    if (userType === ('' as UserType) || userType === 'TOURIST') {
+      router.push('/tourist/main');
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -34,7 +45,7 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         {/* <TopBar></TopBar> */}
-        <div
+        {/* <div
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -90,7 +101,7 @@ export default function Home() {
               Login
             </Button>
           </div>
-        </div>
+        </div> */}
       </main>
     </>
   );

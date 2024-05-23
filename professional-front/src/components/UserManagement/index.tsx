@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Card from '../Card';
 import { usePagination } from '@/hooks/usePagination';
-import useFetch, { useFetchMutation } from '@/services/use-fetch';
+import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import {
   Button,
@@ -21,8 +21,6 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { md5 } from 'js-md5';
 import styles from '@/components/UserManagement/styles/style.module.css';
-import { setuid } from 'process';
-import { useRouter } from 'next/navigation';
 
 interface IUser {
   uid: string;

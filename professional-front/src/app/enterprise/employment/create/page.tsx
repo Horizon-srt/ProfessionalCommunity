@@ -2,15 +2,7 @@
 import Card from '@/components/Card';
 import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  FormProps,
-  Input,
-  message
-} from 'antd';
+import { Button, DatePicker, Form, FormProps, Input, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -44,8 +36,8 @@ const Create = () => {
   }, [hireData, error]);
   const onFinish: FormProps<FieldType>['onFinish'] = values => {
     console.log(values?.time);
-    const startObj = values?.time?.[0];
-    const endObj = values?.time?.[1];
+    const startObj = values?.time?.[0] as any;
+    const endObj = values?.time?.[1] as any;
     const newParams = {
       title: values.title,
       content: values.content,

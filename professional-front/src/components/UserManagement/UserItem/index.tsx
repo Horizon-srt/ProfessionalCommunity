@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { ProvideMethod } from '@/types/data-types';
 import { DeleteOutlined } from '@ant-design/icons';
 import { useFetchMutation } from '@/services/use-fetch';
-import { useRouter } from 'next/navigation';
 
 interface IUserInfo {
   uid: string;
@@ -25,7 +24,6 @@ export const UserItem = ({
   };
   const { data, trigger: deleteUser } = useFetchMutation(defaultDeleteParams);
 
-  const router = useRouter();
   useEffect(() => {
     if (data) {
       message.success('Delete Successfully');

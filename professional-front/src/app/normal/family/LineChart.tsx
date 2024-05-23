@@ -1,9 +1,9 @@
 import { useRenderChart } from '@/hooks/useRenderChart';
 import { ResourceType } from '@/types/data-types';
 import { Chart } from '@antv/g2';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
-export const LineChart = ({ data, currentOption, pageNum }: any) => {
+export const LineChart = ({ data, currentOption }: any) => {
   const lineChartData = useMemo(() => {
     const lineChartTypeData = {
       [ResourceType.ELETRIC]: [] as any[],
