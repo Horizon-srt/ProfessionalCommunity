@@ -440,9 +440,8 @@ def create_user_router():
         return jsonify(code=200, data={"uid": uid}), 200
 
     @user_bp.route('/chat', methods=['POST'])
-    @jwt_required()
     def chat_with_ai():
-        uid = get_jwt_identity()
+        # uid = get_jwt_identity()
         user_message = request.json.get('message')
         if not user_message:
             return jsonify({'error': 'No message provided'}), 400
@@ -459,14 +458,14 @@ def create_user_router():
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-        # Store the user's message
-        user_chat = Chat(uid=uid, from_user=0, content=user_message)
-        db.session.add(user_chat)
-
-        # Store the AI's response
-        ai_chat = Chat(uid=uid, from_user=1, content=ai_response)
-        db.session.add(ai_chat)
-        db.session.commit()
+        # # Store the user's message
+        # user_chat = Chat(uid=uid, from_user=0, content=user_message)
+        # db.session.add(user_chat)
+        #
+        # # Store the AI's response
+        # ai_chat = Chat(uid=uid, from_user=1, content=ai_response)
+        # db.session.add(ai_chat)
+        # db.session.commit()
 
         # Return the AI's response
         return jsonify({'content': ai_response}), 200
