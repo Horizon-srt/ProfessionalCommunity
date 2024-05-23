@@ -185,9 +185,9 @@ def create_user_router():
         # 验证 JWT，获取当前用户 ID
         current_user_id = get_jwt_identity()
 
-        # 检查当前用户是否有权限获取目标用户信息
-        if current_user_id != uid:
-            return jsonify({"msg": "Unauthorized"}), 404
+        # # 检查当前用户是否有权限获取目标用户信息
+        # if current_user_id != uid:
+        #     return jsonify({"msg": "Unauthorized"}), 404
 
         # 查询基础用户信息
         user = User.query.get(uid)
