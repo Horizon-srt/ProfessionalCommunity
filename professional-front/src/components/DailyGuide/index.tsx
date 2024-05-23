@@ -56,7 +56,7 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
 
   useEffect(() => {
     if (!isLoading && !guideListError && (guideListData?.guides || [])) {
-      if (guideListData?.guides[0]?.gid || false) {
+      if (guideListData?.guides?.[0]?.gid || false) {
         trigger({
           ...defaultFetchParams,
           url: `/guides/${guideListData?.guides[0]?.gid || ''}`
@@ -89,13 +89,15 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
       }}
       styles={{ body: { paddingTop: '0px' } }}
     >
-      {data ? (
-        <div style={{ wordWrap: 'break-word', marginTop: '1rem' }}>
-          {data?.content}
-        </div>
-      ) : (
-        <Spin spinning={true} />
-      )}
+      <Spin spinning={isLoading} size='large'>
+        {isLoading ? (
+          <div></div>
+        ) : (
+          <div style={{ wordWrap: 'break-word', marginTop: '1rem' }}>
+            {data?.content}
+          </div>
+        )}
+      </Spin>
     </Card>
   );
 };

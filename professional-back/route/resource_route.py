@@ -112,16 +112,20 @@ def create_resource_router():
             db.session.rollback()
             return jsonify(code=404, message=f"An error occurred while deleting the resource: {str(e)}"), 404
 
-    @resource_bp.route('/addresses/resources/<int:aid>', methods=['GET'])
-    def get_address_resources(aid):
+    @resource_bp.route('/addresses/resources/<int:uid>', methods=['GET'])
+    def get_address_resources(uid):
         try:
             offset = int(request.args.get('offset', 0))
             pageNum = int(request.args.get('pageNum', 1))
+            
+            user_address = Address.query.filter_by(uid=uid).first()
+            if not user_address:
+                return jsonify(code=404, message="User address not found"), 404
 
             # 查询地址的资源
             resources_query = (
                 db.session.query(Resource)
-                    .filter(Resource.aid == aid)
+                    .filter(Resource.aid == user_address.aid)
             )
 
             # 分页处理
@@ -131,7 +135,7 @@ def create_resource_router():
             # 查询相同类型的警报值
             alert_value = (
                 db.session.query(Alert.value)
-                    .filter(Alert.aid == aid)
+                    .filter(Alert.aid == user_address.aid)
                     .filter(Alert.type == Resource.type)
                     .first()
             )
@@ -170,22 +174,26 @@ def create_resource_router():
             # 如果出现异常，返回错误响应
             return jsonify(code=404, message=f"An error occurred while retrieving address resources: {str(e)}"), 404
 
-    @resource_bp.route('/addresses/alert/<int:aid>', methods=['POST'])
+    @resource_bp.route('/addresses/alert/<int:uid>', methods=['POST'])
     @jwt_required()
-    def create_alert(aid):
+    def create_alert(uid):
         try:
             # 从请求中获取参数
             data = request.json
             alert_type = data.get('type')
             alert_value = data.get('value')
+            
+            user_address = Address.query.filter_by(uid=uid).first()
+            if not user_address:
+                return jsonify(code=404, message="User address not found"), 404
 
             # 检查数据库中是否已经存在相同类型的阈值
-            existing_alert = Alert.query.filter_by(aid=aid, type=alert_type).first()
+            existing_alert = Alert.query.filter_by(aid=user_address.aid, type=alert_type).first()
             if existing_alert:
                 return jsonify(code=404, message=f"Alert of type {alert_type} already exists for this address"), 404
 
             # 创建阈值记录
-            new_alert = Alert(type=alert_type, value=alert_value, aid=aid)
+            new_alert = Alert(type=alert_type, value=alert_value, aid=user_address.aid)
 
             # 添加到数据库中
             db.session.add(new_alert)
@@ -257,11 +265,15 @@ def create_resource_router():
             # 如果出现异常，返回错误响应
             return jsonify(code=404, message=f"An error occurred while updating alert: {str(e)}"), 404
 
-    @resource_bp.route('/addresses/alert/<int:aid>', methods=['GET'])
-    def get_alert(aid):
+    @resource_bp.route('/addresses/alert/<int:uid>', methods=['GET'])
+    def get_alert(uid):
         try:
+            user_address = Address.query.filter_by(uid=uid).first()
+            if not user_address:
+                return jsonify(code=404, message="User address not found"), 404
+          
             # 查询阈值
-            alerts = Alert.query.filter_by(aid=aid).all()
+            alerts = Alert.query.filter_by(aid=user_address.aid).all()
 
             # 如果阈值不存在，返回404
             if not alerts:
