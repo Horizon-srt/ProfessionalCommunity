@@ -190,7 +190,7 @@ def create_ebook_router():
                 ebook_info = {
                     'bid': str(ebook.bid),
                     'name': ebook.name,
-                    'description': ebook.description.decode() if ebook.description else None,
+                    'description': ebook.description,
                     'cover': ebook.cover.decode() if ebook.cover else None,
                     'labels': label_list
                 }
