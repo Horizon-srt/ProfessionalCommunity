@@ -5,6 +5,7 @@ import Image from 'next/image';
 import img from '@/../public/next.svg';
 import { useRouter } from 'next/navigation';
 import useFetch from '@/services/use-fetch';
+import styles from './styles/style.module.css';
 
 const Detail: React.FC<{ params: { profile: string } }> = ({ params }) => {
   const router = useRouter();
@@ -21,7 +22,7 @@ const Detail: React.FC<{ params: { profile: string } }> = ({ params }) => {
   }, [isLoading, error]);
 
   return (
-    <div className='px-[20%] h-full'>
+    <div className={styles.main}>
       <Card>
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>

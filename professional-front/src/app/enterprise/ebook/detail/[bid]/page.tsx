@@ -46,7 +46,10 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
   return (
     <div className={styles.main}>
       <Card>
-        <div className='flex flex-col w-full h-full mx-[3%]'>
+        <div
+          className='flex flex-col w-full h-full mx-[3%]'
+          style={{ overflow: 'auto' }}
+        >
           <div className='h-full w-full p-8 flex flex-row'>
             <Image
               alt=''
