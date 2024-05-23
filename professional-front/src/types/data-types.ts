@@ -44,6 +44,6 @@ export const defaultImageCarousel = [
 
 export enum ResourceType {
   WATER,
-  ELETRIC,
+  ELECTRICITY,
   GAS
 }

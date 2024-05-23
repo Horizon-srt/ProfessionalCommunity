@@ -1,12 +1,12 @@
 import { useRenderChart } from '@/hooks/useRenderChart';
 import { ResourceType } from '@/types/data-types';
 import { Chart } from '@antv/g2';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 export const PieChart = ({ data }: any) => {
-  const getPieChartData = useCallback(() => {
+  const getPieChartData = useMemo(() => {
     const pieChartTypeData = {
-      [ResourceType.ELETRIC]: { type: 'Eletricity', value: 0 },
+      [ResourceType.ELECTRICITY]: { type: 'Eletricity', value: 0 },
       [ResourceType.WATER]: { type: 'Water', value: 0 },
       [ResourceType.GAS]: { type: 'Gas', value: 0 }
     };
@@ -30,14 +30,14 @@ export const PieChart = ({ data }: any) => {
       }
     );
     return [
-      pieChartTypeData[ResourceType.ELETRIC],
+      pieChartTypeData[ResourceType.ELECTRICITY],
       pieChartTypeData[ResourceType.GAS],
       pieChartTypeData[ResourceType.WATER]
     ];
   }, [data]);
   useEffect(() => {
     updateChart();
-  }, [data]);
+  }, [getPieChartData]);
   const { containerRef: pieRef, updateChart } = useRenderChart({
     renderChart: container => {
       // 初始化图表实例
@@ -46,26 +46,24 @@ export const PieChart = ({ data }: any) => {
         height: 180,
         container: container as HTMLElement
       });
-
-      chart
-        .interval()
-        .coordinate({ type: 'theta', innerRadius: 0.5 })
-        .transform({ type: 'stackY' })
-        .data(getPieChartData())
-        .encode('y', 'value')
-        .encode('color', 'type');
-      // 渲染可视化
+      // console.log(getPieChartData);
+      // chart
+      //   .interval()
+      //   .coordinate({ type: 'theta', innerRadius: 0.5 })
+      //   .transform({ type: 'stackY' })
+      //   .data(getPieChartData)
+      //   .encode('y', 'value')
+      //   .encode('color', 'type');
+      // // 渲染可视化
       chart.render();
-
       return chart;
     },
     updateChart: chart => {
-      chart.clear();
       chart
         .interval()
         .coordinate({ type: 'theta', innerRadius: 0.5 })
         .transform({ type: 'stackY' })
-        .data(getPieChartData())
+        .data(getPieChartData)
         .encode('y', 'value')
         .encode('color', 'type');
       // 渲染可视化
@@ -75,5 +73,5 @@ export const PieChart = ({ data }: any) => {
     }
   });
 
-  return <div ref={pieRef} className='-mt-6'></div>;
+  return <div ref={pieRef} className='-mt-6 ml-3'></div>;
 };
