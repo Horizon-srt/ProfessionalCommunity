@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './styles/style.module.css';
-import { Avatar, Button, Empty, List, Menu, MenuProps, Spin } from 'antd';
-import { useRouter } from 'next/navigation';
+import { Button, Empty, List, Spin } from 'antd';
 import { usePagination } from '@/hooks/usePagination';
 import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';

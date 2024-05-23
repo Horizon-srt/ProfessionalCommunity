@@ -1,8 +1,6 @@
 'use client';
 import { Button, Card, Spin, message } from 'antd';
 import React, { useEffect } from 'react';
-import Image from 'next/image';
-import img from '@/../public/next.svg';
 import { useRouter } from 'next/navigation';
 import useFetch from '@/services/use-fetch';
 import styles from './styles/style.module.css';

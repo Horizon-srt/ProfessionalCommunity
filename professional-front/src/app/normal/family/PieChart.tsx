@@ -1,7 +1,7 @@
 import { useRenderChart } from '@/hooks/useRenderChart';
 import { ResourceType } from '@/types/data-types';
 import { Chart } from '@antv/g2';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 export const PieChart = ({ data }: any) => {
   const getPieChartData = useCallback(() => {
