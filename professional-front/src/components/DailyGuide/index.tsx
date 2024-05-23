@@ -91,7 +91,7 @@ const DailyGuide: React.FC<DailyGuideProps> = ({ width, height }) => {
     >
       {data ? (
         <div style={{ wordWrap: 'break-word', marginTop: '1rem' }}>
-          {data.content}
+          {data?.content}
         </div>
       ) : (
         <Spin spinning={true} />

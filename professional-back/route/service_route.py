@@ -275,7 +275,6 @@ def create_service_router():
             return jsonify(code=500, message=f"An error occurred while subscribing to the service: {str(e)}"), 500
 
     @service_bp.route('/services/subscribe/<int:uid>', methods=['GET'])
-    @jwt_required()
     def get_user_subscriptions(uid):
         try:
             # 获取用户地址信息
@@ -328,7 +327,6 @@ def create_service_router():
 
     # 查看全部订阅
     @service_bp.route('/services/subscribe', methods=['GET'])
-    @jwt_required()
     def get_all_subscriptions():
         try:
             offset = int(request.args.get('offset', 0))
@@ -389,7 +387,6 @@ def create_service_router():
             return jsonify(code=500, message=f"An error occurred while retrieving all subscriptions: {str(e)}"), 500
 
     @service_bp.route('/services/subscribe/rec/<int:srid>', methods=['GET'])
-    @jwt_required()
     def get_subscribe(srid):
         try:
             # 查询记录

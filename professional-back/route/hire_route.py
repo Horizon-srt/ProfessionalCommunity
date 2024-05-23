@@ -131,7 +131,6 @@ def create_hire_router():
             return jsonify(code=404, message=f"An error occurred while updating the hire: {str(e)}"), 500
 
     @hire_bp.route('/hires/all', methods=['GET'])
-    @jwt_required()
     def get_all_hires():
         try:
             # 从请求中获取查询参数
@@ -192,7 +191,6 @@ def create_hire_router():
             return jsonify(code=404, message=f"An error occurred while retrieving hires: {str(e)}"), 500
 
     @hire_bp.route('/hires/<int:hid>', methods=['GET'])
-    @jwt_required()
     def get_hires_by_hid(hid):
         try:
             # 查询特定hid招聘信息
@@ -217,7 +215,6 @@ def create_hire_router():
 
 
     @hire_bp.route('/hires/all/comp/<int:uid>', methods=['GET'])
-    @jwt_required()
     def get_hires_by_company(uid):
         try:
             offset = int(request.args.get('offset', 0))
@@ -296,7 +293,6 @@ def create_hire_router():
             return jsonify(code=404, message=f"An error occurred while creating resume: {str(e)}"), 500
 
     @hire_bp.route('/resume/all', methods=['GET'])
-    @jwt_required()
     def get_all_resumes():
         try:
             offset = int(request.args.get('offset', 0))
@@ -332,7 +328,6 @@ def create_hire_router():
             return jsonify(code=404, message=f"An error occurred while retrieving resumes: {str(e)}"), 500
 
     @hire_bp.route('/resume/<int:resume_id>', methods=['GET'])
-    @jwt_required()
     def get_resume(resume_id):
         try:
             # 查询简历数据

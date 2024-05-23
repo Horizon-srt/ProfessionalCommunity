@@ -10,7 +10,6 @@ def create_resource_router():
     resource_bp = Blueprint('resource_bp', __name__, url_prefix='/api')
 
     @resource_bp.route('/addresses', methods=['GET'])
-    @jwt_required()
     def get_all_addresses():
         try:
             offset = int(request.args.get('offset', 0))
@@ -114,7 +113,6 @@ def create_resource_router():
             return jsonify(code=404, message=f"An error occurred while deleting the resource: {str(e)}"), 404
 
     @resource_bp.route('/addresses/resources/<int:aid>', methods=['GET'])
-    @jwt_required()
     def get_address_resources(aid):
         try:
             offset = int(request.args.get('offset', 0))
@@ -260,7 +258,6 @@ def create_resource_router():
             return jsonify(code=404, message=f"An error occurred while updating alert: {str(e)}"), 404
 
     @resource_bp.route('/addresses/alert/<int:aid>', methods=['GET'])
-    @jwt_required()
     def get_alert(aid):
         try:
             # 查询阈值

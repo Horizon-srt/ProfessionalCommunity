@@ -105,7 +105,6 @@ def create_notify_router():
             return jsonify(code=500, message=f"修改公告时出现错误: {str(e)}"), 500
 
     @notify_bp.route('/notifies/all', methods=['GET'])
-    @jwt_required()
     def get_all_notifies():
         try:
             offset = int(request.args.get('offset', 0))

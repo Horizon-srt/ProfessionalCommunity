@@ -65,7 +65,7 @@ const Detail: React.FC<{ params: { recruit: string } }> = ({ params }) => {
                   className={styles.detailText}
                   style={{ fontSize: '1.25rem' }}
                 >
-                  {data.content}
+                  {data?.content}
                 </div>
               </>
             ) : (

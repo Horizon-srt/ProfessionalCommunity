@@ -10,7 +10,6 @@ def create_guide_router():
     guide_bp = Blueprint('guide_bp', __name__, url_prefix='/api')
 
     @guide_bp.route('/guides', methods=['POST'])
-    @jwt_required()
     def add_guide():
         uid = get_jwt_identity()  # 获取当前用户的ID作为外键
         data = request.json
@@ -96,7 +95,6 @@ def create_guide_router():
             return jsonify(code=500, message=f"An error occurred while updating the guide: {str(e)}"), 500
 
     @guide_bp.route('/guides', methods=['GET'])
-    @jwt_required()
     def get_all_guides():
         try:
             offset = int(request.args.get('offset', 0))

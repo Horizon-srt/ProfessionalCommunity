@@ -135,7 +135,6 @@ def create_ebook_router():
             return jsonify(code=404, message=f"An error occurred while updating ebook information: {str(e)}"), 500
 
     @ebook_bp.route('/education/ebook/search/label', methods=['GET'])
-    @jwt_required()
     def search_ebook_by_label():
         try:
             # Retrieving parameters from URL query string
@@ -169,7 +168,6 @@ def create_ebook_router():
 
     # 查询所有包含特定书名的书籍（模糊搜索）
     @ebook_bp.route('/education/ebook/search/name', methods=['GET'])
-    @jwt_required()
     def search_ebook_by_name():
         try:
             name = request.args.get('name', '')
@@ -205,7 +203,6 @@ def create_ebook_router():
             return jsonify(code=404, message=f"An error occurred while searching ebooks by name: {str(e)}"), 500
 
     @ebook_bp.route('/education/ebook/search/recommand', methods=['GET'])
-    @jwt_required()
     def recommend_ebooks():
         try:
             offset = int(request.args.get('offset', 0))
@@ -249,7 +246,6 @@ def create_ebook_router():
             return jsonify(code=500, message=f"An error occurred while retrieving recommended ebooks: {str(e)}"), 500
 
     @ebook_bp.route('/education/ebook/<int:bid>', methods=['GET'])
-    @jwt_required()
     def get_ebook(bid):
         try:
             # 查询电子书信息
