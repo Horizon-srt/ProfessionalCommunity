@@ -1,12 +1,13 @@
 import { useRenderChart } from '@/hooks/useRenderChart';
 import { ResourceType } from '@/types/data-types';
 import { Chart } from '@antv/g2';
+import { Empty } from 'antd';
 import React, { useEffect, useMemo } from 'react';
 
 export const LineChart = ({ data, currentOption }: any) => {
   const lineChartData = useMemo(() => {
     const lineChartTypeData = {
-      [ResourceType.ELETRIC]: [] as any[],
+      [ResourceType.ELECTRICITY]: [] as any[],
       [ResourceType.WATER]: [] as any[],
       [ResourceType.GAS]: [] as any[]
     };
@@ -20,20 +21,23 @@ export const LineChart = ({ data, currentOption }: any) => {
         // 是否超过阈值
         comparison: boolean;
       }) => {
+        console.log(resource.type);
         if (resource.type) {
-          lineChartTypeData[resource.type].push(
+          lineChartTypeData[
+            ResourceType[resource.type] as unknown as ResourceType
+          ].push(
             Object.assign(resource, {
               time: `${resource.year}-${resource.month}`
             })
           );
         }
-        lineChartTypeData[ResourceType.ELETRIC].sort();
+        lineChartTypeData[ResourceType.ELECTRICITY].sort();
         lineChartTypeData[ResourceType.WATER].sort();
         lineChartTypeData[ResourceType.GAS].sort();
       }
     );
     return lineChartTypeData;
-  }, [data]);
+  }, [data, currentOption]);
 
   // const lineChartDataMock = {
   //   [ResourceType.ELETRIC]: [
@@ -158,5 +162,10 @@ export const LineChart = ({ data, currentOption }: any) => {
     }
   });
 
-  return <div className='w-full' ref={lineRef || null}></div>;
+  return (
+    <>
+      {!data?.resources?.length && <Empty></Empty>}
+      <div className='w-full' ref={lineRef || null}></div>
+    </>
+  );
 };

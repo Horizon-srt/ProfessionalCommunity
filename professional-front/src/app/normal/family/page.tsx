@@ -13,13 +13,13 @@ import { useStore } from '@/hooks/useStore';
 const Family: React.FC = () => {
   const options = [
     { label: 'Water Consumption', value: ResourceType.WATER },
-    { label: 'Eletricity Consumption', value: ResourceType.ELETRIC },
+    { label: 'Eletricity Consumption', value: ResourceType.ELECTRICITY },
     { label: 'Gas Consumption', value: ResourceType.GAS }
   ];
 
   const [currentOption, setCurrentOption] = useState(0);
   const { offset, pageNum, nextPage, prevPage } = usePagination({
-    offset: 5,
+    offset: 50,
     pageNum: 1
   });
 

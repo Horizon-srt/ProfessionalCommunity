@@ -147,7 +147,7 @@ def create_resource_router():
             }
             for resource in resources:
                 comparison = False
-                if alert_value and resource.value >= alert_value:
+                if alert_value[0] and (resource.value >= alert_value[0]):
                     comparison = True
                 response_data['resources'].append({
                     'resource_id': resource.resource_id,
