@@ -235,12 +235,12 @@ def create_user_router():
                 "room": user_address.room
             })
 
-        # 查询企业用户信息
-        enterprise_user = EnterpriseUser.query.get(uid)
-        if enterprise_user:
-            user_info.update({
-                "ename": enterprise_user.ename,
-            })
+        # # 查询企业用户信息
+        # enterprise_user = EnterpriseUser.query.get(uid)
+        # if enterprise_user:
+        #     user_info.update({
+        #         "ename": enterprise_user.ename,
+        #     })
 
         return jsonify(code=200, data=user_info), 200
 
