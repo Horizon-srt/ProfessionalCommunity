@@ -145,7 +145,7 @@ export const LineChart = ({ data, currentOption }: any) => {
         .encode('x', 'month')
         .encode('y', 'value')
         .style('stroke', (s: any) => {
-          return s.comparsion ? 'red' : 'green';
+          return s.comparison ? 'red' : 'green';
         })
         .style('strokeWidth', 10);
 

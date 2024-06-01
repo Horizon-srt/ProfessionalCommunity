@@ -39,7 +39,7 @@ export const Threshold = () => {
   const uid = useStore(state => state.uid);
 
   const DefaultPatchAlertParams = {
-    url: '/addresses/alert/',
+    url: '/addresses/alert/' + uid,
     method: 'PATCH' as ProvideMethod,
     params: null
   };
@@ -75,7 +75,7 @@ export const Threshold = () => {
           value: data.value,
           id: data['alert_id']
         });
-      } else if (data.type === 'GAS') {
+      } else if (data.type === 'Gas') {
         flag.GAS = true;
         setGas({
           value: data.value,
@@ -91,12 +91,12 @@ export const Threshold = () => {
     }
     Object.keys(flag).forEach((key: string) => {
       if (!flag[key]) {
-        console.log(key);
         createAlert({
           ...DefaultPatchAlertParams,
           ...{
             params: {
-              type: key,
+              // 后端bug
+              type: key === 'GAS' ? 'Gas' : key,
               value: 50
             }
           }
