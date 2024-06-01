@@ -75,7 +75,7 @@ export const Threshold = () => {
           value: data.value,
           id: data['alert_id']
         });
-      } else if (data.type === 'Gas') {
+      } else if (data.type === 'GAS') {
         flag.GAS = true;
         setGas({
           value: data.value,

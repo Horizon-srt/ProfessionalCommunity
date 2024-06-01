@@ -79,8 +79,8 @@ const Detail: React.FC<{ params: any }> = ({ params }) => {
           </div>
           <div className='w-full h-full flex flex-row'>
             <div className='w-full flex flex-col h-[200px] overflow-y-scroll ml-3'>
-              {data?.detail?.split(' ')?.map((item: string) => {
-                const [id, content] = item.split(':');
+              {data?.detail?.split('\\')?.map((item: string) => {
+                const [id, content] = item.split('.');
                 return (
                   <li
                     key={id}
