@@ -5,6 +5,7 @@ import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { usePagination } from '@/hooks/usePagination';
 import { PieChart } from '@/app/normal/family/PieChart';
+import { useStore } from '@/hooks/useStore';
 
 interface ResourceCardProps {
   width: string;
@@ -21,16 +22,20 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ width, height }) => {
     offset: 20,
     pageNum: 1
   });
-  // 先写死，不确定是context传递还是props传递
-  const aid = '1234';
-  const { data } = useFetch({
-    url: '/addresses/resources/' + aid,
-    method: 'GET' as ProvideMethod,
-    params: {
-      pageNum,
-      offset
-    }
-  });
+  const uid = useStore(state => state.uid);
+
+  const { data } = useFetch(
+    uid
+      ? {
+          url: '/addresses/resources/' + uid || '0',
+          method: 'GET' as ProvideMethod,
+          params: {
+            pageNum,
+            offset
+          }
+        }
+      : null
+  );
 
   const isLoading = false;
 

@@ -16,14 +16,18 @@ const Employment: React.FC = () => {
   });
 
   const uid = useStore(state => state.uid);
-  const { data } = useFetch({
-    url: '/hires/all/comp/' + uid,
-    method: 'GET' as ProvideMethod,
-    params: {
-      pageNum,
-      offset
-    }
-  });
+  const { data } = useFetch(
+    uid
+      ? {
+          url: '/hires/all/comp/' + uid,
+          method: 'GET' as ProvideMethod,
+          params: {
+            pageNum,
+            offset
+          }
+        }
+      : null
+  );
 
   const {
     data: hireData,
