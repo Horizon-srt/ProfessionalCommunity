@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
 import Card from '../Card';
@@ -55,7 +56,8 @@ export const UserManagement = () => {
 
   useEffect(() => {
     trigger(defaultDiffParams);
-  }, []);
+  }, [isEnte]);
+
   const defaultRegParams = {
     url: '/register/' + (isEnte ? 'enterprise' : 'admin'),
     method: 'POST' as ProvideMethod,

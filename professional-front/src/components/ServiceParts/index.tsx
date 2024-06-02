@@ -131,7 +131,7 @@ const ServiceParts: React.FC<ServicePartsProps> = ({ isAdmin }) => {
               >
                 <List.Item.Meta
                   title={<div>{item.name}</div>}
-                  description={<div>{`Status: ${item.description}`}</div>}
+                  description={<div>{`Status: ${item.available}`}</div>}
                 />
                 {item.detail_slice}
               </List.Item>

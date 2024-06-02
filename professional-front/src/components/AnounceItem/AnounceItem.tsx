@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 import { RestOutlined } from '@ant-design/icons';
@@ -13,10 +14,11 @@ interface IAnounceItem {
   // 节选，大概几十字
   content_slice: string;
 }
-export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
-  data,
-  link
-}) => {
+export const AnounceItem: React.FC<{
+  data: IAnounceItem;
+  link: string;
+  flasTtrigger: () => void;
+}> = ({ data, link, flasTtrigger }) => {
   const [year, month, day] = data.time.split('-');
 
   const defaultParams = {
@@ -44,6 +46,12 @@ export const AnounceItem: React.FC<{ data: IAnounceItem; link: string }> = ({
       message.info('Delete successful!');
     }
   }, [isMutating, error, deleteRes]);
+
+  useEffect(() => {
+    if (deleteRes?.nid) {
+      flasTtrigger();
+    }
+  }, [deleteRes]);
 
   return (
     <div className='w-full flex relative mb-8'>

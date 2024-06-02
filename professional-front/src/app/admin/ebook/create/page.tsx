@@ -57,6 +57,7 @@ const Create: React.FC = () => {
       return false;
     }
     getBase64(file as FileType, url => {
+      console.log(url);
       form.setFieldValue('content', url);
     });
     return false;
@@ -80,6 +81,7 @@ const Create: React.FC = () => {
       router.push('/admin/ebook');
     }
   }, [createReturnData]);
+
   const options: SelectProps['options'] = [
     {
       label: 'Science',
@@ -100,7 +102,9 @@ const Create: React.FC = () => {
   const onCreateFinish = async () => {
     createService({
       ...defaultCreateParams,
-      ...{ params: form.getFieldsValue() }
+      params: {
+        ...form.getFieldsValue()
+      }
     });
   };
   const onFinishFailed = async (e: any) => {

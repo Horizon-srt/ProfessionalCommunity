@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
 import styles from './styles/style.module.css';
 import { Avatar, Button, List, Popconfirm, Spin, message } from 'antd';
 import { useRouter } from 'next/navigation';
-import useFetch, { useFetchMutation } from '@/services/use-fetch';
+import { useFetchMutation } from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 
 const Tourist: React.FC = () => {
@@ -15,17 +16,25 @@ const Tourist: React.FC = () => {
     params: {}
   };
 
-  // const list: any[] = [];
-  const { data, isLoading, error } = useFetch({
+  const defaultGetParams = {
     url: '/guides',
-    method: 'GET',
+    method: 'GET' as ProvideMethod,
     params: {
       offset: 7,
-      pageNum: currentPage
+      pageNum: 1
     }
-  });
+  };
+
+  // const list: any[] = [];
+  const {
+    data,
+    isMutating: isLoading,
+    trigger: getTrigger,
+    error
+  } = useFetchMutation(defaultGetParams);
 
   const {
+    data: deleteData,
     isMutating,
     error: deleteError,
     trigger
@@ -55,6 +64,29 @@ const Tourist: React.FC = () => {
       message.error(deleteError);
     }
   }, [isMutating, deleteError]);
+
+  useEffect(() => {
+    if (deleteData?.gid) {
+      message.success('Delete successful!');
+      getTrigger({
+        ...defaultGetParams,
+        params: {
+          offset: 7,
+          pageNum: currentPage
+        }
+      });
+    }
+  }, [deleteData]);
+
+  useEffect(() => {
+    getTrigger({
+      ...defaultGetParams,
+      params: {
+        offset: 7,
+        pageNum: currentPage
+      }
+    });
+  }, [currentPage]);
 
   return (
     <div className={styles.main}>
