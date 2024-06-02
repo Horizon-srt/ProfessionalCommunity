@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import React, { useEffect, useState } from 'react';
 import {
@@ -42,8 +43,11 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
   };
 
   // 更改资料
-  const { error: updateError, trigger: updatePersonal } =
-    useFetchMutation(defaultChangeParams);
+  const {
+    data: updateData,
+    error: updateError,
+    trigger: updatePersonal
+  } = useFetchMutation(defaultChangeParams);
 
   // personal data
   const { data, isLoading, error } = useFetch(
@@ -61,7 +65,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
       ...defaultChangeParams,
       params: {
         ...values,
-        proof: values.status,
+        proof: values.statusProof,
         status: ''
       }
     });
@@ -77,7 +81,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
 
     getBase64(file as FileType, url => {
       setFileParsing(false);
-      form.setFieldValue('status', url);
+      form.setFieldValue('statusProof', url);
     });
     return false;
     // const isPdf = file.type === 'application/pdf';
@@ -111,6 +115,13 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
       message.error('Update failed');
     }
   }, [updateError]);
+
+  useEffect(() => {
+    if (updateData?.uid) {
+      message.success('Update success!');
+      setIsEditing(false);
+    }
+  }, [updateData]);
 
   useEffect(() => {
     setUserType(localStorage.getItem('user-type') || 'NORMAL');
@@ -235,8 +246,8 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
                     </Form.Item>
                     <Divider />
                     <Form.Item
-                      name={'status'}
-                      label={'Status'}
+                      name={'statusProof'}
+                      label={isEditing ? 'Proof' : 'Status'}
                       rules={[
                         { required: true, message: 'Please upload proof!' }
                       ]}
@@ -259,7 +270,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
                         </>
                       ) : (
                         <span className='ant-form-text'>
-                          {data?.proof ? data?.proof : ''}
+                          {data?.status ? data?.status : ''}
                         </span>
                       )}
                     </Form.Item>
@@ -294,7 +305,7 @@ const UserInfoCard: React.FC<UserInfoCardProps> = () => {
                     </div>
                     <div
                       className={!isEditing ? style.editButton : ''}
-                      hidden={isEditing}
+                      hidden={true}
                     >
                       <EditOutlined
                         onClick={() => setIsEditing(true)}

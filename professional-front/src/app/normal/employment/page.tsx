@@ -20,7 +20,8 @@ const Employment: React.FC = () => {
           method: 'GET',
           params: {
             offset: 9,
-            pageNum
+            pageNum,
+            status: 'approved'
           }
         }
       : null

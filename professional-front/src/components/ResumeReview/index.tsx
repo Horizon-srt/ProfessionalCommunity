@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import styles from './styles/style.module.css';
 import { Button, Empty, List, Spin } from 'antd';
@@ -6,18 +7,18 @@ import useFetch from '@/services/use-fetch';
 import { ProvideMethod } from '@/types/data-types';
 
 const ResumeReview: React.FC = () => {
-  const list: any[] = [];
-  for (let i = 1; i < 40; i += 1) {
-    list.push({
-      bid: i,
-      name: '张三Recruit' + i,
-      cover: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
-      title: '招聘摄影师',
-      startTime: '2021.1.10',
-      endTime: '2022.1.10',
-      label: ['待审核']
-    });
-  }
+  // const list: any[] = [];
+  // for (let i = 1; i < 40; i += 1) {
+  //   list.push({
+  //     bid: i,
+  //     name: '张三Recruit' + i,
+  //     cover: 'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png',
+  //     title: '招聘摄影师',
+  //     startTime: '2021.1.10',
+  //     endTime: '2022.1.10',
+  //     label: ['待审核']
+  //   });
+  // }
   const frontDownload = (content: string) => {
     const a = document.createElement('a');
     a.href = content;
@@ -38,7 +39,7 @@ const ResumeReview: React.FC = () => {
       pageNum
     }
   });
-  console.log(data);
+
   return (
     <div className={styles.main} style={{ overflow: 'auto' }}>
       <div className='flex flex-row justify-between'>
@@ -49,21 +50,27 @@ const ResumeReview: React.FC = () => {
       </div>
       {isLoading ? (
         <Spin />
-      ) : data?.resume?.length ? (
+      ) : data?.resumes?.length ? (
         <List
           className={styles.list}
           rowKey='id'
           pagination={{
-            position: 'bottom',
-            align: 'center',
-            pageSize: 7,
             current: pageNum,
-            onChange: page => {
-              setCurrentPage(page);
-            },
-            total: (data?.allPages || 1) * 7
+            onChange: page => setCurrentPage(page),
+            pageSize: 4,
+            total: (data?.total_pages || 1) * 4
           }}
-          dataSource={data?.resume || []}
+          // pagination={{
+          //   position: 'bottom',
+          //   align: 'center',
+          //   pageSize: 7,
+          //   current: pageNum,
+          //   onChange: page => {
+          //     setCurrentPage(page);
+          //   },
+          //   total: (data?.allPages || 1) * 7
+          // }}
+          dataSource={data?.resumes || []}
           renderItem={(item: any) => {
             return (
               <List.Item
@@ -79,19 +86,15 @@ const ResumeReview: React.FC = () => {
                   >
                     Download
                   </Button>
-                  // <Button key='' type='primary'>
-                  //   Accept
-                  // </Button>,
-                  // <Button key='' type='primary' danger>
-                  //   Reject
-                  // </Button>
                 ]}
               >
-                <List.Item.Meta title={item?.name} />
+                <List.Item.Meta
+                  title={<div style={{ fontSize: 'large' }}>{item?.name}</div>}
+                />
                 <div className='flex flex-row justify-center'>
-                  <div>{item?.position}</div>
-                  <div>{item?.phone}</div>
-                  <div>{item?.email}</div>
+                  <div style={{ padding: '2rem' }}>{item?.position}</div>
+                  <div style={{ padding: '2rem' }}>{item?.phone}</div>
+                  <div style={{ padding: '2rem' }}>{item?.email}</div>
                 </div>
               </List.Item>
             );

@@ -1,19 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Col,
-  Form,
-  Image,
-  Input,
-  Modal,
-  Row,
-  Spin,
-  Upload,
-  message
-} from 'antd';
+import { Button, Form, Input, Modal, Upload, message } from 'antd';
 import Card from '@/components/Card';
-import Link from 'next/link';
 import style from '@/components/RecruitDetail/styles/style.module.css';
 import useFetch, { useFetchMutation } from '@/services/use-fetch';
 import { UploadOutlined } from '@ant-design/icons';
@@ -53,8 +42,9 @@ const RecruiteDetail: React.FC<RecruiteDetailProps> = ({ hid }) => {
   useEffect(() => {
     if (upError) {
       message.error(error);
-    } else if (data?.message) {
-      message.success(data?.message);
+    } else if (upData?.resume_id) {
+      message.success('Create Successful!');
+      router.back();
     }
   }, [upError, upData]);
   // const data = {

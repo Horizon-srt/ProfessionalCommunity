@@ -107,7 +107,7 @@ const Create: React.FC = () => {
     if (!isMutating && error) {
       message.error(error);
     } else if (!isMutating && data) {
-      message.info('Create Successful!');
+      message.success('Create Successful!');
       router.back();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

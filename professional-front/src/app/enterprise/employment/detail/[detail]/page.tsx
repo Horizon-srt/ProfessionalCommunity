@@ -24,7 +24,7 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
         <div className='w-full h-full flex flex-col'>
           <div className='flex flex-row justify-between'>
             <div className='relative'>
-              <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]'></div>
+              <div className='bg-green-500 w-1 h-16 absolute left-[-1rem]' />
               <div style={{ fontSize: '2.5rem' }}>Recruit Detail</div>
             </div>
           </div>
@@ -74,7 +74,7 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
             <div className='flex justify-center pt-10'>
               <Button
                 style={{ width: 200 }}
-                onClick={() => router.push('/admin/review')}
+                onClick={() => router.push('/enterprise/employment')}
               >
                 Back
               </Button>
