@@ -21,20 +21,26 @@ export const PieChart = ({ data }: any) => {
         comparison: boolean;
       }) => {
         if (resource.type === ('ELECTRICITY' as unknown as ResourceType)) {
-          pieChartTypeData[1].value += +resource.value;
+          pieChartTypeData[ResourceType.ELECTRICITY].value += +resource.value;
         } else if (resource.type === ('WATER' as unknown as ResourceType)) {
-          pieChartTypeData[0].value += +resource.value;
+          pieChartTypeData[ResourceType.WATER].value += +resource.value;
         } else if (resource.type === ('GAS' as unknown as ResourceType)) {
-          pieChartTypeData[2].value += +resource.value;
+          pieChartTypeData[ResourceType.GAS].value += +resource.value;
         }
       }
     );
+    // console.log([
+    //   pieChartTypeData[ResourceType.ELECTRICITY],
+    //   pieChartTypeData[ResourceType.GAS],
+    //   pieChartTypeData[ResourceType.WATER]
+    // ]);
     return [
       pieChartTypeData[ResourceType.ELECTRICITY],
       pieChartTypeData[ResourceType.GAS],
       pieChartTypeData[ResourceType.WATER]
     ];
   }, [data]);
+
   useEffect(() => {
     updateChart();
   }, [getPieChartData]);
@@ -42,19 +48,10 @@ export const PieChart = ({ data }: any) => {
     renderChart: container => {
       // 初始化图表实例
       const chart = new Chart({
-        width: 400,
+        width: 350,
         height: 180,
         container: container as HTMLElement
       });
-      // console.log(getPieChartData);
-      // chart
-      //   .interval()
-      //   .coordinate({ type: 'theta', innerRadius: 0.5 })
-      //   .transform({ type: 'stackY' })
-      //   .data(getPieChartData)
-      //   .encode('y', 'value')
-      //   .encode('color', 'type');
-      // // 渲染可视化
       chart.render();
       return chart;
     },
@@ -73,5 +70,5 @@ export const PieChart = ({ data }: any) => {
     }
   });
 
-  return <div ref={pieRef} className='-mt-6 ml-3'></div>;
+  return <div ref={pieRef} className='-mt-6'></div>;
 };

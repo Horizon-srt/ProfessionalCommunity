@@ -1,5 +1,5 @@
 import { UserType } from '@/types/data-types';
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface StoreState {
   userInfoIsExpand: boolean;

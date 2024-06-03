@@ -104,15 +104,28 @@ export const Threshold = () => {
       }
     });
   }, [thresholdData, isGetDataLoading]);
-  const { trigger: patchWaterAlert } = useFetchMutation(
+  const { data: WaterData, trigger: patchWaterAlert } = useFetchMutation(
     DefaultPatchAlertParams
   );
-  const { trigger: patchElectAlert } = useFetchMutation(
+  const { data: ElectData, trigger: patchElectAlert } = useFetchMutation(
     DefaultPatchAlertParams
   );
 
-  const { trigger: patchGasAlert } = useFetchMutation(DefaultPatchAlertParams);
+  const { data: GasData, trigger: patchGasAlert } = useFetchMutation(
+    DefaultPatchAlertParams
+  );
 
+  const [isPatchData, setIsPatchData] = useState<any>({});
+  useEffect(() => {
+    setIsPatchData({ w: WaterData, e: ElectData, g: GasData });
+    if (isPatchData.w || isPatchData.e || isPatchData.g) {
+      message.success('Save Threshold Successfully');
+    }
+
+    if (isPatchData.w && isPatchData.e && isPatchData.g) {
+      setIsPatchData({});
+    }
+  }, [WaterData, ElectData, GasData]);
   const onClick = () => {
     patchWaterAlert({
       ...DefaultPatchAlertParams,

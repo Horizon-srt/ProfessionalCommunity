@@ -21,7 +21,6 @@ export const LineChart = ({ data, currentOption }: any) => {
         // 是否超过阈值
         comparison: boolean;
       }) => {
-        console.log(resource.type);
         if (resource.type) {
           lineChartTypeData[
             ResourceType[resource.type] as unknown as ResourceType
