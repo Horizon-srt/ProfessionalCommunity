@@ -71,8 +71,8 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
       </div>
       <div className={styles.content}>
         <div className={styles.left}>
-          <h1 className={styles.title}>{data?.title || ''}</h1>
-          <div>{data?.content || ''}</div>
+          <h1 className={`${styles.title} text-3xl`}>{data?.title || ''}</h1>
+          <div className='italic'>{data?.content || ''}</div>
         </div>
         <div className={styles.contentStyle}>
           {guideListData ? (

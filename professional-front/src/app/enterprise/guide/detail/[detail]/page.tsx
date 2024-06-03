@@ -71,15 +71,14 @@ const Detail: React.FC<{ params: { detail: string } }> = ({ params }) => {
       </div>
       <div className={styles.content}>
         <div className={styles.left}>
-          <h1 className={styles.title}>{data?.title || ''}</h1>
-          <div>{data?.content || ''}</div>
+          <h1 className={`${styles.title} text-3xl`}>{data?.title || ''}</h1>
+          <div className='italic'>{data?.content || ''}</div>
         </div>
         <div className={styles.contentStyle}>
           <Carousel autoplay style={{ width: '25vw', height: '20vh' }}>
             {guideListData ? (
               <>
                 {guideListData.guides.map((item: any) => {
-                  console.log(item);
                   return (
                     <div
                       key={item.gid}
