@@ -2,16 +2,16 @@
 Comp-3030J g14 professional team's project, Nature Edge Sustainable Community
 
 
-## Team members
+## Team members (Ranking without order)
 
-| Name            | UCD id   | EMail                          |
-| --------------- | -------- | ------------------------------ |
-| Ruotong Sun     |	21207481 | ruotong.sun1@ucdconnect.ie     |
-| Xinran Liu      | 21207240 | xinran.liu@ucdconnect.ie       |
-| Juncheng Zhang  | 21207492 | juncheng.zhang1@ucdconnect.ie  |
-| Huiyang Liu     |	21207451 | huiyang.liu@ucdconnect.ie      |
-| Shizheng Wang   | 21207489 | shizheng.wang@ucdconnect.ie    |
-| Te Qi           | 21207494 | te.qi@ucdconnect.ie            |
+| Name            | Works                          |
+| --------------- | ------------------------------ |
+| Ruotong Sun     |	Front-end implementation and maintenance, some back-end implementation and maintenance, database design, project deployment, drequirements design, front-end and back-end interface design, and a small amount of other work    |
+| Xinran Liu      | UI design, requirements design, some document writing, group presentations, and a small amount of other work       |
+| Juncheng Zhang  | Requirements design, most document writing, a small amount of other work  |
+| Huiyang Liu     |	Backend implementation and maintenance, requirements design, front-end and back-end interface design, database design and implementation, project deployment, and a small amount of other work     |
+| Shizheng Wang   | Front-end implementation and maintenance, requirements design, and a small amount of other work    |
+| Te Qi           | Front-end implementation and maintenance, front-end and back-end interface design, demand design, and a small amount of other work            |
 
 ## Frontend develop
 

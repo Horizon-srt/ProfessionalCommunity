@@ -49,6 +49,7 @@ const NormalNotice: React.FC = () => {
             )}
             {data?.notifies?.map((data: INotice) => (
               <AnounceItem
+                flasTtrigger={() => {}}
                 link={`/${userType.toLowerCase()}/notice/${data.nid}`}
                 data={data}
                 key={data.nid}
