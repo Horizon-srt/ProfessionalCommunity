@@ -13,6 +13,8 @@ Comp-3030J g14 professional team's project, Nature Edge Sustainable Community
 | Shizheng Wang   | Front-end implementation and maintenance, requirements design, and a small amount of other work    |
 | Te Qi           | Front-end implementation and maintenance, front-end and back-end interface design, demand design, and a small amount of other work            |
 
+We would also like to thank senior Lai Yishu for her key guidance and active help to our group.
+
 ## Frontend develop
 
 #### Dependance
